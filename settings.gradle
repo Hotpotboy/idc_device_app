@@ -1,1 +1,1 @@
-include ':idcdevice'
+include ':idcdevice',':app', ':libzxing'
