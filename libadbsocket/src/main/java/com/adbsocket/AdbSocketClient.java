@@ -86,7 +86,7 @@ public class AdbSocketClient extends AdbSocketConnectionThread {
             String deviceStr = new String(bytes,"UTF-8");
             deviceStr = deviceStr.replaceAll(" ","");
             if(deviceStr.length()>0){
-                System.out.println("---------------------------【"+deviceStr+"】");
+                System.out.println("[adb socket:]_______________________________【"+deviceStr+"】");
                 Device device = new Device(deviceStr);
                 if (!mDevices.contains(device)) {
                     conncetion(device);//链接设备
@@ -98,7 +98,7 @@ public class AdbSocketClient extends AdbSocketConnectionThread {
     }
     private void conncetion(Device device) throws IOException, InterruptedException {
         Runtime.getRuntime().exec(AdbSocketScannerThread.ADB_PATH + " -s " + device.getDeviceId() + " forward tcp:" + device.getPort() + " tcp:" + AdbSocketUtils.SERVER_PORT);
-        System.out.println(AdbSocketScannerThread.ADB_PATH + " -s " + device.getDeviceId() + " forward tcp:" + device.getPort() + " tcp:" + AdbSocketUtils.SERVER_PORT);
+        System.out.println("[adb socket:]_______________________________"+AdbSocketScannerThread.ADB_PATH + " -s " + device.getDeviceId() + " forward tcp:" + device.getPort() + " tcp:" + AdbSocketUtils.SERVER_PORT);
         Thread.sleep(3000);
         SocketChannel socketChannel = SocketChannel.open();
         socketChannel.configureBlocking(false);//非阻塞
