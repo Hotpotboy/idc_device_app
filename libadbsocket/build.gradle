@@ -4,7 +4,4 @@ tasks.withType(JavaCompile) {
 }
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.google.zxing:zxing-parent:3.2.1'
-    compile 'com.google.zxing:core:3.2.1'
-    compile 'com.google.zxing:javase:3.2.1'
 }

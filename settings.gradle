@@ -1,1 +1,1 @@
-include ':idcdevice',':app', ':libzxing'
+include ':idcdevice',':app', ':libzxing', ':libadbsocket'
