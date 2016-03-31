@@ -1,6 +1,7 @@
 package com.zhanghang.self.fragment;
 
 import android.support.v4.view.ViewPager;
+import android.view.View;
 
 import com.zhanghang.self.adpter.BaseFragmentPagerAdapter;
 import com.zhanghang.self.base.BaseFragment;
@@ -30,11 +31,11 @@ public abstract class ViewPagerFragement extends BaseFragment implements ViewPag
     /**指定用以切换的Fragment列表，非抽象子类必须继承*/
     protected abstract ArrayList<BaseFragment> specifyFragmentList();
     /**指定ViewPager,非抽象之类必须继承*/
-    protected abstract ViewPager specifyViewPager();
+    protected abstract View specifyViewPager();
 
     @Override
     protected void initView(){
-        mViewPager = specifyViewPager();
+        mViewPager = (ViewPager) specifyViewPager();
     }
 
     @Override

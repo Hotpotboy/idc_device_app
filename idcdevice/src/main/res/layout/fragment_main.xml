@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/fragment_main_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/idc_af0012">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/thirty_dp"
+            android:src="@drawable/main_menu" />
+
+        <TextView
+            android:id="@+id/fragment_main_title_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:paddingBottom="@dimen/ten_dp"
+            android:paddingTop="@dimen/ten_dp"
+            android:text="设备巡检"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/thirty_sp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/fragment_main_operator_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/ten_dp">
+
+        <LinearLayout
+            android:id="@+id/main_task_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <View
+                android:id="@+id/fragment_main_task_button_line"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/two_dp"
+                android:background="@android:color/black" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/ten_dp"
+                android:src="@drawable/task_button_selector" />
+
+            <TextView
+                android:id="@+id/fragment_main_task_button_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="@dimen/ten_dp"
+                android:text="任务"
+                android:textSize="@dimen/twenty_two_sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fragment_main_device_count_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <View
+                android:id="@+id/fragment_main_device_count_button_line"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/two_dp"
+                android:background="@android:color/black" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/ten_dp"
+                android:src="@drawable/device_count_button_selector" />
+
+            <TextView
+                android:id="@+id/fragment_main_device_count_button_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="@dimen/ten_dp"
+                android:text="资产"
+                android:textSize="@dimen/twenty_two_sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fragment_main_my_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <View
+                android:id="@+id/fragment_main_my_button_line"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/two_dp"
+                android:background="@android:color/black" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/ten_dp"
+                android:src="@drawable/user_button_selector" />
+
+            <TextView
+                android:id="@+id/fragment_main_my_button_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="@dimen/ten_dp"
+                android:text="我的"
+                android:textSize="@dimen/twenty_two_sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/fragment_main_viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/fragment_main_operator_layout"
+        android:layout_below="@id/fragment_main_title" />
+</RelativeLayout>
