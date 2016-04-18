@@ -1,4 +1,18 @@
 <resources>
     <string name="app_name">IdcDevice</string>
     <string name="action_settings">Settings</string>
+    <string name="she_bei_bian_hao_s">"设备编号:%1$s"</string>
+    <string name="ren_wu_ming_cheng_s">"任务名称:%1$s"</string>
+    <string name="shi_shi_yuan_gong_s">实施员工:%1$s</string>
+    <string name="kai_shi_shi_jian_s">开始时间:%1$s</string>
+    <string name="xun_jian_ming_cheng_s">"巡检名称:%1$s"</string>
+    <string name="xun_jian_zhi_biao_s">"巡检指标:%1$s"</string>
+    <string name="xun_jian_cuo_shi_s">"巡检措施:%1$s"</string>
+    <string name="xun_jian_xiang_qing_s">"巡检详情:%1$s"</string>
+    <string name="she_bei_ming_cheng_s">"设备名称:%1$s"</string>
+    <string name="she_bei_lei_bie_s">"设备类别:%1$s"</string>
+    <string name="she_bei_wei_zhi_s">"/%1$s/%2$s/%3$s/%4$s"</string>
+    <string name="yuan_shi_zhi_s">"原始值:%1$s"</string>
+    <string name="cha_kan_xiang_qing">查看详情</string>
+    <string name="dian_ji_bian_ji_shu_ju">点击编辑数据</string>
 </resources>
