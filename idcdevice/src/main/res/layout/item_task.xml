@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/twenty_dp"
+    android:paddingBottom="@dimen/twenty_dp"
+    android:background="@android:color/white">
+
+    <ImageView
+        android:id="@+id/item_task_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:paddingLeft="@dimen/fifty_dp"
+        android:src="@drawable/task_inco" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/item_task_image"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/fifty_dp">
+
+        <TextView
+            android:id="@+id/item_task_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="日常巡检（处理人:书生）"
+            android:textColor="@color/idc_3b3b3b"
+            android:textSize="@dimen/thirty_sp" />
+
+        <TextView
+            android:id="@+id/item_task_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/twenty_dp"
+            android:text="详情详情详情详情详情详情详情详情详情详情详情..."
+            android:textColor="@color/idc_a3a3a3"
+            android:textSize="@dimen/twenty_six_sp" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:paddingRight="@dimen/fifty_dp">
+
+        <ImageView
+            android:id="@+id/item_task_dealed"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/task_dealed"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/item_task_dealing"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/eighty_dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/button_circle_bg"
+            android:paddingLeft="@dimen/twenty_dp"
+            android:paddingRight="@dimen/twenty_dp"
+            android:text="接受"
+            android:textColor="@color/idc_f5e9e9"
+            android:textSize="@dimen/thirty_sp" />
+    </FrameLayout>
+</RelativeLayout>

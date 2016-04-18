@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+    <TextView
+        android:id="@+id/view_device_old"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ninty_dp"
+        android:paddingLeft="@dimen/thirty_two_dp"
+        android:paddingRight="@dimen/thirty_two_dp"
+        android:gravity="center_vertical"
+        android:text="@string/yuan_shi_zhi_s"
+        android:lines="1"
+        android:textColor="@color/idc_999999"
+        android:textSize="@dimen/thirty_two_sp" />
+
+    <View
+        android:id="@+id/view_device_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/zero_point_five_dp"
+        android:layout_marginLeft="@dimen/twenty_eight_dp"
+        android:layout_below="@id/view_device_old"
+        android:background="@color/idc_9c9c9c" />
+
+    <TextView
+        android:id="@+id/view_device_newTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/ninty_dp"
+        android:layout_below="@id/view_device_line"
+        android:paddingLeft="@dimen/thirty_two_dp"
+        android:gravity="center_vertical"
+        android:text="修改值:"
+        android:textColor="@color/idc_999999"
+        android:textSize="@dimen/thirty_two_sp" />
+
+    <EditText
+        android:id="@+id/view_device_new"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ninty_dp"
+        android:background="@android:color/transparent"
+        android:layout_below="@id/view_device_line"
+        android:layout_toRightOf="@id/view_device_newTitle"
+        android:gravity="center_vertical"
+        android:textColor="@color/idc_000000"
+        android:textSize="@dimen/thirty_two_sp" />
+</RelativeLayout>

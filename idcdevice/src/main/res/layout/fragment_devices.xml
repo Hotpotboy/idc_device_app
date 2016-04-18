@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:id="@+id/fragment_devices_left"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="5">
+        <View
+            android:id="@+id/fragment_devices_line2"
+            android:layout_width="@dimen/zero_point_five_dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="@color/idc_999999" />
+        <View
+            android:id="@+id/fragment_devices_split"
+            android:layout_width="@dimen/ten_dp"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/fragment_devices_line2"/>
+
+        <View
+            android:id="@+id/fragment_devices_line1"
+            android:layout_width="@dimen/zero_point_five_dp"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/fragment_devices_split"
+            android:background="@color/idc_999999" />
+
+        <FrameLayout
+            android:id="@+id/fragment_devices_list"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/fragment_devices_line1"
+            android:layout_alignParentLeft="true"/>
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/fragment_devices_detail"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="8" />
+</LinearLayout>

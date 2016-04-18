@@ -66,6 +66,10 @@ public abstract class ViewPagerFragement extends BaseFragment implements ViewPag
         }
     }
 
+    protected int getCurrentItem(){
+        return mCurrentItem;
+    }
+
     protected BaseFragment getCurrentFragment(){
         return getFragmentInList(mCurrentItem);
     }
