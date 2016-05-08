@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/idc_e2e2e2"
+    android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/fifty_dp"
+        android:src="@drawable/cgb_logo" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/fifty_dp"
+        android:layout_marginTop="@dimen/fifty_dp"
+        android:text="巡检设备"
+        android:textColor="@color/idc_231815"
+        android:textSize="@dimen/six_sp"
+        android:textStyle="bold" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/zero_point_five_dp"
+        android:background="@color/idc_c4c4c4" />
+
+    <EditText
+        android:id="@+id/login_username"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ninty_dp"
+        android:background="@android:color/white"
+        android:textSize="@dimen/thirty_sp"
+        android:hint="用户名"
+        android:textColorHint="@color/idc_b2c2cd"
+        android:gravity="center"
+        android:textColor="@android:color/black"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/zero_point_five_dp"
+        android:background="@color/idc_c4c4c4" />
+    <EditText
+        android:id="@+id/login_password"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ninty_dp"
+        android:background="@android:color/white"
+        android:textSize="@dimen/thirty_sp"
+        android:hint="密码"
+        android:textColorHint="@color/idc_b2c2cd"
+        android:gravity="center"
+        android:textColor="@android:color/black"
+        android:inputType="textPassword"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/zero_point_five_dp"
+        android:background="@color/idc_c4c4c4" />
+    <Button
+        android:id="@+id/login_button"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sixty_dp"
+        android:layout_marginLeft="@dimen/fifty_dp"
+        android:layout_marginRight="@dimen/fifty_dp"
+        android:layout_marginTop="@dimen/fifty_dp"
+        android:background="@drawable/button_selector"
+        android:gravity="center"
+        android:text="登            录"
+        android:textColor="@color/idc_f5e9e9"
+        android:textSize="@dimen/thirty_sp" />
+</LinearLayout>

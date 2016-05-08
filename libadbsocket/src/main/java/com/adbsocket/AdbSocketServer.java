@@ -13,9 +13,12 @@ import java.nio.channels.WritableByteChannel;
  */
 public class AdbSocketServer extends AdbSocketConnectionThread {
     private ServerSocketChannel mServerSocketChannel;
+    /**PC端的连接通道*/
+    protected SocketChannel mPCSocketChannel;
 
     @Override
     protected boolean onPreLoop() {
+        super.onPreLoop();
         try {
             mServerSocketChannel = ServerSocketChannel.open();
             mServerSocketChannel.configureBlocking(false);
@@ -30,10 +33,12 @@ public class AdbSocketServer extends AdbSocketConnectionThread {
 
     @Override
     protected void acceptForChannal(ServerSocketChannel serverSocketChannel) throws IOException, InterruptedException {
-        SocketChannel socketChannel = serverSocketChannel.accept();
-        socketChannel.configureBlocking(false);
-        socketChannel.register(selector,SelectionKey.OP_READ);
-        System.out.println("[adb socket:]_______________________________接收到一个连接……");
+        if(mPCSocketChannel==null) {
+            mPCSocketChannel = serverSocketChannel.accept();
+            mPCSocketChannel.configureBlocking(false);
+            mPCSocketChannel.register(selector, SelectionKey.OP_READ);
+            System.out.println("[adb socket:]_______________________________接收到一个连接……");
+        }
     }
 
     @Override
@@ -49,5 +54,20 @@ public class AdbSocketServer extends AdbSocketConnectionThread {
     @Override
     protected void readForChannal(ReadableByteChannel readableChannel) throws IOException, InterruptedException {
 
+    }
+
+    /**
+     * 处理USB数据线断开时的异常
+     */
+    protected void dealConnectionCloseException(){
+        if(mPCSocketChannel!=null) {
+            try {
+                selector.selectedKeys().remove(mPCSocketChannel.keyFor(selector));
+                mPCSocketChannel.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        mPCSocketChannel = null;
     }
 }

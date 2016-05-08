@@ -25,7 +25,7 @@ public class GenerateQRCode {
     public static final int BITMAP_SIZE = 200;
     /**以默认参数生成二维码*/
     public static void generatePNG(String content) throws WriterException, IOException {
-        generateQRCODEForParams(ErrorCorrectionLevel.H,BITMAP_SIZE,0xff000000,0xffffffff,PROJECTEC_PATH+File.separator+content+".png",content);
+        generateQRCODEForParams(ErrorCorrectionLevel.L,BITMAP_SIZE,0xffffffff,0xff000001,PROJECTEC_PATH+File.separator+content+".png",content);
     }
 
     /**

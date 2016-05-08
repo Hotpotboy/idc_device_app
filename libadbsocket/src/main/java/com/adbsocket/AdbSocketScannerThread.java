@@ -14,11 +14,22 @@ public class AdbSocketScannerThread extends Thread {
     private static final char T_CHAR =9;
     /**base port*/
     private static int port = 9090;
+    private boolean isStop;
 
     @Override
     public void run(){
         setName("扫描设备线程");
-        findDevices();
+        setIsStop(false);
+        while (!isInterrupted()) {
+            findDevices();
+            try {
+                Thread.sleep(AdbSocketUtils.SLEEP_TIME);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                break;
+            }
+        }
+        setIsStop(true);
     }
 
     /**
@@ -75,5 +86,13 @@ public class AdbSocketScannerThread extends Thread {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public synchronized boolean isStop() {
+        return isStop;
+    }
+
+    public synchronized void setIsStop(boolean isStop) {
+        this.isStop = isStop;
     }
 }

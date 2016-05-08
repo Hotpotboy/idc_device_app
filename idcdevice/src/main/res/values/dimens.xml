@@ -38,4 +38,6 @@
     <dimen name="ninty_dp">90dp</dimen>
     <dimen name="thirty_two_sp">32sp</dimen>
     <dimen name="eighty_sp">18sp</dimen>
+    <dimen name="six_sp">60sp</dimen>
+    <dimen name="twenty_five_dp">25dp</dimen>
 </resources>

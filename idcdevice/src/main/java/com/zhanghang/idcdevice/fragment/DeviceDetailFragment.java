@@ -109,15 +109,15 @@ public class DeviceDetailFragment extends BaseFragment implements View.OnClickLi
         //编辑对话框
         mEditDialog = new EditDeviceDialog(mActivity);
         //设置监听器
-        mDeviceNumView.setOnClickListener(this);
-        mDeviceNameView.setOnClickListener(this);
-        mDeviceTypeView.setOnClickListener(this);
-        mAssetNumView.setOnClickListener(this);
-        mAssetSerialNumView.setOnClickListener(this);
-        mEntityAssetNumView.setOnClickListener(this);
-        mAssetType1View.setOnClickListener(this);
-        mAssetType2View.setOnClickListener(this);
-        mAssetType3View.setOnClickListener(this);
+//        mDeviceNumView.setOnClickListener(this);
+//        mDeviceNameView.setOnClickListener(this);
+//        mDeviceTypeView.setOnClickListener(this);
+//        mAssetNumView.setOnClickListener(this);
+//        mAssetSerialNumView.setOnClickListener(this);
+//        mEntityAssetNumView.setOnClickListener(this);
+//        mAssetType1View.setOnClickListener(this);
+//        mAssetType2View.setOnClickListener(this);
+//        mAssetType3View.setOnClickListener(this);
         mDeviceLocationView.setOnClickListener(this);
         mSaveButton.setOnClickListener(this);
         mDeleteButton.setOnClickListener(this);
@@ -134,7 +134,7 @@ public class DeviceDetailFragment extends BaseFragment implements View.OnClickLi
         mData = data;
         if(mData!=null) {//查看数据
             isAdd = false;
-            mDeleteButton.setVisibility(View.VISIBLE);
+            mDeleteButton.setVisibility(View.GONE);
         }else{//新增数据
             isAdd = true;
             mData = new DeviceData();
@@ -167,15 +167,15 @@ public class DeviceDetailFragment extends BaseFragment implements View.OnClickLi
             mEditDialog.dismiss();
         }
         switch (v.getId()) {
-            case R.id.fragment_device_deviceNum:
-            case R.id.fragment_device_deviceName:
-            case R.id.fragment_device_deviceType:
-            case R.id.fragment_device_assetNum:
-            case R.id.fragment_device_assetSerialNum:
-            case R.id.fragment_device_entityAssetNum:
-            case R.id.fragment_device_assetType1:
-            case R.id.fragment_device_assetType2:
-            case R.id.fragment_device_assetType3:
+//            case R.id.fragment_device_deviceNum:
+//            case R.id.fragment_device_deviceName:
+//            case R.id.fragment_device_deviceType:
+//            case R.id.fragment_device_assetNum:
+//            case R.id.fragment_device_assetSerialNum:
+//            case R.id.fragment_device_entityAssetNum:
+//            case R.id.fragment_device_assetType1:
+//            case R.id.fragment_device_assetType2:
+//            case R.id.fragment_device_assetType3:
             case R.id.fragment_device_deviceLocation:
                 if (v instanceof TextView) {
                     String content = "";
@@ -185,17 +185,16 @@ public class DeviceDetailFragment extends BaseFragment implements View.OnClickLi
                     }else {
                         content = (String) ((TextView) v).getText();
                     }
-                    mEditDialog.setContent(content).showCancelButton().showSureButton(new View.OnClickListener() {
+                    mEditDialog.setContent(content).showCancelButton(View.GONE,null).showSureButton(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            String newValue = mEditDialog.getEditValue();
-                            dealDialogCallBack((TextView) v, newValue);
+//                            String newValue = mEditDialog.getEditValue();
+//                            dealDialogCallBack((TextView) v, newValue);
                             mEditDialog.dismiss();
                         }
                     }).show();
                 }
                 break;
-
             case R.id.fragment_device_saveButton://保存
                 if(!isChange()&&!isAdd){
                     if(mTipDialog==null){

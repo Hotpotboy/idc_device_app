@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/idc_80000000">
+
+    <TextView
+        android:id="@+id/net_loading_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="正在登陆......"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/thirty_sp" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/net_loading_tip"
+        android:layout_marginBottom="@dimen/thirty_dp"
+        android:layout_centerHorizontal="true"/>
+</RelativeLayout>

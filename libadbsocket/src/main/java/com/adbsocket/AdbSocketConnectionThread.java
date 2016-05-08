@@ -19,7 +19,8 @@ import java.util.Set;
  */
 public abstract class AdbSocketConnectionThread extends Thread {
     static Selector selector;
-    static {
+
+    static void initSelector(){
         try {
             selector = Selector.open();
         } catch (IOException e) {
@@ -27,17 +28,16 @@ public abstract class AdbSocketConnectionThread extends Thread {
         }
     }
 
-    /**
-     * 缓存设备
-     */
-    ArrayList<Device> mDevices = new ArrayList<>();
+    private boolean isStop;
 
     @Override
     public void run(){
         try {
             setName("管理连接线程");
             if(!onPreLoop()) return;
+            setIsStop(true);
             while (!isInterrupted()){
+                dealWhenIDEL();
                 int result = invokeSelector();
                 if(result==-1) {
                     break;//some erros happens
@@ -52,7 +52,31 @@ public abstract class AdbSocketConnectionThread extends Thread {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        }finally {
+            dealWhenIDEL();
+            if(selector!=null){
+                try {
+                    selector.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            endThread();
+            setIsStop(true);
         }
+    }
+    /**线程结束前，最后回调的函数*/
+    protected void endThread(){
+
+    }
+
+    /**
+     * 选择器此次轮询无兴趣集合发生时回调的方法
+     */
+    protected void dealWhenIDEL(){
+
     }
 
     /**
@@ -60,7 +84,10 @@ public abstract class AdbSocketConnectionThread extends Thread {
      * @return true标识选择器将轮询，false标识不轮询直接退出线程
      * @throws ClosedChannelException
      */
-    protected abstract boolean onPreLoop();
+    protected boolean onPreLoop(){
+        initSelector();
+        return true;
+    }
 
     /**
      * 选择器进行选择操作
@@ -69,7 +96,7 @@ public abstract class AdbSocketConnectionThread extends Thread {
      */
     private int invokeSelector()  throws IOException {
         try {
-           return selector.select();
+           return selector.select(AdbSocketUtils.SLEEP_TIME);
         } catch (IOException e) {
             e.printStackTrace();
             selector.close();
@@ -103,9 +130,22 @@ public abstract class AdbSocketConnectionThread extends Thread {
         }
         } catch (IOException e) {
             e.printStackTrace();
+            if(e.toString().indexOf("远程主机强迫关闭了一个现有的连接")>0
+                    ||e.toString().indexOf("Connection refused")>0){//USB连接断开
+                dealConnectionCloseException();
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }catch (Exception e){
+            e.printStackTrace();
         }
+    }
+
+    /**
+     * 处理USB数据线断开时的异常
+     */
+    protected void dealConnectionCloseException(){
+
     }
 
     /**
@@ -130,6 +170,10 @@ public abstract class AdbSocketConnectionThread extends Thread {
     protected abstract void readForChannal(ReadableByteChannel readableChannel) throws IOException, InterruptedException;
 
     protected void writeContent(String content,WritableByteChannel writableByteChannel) throws IOException {
+        writeToAdbSocket(content,writableByteChannel);
+    }
+
+    public static void writeToAdbSocket(String content,WritableByteChannel writableByteChannel) throws IOException {
         ByteBuffer byteBuffer = null;
         try {
             byteBuffer = ByteBuffer.wrap(content.getBytes(AdbSocketUtils.CHARSET));
@@ -143,5 +187,66 @@ public abstract class AdbSocketConnectionThread extends Thread {
             byteBuffer.get(contentBytes);
             System.out.println("写入内容【"+new String(contentBytes)+"】到adb socket之中");
         }
+    }
+
+    /**
+     * 从通道中读取数据
+     * @param readableChannel
+     * @return
+     * @throws IOException
+     */
+    protected String readDataFromChannel(ReadableByteChannel readableChannel) throws IOException {
+        ByteBuffer byteBuffer = ByteBuffer.allocate(64);
+        byte[] dataFromChannel = new byte[0];
+        int count;
+        while ((count=readableChannel.read(byteBuffer))>0){
+            byteBuffer.flip();
+            byte[] content = new byte[count];
+            byteBuffer.get(content);
+            dataFromChannel = mergeByteArray(dataFromChannel,content);
+            byteBuffer.clear();
+        }
+        String commandData = new String(dataFromChannel, AdbSocketUtils.CHARSET);
+        return commandData;
+    }
+
+    private byte[] mergeByteArray(byte[] one,byte[] two){
+        byte[] result = null;
+        if(one!=null&&one.length<=0) result = two;
+        if(two!=null&&two.length<=0) result = one;
+        if(one==null&&two==null) return null;
+        result = new byte[one.length+two.length];
+        System.arraycopy(one,0,result,0,one.length);
+        System.arraycopy(two,0,result,one.length,two.length);
+        return result;
+    }
+
+    /**
+     * 解析原始命令内容
+     * @return
+     */
+    public static Object[] resolveRawCommand(String command){
+        if (AdbSocketUtils.isOKCommand(command)) {
+            Object[] result = new Object[2];
+            int commandNum = Integer.valueOf(command.substring(0, AdbSocketUtils.COMMAND_LEN));
+            result[0]=commandNum;
+            String commandParam = command.substring(AdbSocketUtils.COMMAND_LEN);
+            if(commandParam!=null&&commandParam.startsWith("?")){
+                commandParam = commandParam.substring(1);
+                result[1] = commandParam;
+            }else{
+                result[1] = null;
+            }
+            return result;
+        }
+        return null;
+    }
+
+    public synchronized boolean isStop() {
+        return isStop;
+    }
+
+    public synchronized void setIsStop(boolean isStop) {
+        this.isStop = isStop;
     }
 }

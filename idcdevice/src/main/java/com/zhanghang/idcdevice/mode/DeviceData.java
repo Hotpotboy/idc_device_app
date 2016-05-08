@@ -2,39 +2,44 @@ package com.zhanghang.idcdevice.mode;
 
 import android.text.TextUtils;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 
 /**
  * Created by Administrator on 2016-04-02.
  * 设备数据模板
  */
-public class DeviceData implements Serializable,Cloneable {
-    /**设备ID*/
-    private long deviceId;
-    /**设备编号*/
-    private String deviceNum;
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class DeviceData extends BaseData implements Serializable,Cloneable {
+    /**资产编号*/
+    private String assetNum;
+    /**资产序列号*/
+    private String assetSerialNum;
     /**资产分类1*/
     private String assetType1;
     /**资产分类2*/
     private String assetType2;
     /**资产分类3*/
     private String assetType3;
-    /**资产编号*/
-    private String assetNum;
-    /**实物资产编号*/
-    private String entityAssetNum;
-    /**资产序列号*/
-    private String assetSerialNum;
-    /**设备名称*/
-    private String deviceName;//
-    /**设备类型*/
-    private String deviceModel;//
-    /**城市*/
-    private String city;
-    /**机房（库房）*/
-    private String idcRoom;
     /**机柜*/
     private String cabinet;
+    /**城市*/
+    private String city;
+    /**设备ID*/
+    private long deviceId;
+    /**设备类型*/
+    private String deviceModel;
+    /**设备名称*/
+    private String deviceName;
+    /**设备编号*/
+    private String deviceNum;
+    /**实物资产编号*/
+    private String entityAssetNum;
+    private long id;
+    /**机房（库房）*/
+    private String idcRoom;
     /**位置*/
     private String position;
 
@@ -167,5 +172,13 @@ public class DeviceData implements Serializable,Cloneable {
         result.setCabinet(TextUtils.isEmpty(getCabinet())?"":new String(getCabinet()));
         result.setPosition(TextUtils.isEmpty(getPosition())?"":new String(getPosition()));
         return result;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

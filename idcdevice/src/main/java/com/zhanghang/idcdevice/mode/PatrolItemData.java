@@ -2,33 +2,39 @@ package com.zhanghang.idcdevice.mode;
 
 import android.text.Editable;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 
 /**
  * Created by Administrator on 2016-04-02.
  * 巡检(维护)项数据膜拜
  */
-public class PatrolItemData  implements Serializable {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class PatrolItemData extends BaseData  implements Serializable {
+    /**此巡检项对应的设备类别*/
+    private String deviceType;
+    /**启动状态*/
+    private int enable;
+    private long id;
+    /**是否正常*/
+    private int isNormal;
+    /**巡检区域*/
+    private String patrolArea;
+    /**详细描述*/
+    private String patrolDetail;
     /**巡检项Id*/
     private long patrolId;
     /**巡检项名称*/
     private String patrolItemName;
-    /**此巡检项对应的设备类别*/
-    private String deviceType;
-    /**启动状态*/
-    private boolean enable;
-    /**巡检指标*/
-    private String patrolStuido;
     /**巡检措施*/
     private String patrolStep;
-    /**详细描述*/
-    private String patrolDetail;
-    /**巡检区域*/
-    private String patrolArea;
-    /**是否正常*/
-    private boolean isNormal;
+    /**巡检指标*/
+    private String patrolStuido;
     /**记录值*/
     private String recordValue;
+    /**对应的任务ID*/
+    private long taskId;
 
     public String getPatrolItemName() {
         return patrolItemName;
@@ -46,11 +52,11 @@ public class PatrolItemData  implements Serializable {
         this.deviceType = deviceType;
     }
 
-    public boolean getEnable() {
+    public int getEnable() {
         return enable;
     }
 
-    public void setEnable(boolean enable) {
+    public void setEnable(int enable) {
         this.enable = enable;
     }
 
@@ -94,11 +100,11 @@ public class PatrolItemData  implements Serializable {
         this.patrolId = patrolId;
     }
 
-    public boolean isNormal() {
+    public int isNormal() {
         return isNormal;
     }
 
-    public void setIsNormal(boolean isNormal) {
+    public void setIsNormal(int isNormal) {
         this.isNormal = isNormal;
     }
 
@@ -108,5 +114,21 @@ public class PatrolItemData  implements Serializable {
 
     public void setRecordValue(String recordValue) {
         this.recordValue = recordValue;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public long getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(long taskId) {
+        this.taskId = taskId;
     }
 }

@@ -10,4 +10,5 @@
         android:dividerHeight="@dimen/zero_point_five_dp"
         android:scrollbars="none"
         android:divider="@color/idc_838383"/>
+    <include layout="@layout/public_no_data"/>
 </RelativeLayout>

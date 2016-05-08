@@ -41,5 +41,7 @@
         android:id="@+id/fragment_devices_detail"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="8" />
+        android:layout_weight="8"/>
+
+    <include layout="@layout/public_no_data"/>
 </LinearLayout>

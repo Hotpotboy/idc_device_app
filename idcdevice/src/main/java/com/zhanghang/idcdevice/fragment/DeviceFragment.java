@@ -7,10 +7,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.zhanghang.idcdevice.DeviceApplication;
 import com.zhanghang.idcdevice.R;
 import com.zhanghang.idcdevice.mode.DeviceData;
 import com.zhanghang.self.base.BaseFragment;
@@ -22,6 +24,10 @@ public class DeviceFragment extends BaseFragment implements AdapterView.OnItemCl
     private RelativeLayout mLeftLayout;
     /**详情页面的父视图*/
     private FrameLayout mDetailParentLaytou;
+    /**无数据布局*/
+    private LinearLayout mNoDataLayout;
+    /**下载数据按钮*/
+    private Button mDownloadButton;
     /**
      * 设备列表页面
      */
@@ -51,6 +57,8 @@ public class DeviceFragment extends BaseFragment implements AdapterView.OnItemCl
 
     @Override
     protected void initView() {
+        mNoDataLayout = (LinearLayout) findViewById(R.id.public_no_data);
+        mDownloadButton = (Button) findViewById(R.id.public_noData_downLoad);
         mLeftLayout = (RelativeLayout) findViewById(R.id.fragment_devices_left);
         mDetailParentLaytou = (FrameLayout) findViewById(R.id.fragment_devices_detail);
         mDeviceListFragment = new DeviceListFragment();
@@ -62,6 +70,25 @@ public class DeviceFragment extends BaseFragment implements AdapterView.OnItemCl
         fragmentTransaction.commit();
         updateFragments(0);
         mDeviceListFragment.setOnItemClickListener(this);
+    }
+
+    public void showList(boolean isShowList){
+        if(isShowList){
+            mLeftLayout.setVisibility(View.VISIBLE);
+            mDetailParentLaytou.setVisibility(View.VISIBLE);
+            mNoDataLayout.setVisibility(View.GONE);
+            mDownloadButton.setOnClickListener(null);
+        }else{
+            mLeftLayout.setVisibility(View.GONE);
+            mDetailParentLaytou.setVisibility(View.GONE);
+            mNoDataLayout.setVisibility(View.VISIBLE);
+            mDownloadButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((DeviceApplication) DeviceApplication.getInstance()).getDataFromPC(mActivity);
+                }
+            });
+        }
     }
 
     private void updateFragments(final int pos) {

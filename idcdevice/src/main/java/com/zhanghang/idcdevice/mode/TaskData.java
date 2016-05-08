@@ -1,44 +1,51 @@
 package com.zhanghang.idcdevice.mode;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.zhanghang.idcdevice.Const;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2016-04-02.
  */
-public class TaskData implements Serializable {
-    /**任务ID*/
-    private long taskId;
-    /**任务类型*/
-    private String taskType;
-    /**任务状态*/
-    private String taskState;
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class TaskData extends BaseData implements Serializable {
+    /**实施组*/
+    private String dealGroup;
+    /**任务处理信息*/
+    private String dealInfo;
+    /**实施人*/
+    private String dealPeople;
+    /**处理结果*/
+    private String dealResult;
+    /**详细描述*/
+    private String details;
+    /**此巡检项对应的设备类别*/
+    private String deviceType;
+    private long id;
+    /**巡检项目*/
+    private ArrayList<PatrolItemData> patrolItems;
+    /**计划结束时间*/
+    private long planedEndTime;
+    /**计划开始时间*/
+    private long planedStartTime;
+    /**实际结束时间*/
+    private long realEndTime;
+    /**实际开始时间*/
+    private long realStartTime;
     /**负责组*/
     private String responseGroup;
     /**负责人*/
     private String responsePeople;
-    /**计划开始时间*/
-    private long planedStartTime;
-    /**计划结束时间*/
-    private long planedEndTime;
-    /**实际开始时间*/
-    private long realStartTime;
-    /**实际结束时间*/
-    private long realEndTime;
-    /**任务处理信息*/
-    private String dealInfo;
-    /**处理结果*/
-    private String dealResult;
-    /**实施组*/
-    private String dealGroup;
-    /**实施人*/
-    private String dealPeople;
+    /**任务ID*/
+    private long taskId;
+    /**任务状态*/
+    private String taskState= Const.TASK_STATE_UNDEAL;
+    /**任务类型*/
+    private String taskType;
     /**任务名称*/
     private String taskName;
-    /**详细描述*/
-    private String details;
-    /**巡检项目*/
-    private ArrayList<PatrolItemData> patrolItems;
 
     public ArrayList<PatrolItemData> getPatrolItems() {
         return patrolItems;
@@ -166,5 +173,21 @@ public class TaskData implements Serializable {
 
     public void setTaskId(long taskId) {
         this.taskId = taskId;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getDeviceType() {
+        return deviceType;
+    }
+
+    public void setDeviceType(String deviceType) {
+        this.deviceType = deviceType;
     }
 }

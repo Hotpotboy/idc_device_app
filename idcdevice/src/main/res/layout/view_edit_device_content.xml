@@ -34,7 +34,8 @@
         android:gravity="center_vertical"
         android:text="修改值:"
         android:textColor="@color/idc_999999"
-        android:textSize="@dimen/thirty_two_sp" />
+        android:textSize="@dimen/thirty_two_sp"
+        android:visibility="gone"/>
 
     <EditText
         android:id="@+id/view_device_new"
@@ -45,5 +46,6 @@
         android:layout_toRightOf="@id/view_device_newTitle"
         android:gravity="center_vertical"
         android:textColor="@color/idc_000000"
-        android:textSize="@dimen/thirty_two_sp" />
+        android:textSize="@dimen/thirty_two_sp"
+        android:visibility="gone" />
 </RelativeLayout>

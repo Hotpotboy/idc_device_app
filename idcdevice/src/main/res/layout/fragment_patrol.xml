@@ -70,7 +70,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/kai_shi_shi_jian_s"
+                android:text="@string/shi_ji_kai_shi_s"
                 android:textColor="@color/idc_999999"
                 android:textSize="@dimen/thirty_sp" />
         </LinearLayout>

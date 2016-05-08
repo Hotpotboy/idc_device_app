@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:id="@+id/public_no_data"
+    android:visibility="gone">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/no_data"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="@dimen/one_hundred_dp"
+        android:paddingBottom="@dimen/fifty_dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="抱歉,当前没有数据!"
+        android:textSize="@dimen/thirty_sp"
+        android:paddingBottom="@dimen/fifty_dp"/>
+    <Button
+        android:id="@+id/public_noData_downLoad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_selector"
+        android:layout_gravity="center_horizontal"
+        android:padding="@dimen/twenty_dp"
+        android:text="下载数据"
+        android:textColor="@color/idc_ffffff"
+        android:textSize="@dimen/thirty_sp" />
+</LinearLayout>

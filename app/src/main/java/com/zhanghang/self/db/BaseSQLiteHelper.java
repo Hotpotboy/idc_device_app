@@ -6,18 +6,25 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.zhanghang.self.base.BaseApplication;
 import com.zhanghang.self.utils.PreferenceUtil;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by hangzhang209526 on 2016/2/25.
+ * 模板T表示对应的数据POJO类
  */
 public class BaseSQLiteHelper<T> extends SQLiteOpenHelper {
+    /**所有表名*/
+    public static ArrayList<String> sAllTableName;
     /**
      * 替换关键字的前缀
      */
@@ -28,6 +35,7 @@ public class BaseSQLiteHelper<T> extends SQLiteOpenHelper {
     private static final String KEY_DB_ID = "key_db_id";
     protected String mTableName;
     protected ComlueInfo[] mComlueInfos;
+    private String TAG = getClass().getSimpleName();
 
     /**
      * 获取主键ID
@@ -66,14 +74,78 @@ public class BaseSQLiteHelper<T> extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * 解析此表对应的POJO类，
+     * @param clazz  POJO类
+     * @return   返回POJO类非静态且非常量的属性集合，以26个子母的顺序排列
+     */
+    public static ArrayList<ComlueInfo> getComlueInfos(Class clazz) {
+        ArrayList<ComlueInfo> comlueInfos = new ArrayList<ComlueInfo>();
+        //遍历继承树中的声明属性
+        do{
+            Field[] fields = clazz.getDeclaredFields();
+            if(fields!=null&&fields.length>0){
+                for(int i=0;i<fields.length;i++){
+                    Field field = fields[i];
+                    int description = field.getModifiers();
+                    int mark = Modifier.STATIC|Modifier.FINAL;//非静态、非常量的属性
+                    if((description&mark)!=0) continue;//如果是静态的或者是常量则跳过
+                    //生成ComlueInfo对象
+                    ComlueInfo comlueInfo = new ComlueInfo();
+                    //属性名字
+                    String name = field.getName();
+                    comlueInfo.setName(filterKeyWord(name));
+                    //是否是主键
+                    if(name.equals("id")) comlueInfo.setPrimaryKey(true);
+                    else comlueInfo.setPrimaryKey(false);
+                    //属性的类型
+                    comlueInfo.setType(field.getType());
+                    //属性所属的类
+                    comlueInfo.setDecClass(clazz);
+                    comlueInfos.add(comlueInfo);
+                }
+            }
+            clazz = clazz.getSuperclass();
+        }while (!clazz.getName().endsWith(".BaseData"));
+
+        Collections.sort(comlueInfos, new Comparator<ComlueInfo>() {
+            @Override
+            public int compare(ComlueInfo lhs, ComlueInfo rhs) {
+                return lhs.getName().compareTo(rhs.getName());
+            }
+        });
+
+        return comlueInfos;
+    }
+
     public BaseSQLiteHelper(Context context, String name, String tableName, ComlueInfo[] comlueNames, int version) {
         super(context, name, null, version);
         mTableName = tableName;
         mComlueInfos = comlueNames;
+        if(sAllTableName==null){
+            sAllTableName = getAllTableName(getReadableDatabase());
+        }
+        if(!sAllTableName.contains(mTableName)){//创建表
+            SQLiteDatabase db = getWritableDatabase();
+            createTable(db);
+            sAllTableName = getAllTableName(db);//刷新
+        }
     }
 
-    @Override
-    public void onCreate(SQLiteDatabase db) {
+    private ArrayList<String> getAllTableName(SQLiteDatabase db){
+        ArrayList<String> result = new ArrayList<>();
+        StringBuffer sqlStrBuffer = new StringBuffer();
+        sqlStrBuffer.append("select name from sqlite_master where type='table' order by name;");
+        Cursor cursor = db.rawQuery(sqlStrBuffer.toString(), null);
+        cursor.moveToFirst();
+        while(cursor.moveToNext()){
+            //遍历出表名
+            String name = cursor.getString(0);
+            result.add(name);
+        }
+        return result;
+    }
+    private void createTable(SQLiteDatabase db){
         StringBuffer sqlStrBuffer = new StringBuffer();
         sqlStrBuffer.append("create table if not exists ");
         sqlStrBuffer.append(mTableName);
@@ -88,6 +160,21 @@ public class BaseSQLiteHelper<T> extends SQLiteOpenHelper {
         String sqlString = sqlStrBuffer.substring(0, sqlStrBuffer.length() - 1);
         sqlString += ")";
         db.execSQL(sqlString);
+    }
+
+    /**
+     * 清空当前表
+     */
+    public void deleteTable(){
+        SQLiteDatabase db = getWritableDatabase();
+        StringBuffer sqlStrBuffer = new StringBuffer();
+        sqlStrBuffer.append("delete from"+" "+mTableName);
+        db.execSQL(sqlStrBuffer.toString());
+        sAllTableName.remove(mTableName);
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
     }
 
     @Override
@@ -109,17 +196,6 @@ public class BaseSQLiteHelper<T> extends SQLiteOpenHelper {
         ContentValues result = converObjectToContentValues(data);
         return db.insert(mTableName, null, result);
     }
-
-//    /**
-//     * 将列名转换为方法名
-//     * @param qianzui    方法名前缀
-//     * @param columeName
-//     * @param isOjbect   此列的类型是否为除了String之外的类类型
-//     * @return
-//     */
-//    private String columeNameToMethodName(String qianzui,String columeName,boolean isOjbect){
-//        return qianzui+columeName.substring(0, 1).toUpperCase()+columeName.substring(1)+(isOjbect?"Object":"");
-//    }
 
     public void deleteData(String whereCase, String[] whereArg) {
         SQLiteDatabase db = getWritableDatabase();
@@ -154,6 +230,10 @@ public class BaseSQLiteHelper<T> extends SQLiteOpenHelper {
         }
         if (result.size() != 1) throw new Exception("同一主键值下有多条记录!");
         return (T) result.get(0);
+    }
+
+    public ArrayList selectAllDatas(Class<? extends T> clazz) throws Exception {
+        return selectDatas("",null,"","","",clazz);
     }
 
     public ArrayList selectDatas(String selection, String[] selectionArgs, String groupBy, String having, String orderBy, Class<? extends T> clazz) throws Exception {
@@ -208,8 +288,12 @@ public class BaseSQLiteHelper<T> extends SQLiteOpenHelper {
         if (mComlueInfos[colIndex].isOjbect()) {
             Class fieldClazz = field.getType();
             //获取该列对应的类的一个构造器，此构造器只有一个String类型的入参
-            Constructor constructor = fieldClazz.getConstructor(String.class);
-            field.set(data, constructor.newInstance(valueInDB));
+            try {
+                Constructor constructor = fieldClazz.getConstructor(String.class);
+                field.set(data, constructor.newInstance(valueInDB));
+            }catch (NoSuchMethodException e){
+                Log.e(TAG,"无法为类【"+data.getClass().getSimpleName()+"】的属性【"+field.getName()+"】填充数据库中的值,因为类型【"+field.getType()+"】没有只有一个String类型入参的构造器");
+            }
         } else {
             field.set(data, valueInDB);
         }
@@ -223,7 +307,7 @@ public class BaseSQLiteHelper<T> extends SQLiteOpenHelper {
         if (whereCase == null) {
             whereCase = keyCol + "=?";
         } else {
-            whereCase += "," + keyCol + "=?";
+            whereCase += " AND " + keyCol + "=?";
         }
         if (whereArgs == null) {
             whereArgs = new String[1];
@@ -247,7 +331,7 @@ public class BaseSQLiteHelper<T> extends SQLiteOpenHelper {
             Field field = clazz.getDeclaredField(oldName);
             field.setAccessible(true);
             Object value = field.get(data);
-            result.put(tableColName, value.toString());
+            result.put(tableColName, String.valueOf(value));
         }
         return result;
     }

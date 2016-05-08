@@ -12,6 +12,7 @@ import com.zhanghang.idcdevice.Const;
 import com.zhanghang.idcdevice.FragmentActivity;
 import com.zhanghang.idcdevice.MainActivity;
 import com.zhanghang.idcdevice.R;
+import com.zhanghang.idcdevice.db.TaskTable;
 import com.zhanghang.idcdevice.mode.TaskData;
 import com.zhanghang.self.adpter.BaseViewHolderAdapter;
 import com.zhanghang.self.utils.camera.CameraUtils;
@@ -47,33 +48,20 @@ public class TaskAdapter extends BaseViewHolderAdapter {
         final TaskData data = (TaskData) getItem(position);
         taskNameView.setText(data.getTaskName());
         taskDetail.setText(data.getDetails());
-        boolean showDeal = data.getRealStartTime()<=0;//是否显示处理按钮
-        boolean showEdit = TextUtils.isEmpty(data.getDealResult());//是否显示编辑按钮
-        if(showDeal){//能接受
-            taskOperation.setVisibility(View.VISIBLE);
-            taskDealed.setVisibility(View.GONE);
-            taskOperation.setText("接受");
-            taskOperation.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    data.setRealStartTime(System.currentTimeMillis());
-                    data.setDealPeople(Const.CURRENT_USER_NAME);
-                    ((MainActivity)mContext).gotoScannQRCode(data);
-                }
-            });
-        }else if(showEdit){//能编辑
-            taskOperation.setVisibility(View.VISIBLE);
-            taskDealed.setVisibility(View.GONE);
-            taskOperation.setText("编辑");
-            taskOperation.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
+        if(!Const.isDealed(data)){//未处理
+            taskDealed.setVisibility(View.INVISIBLE);
         }else{//已处理
-            taskOperation.setVisibility(View.GONE);
             taskDealed.setVisibility(View.VISIBLE);
         }
+        taskOperation.setVisibility(View.VISIBLE);
+        taskOperation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, FragmentActivity.class);
+                intent.putExtra(Const.INTENT_KEY_LOAD_FRAGMENT, FragmentActivity.TASK_DETAIL_FRAGMENT);
+                intent.putExtra(Const.INTENT_KEY_TASK_DATA, data);
+                mContext.startActivity(intent);
+            }
+        });
     }
 }

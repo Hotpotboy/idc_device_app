@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/fifteen_dp"
+    android:paddingBottom="@dimen/fifteen_dp"
+    android:orientation="horizontal">
+    <TextView
+        android:id="@+id/item_task_detail_patrol_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="5"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="检查网线是否可用？"
+        android:textColor="@color/idc_3b3b3b"
+        android:textSize="@dimen/thirty_sp" />
+    <View
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"/>
+    <TextView
+        android:id="@+id/item_task_detail_patrol_value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="4"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="正常"
+        android:textColor="@color/idc_3b3b3b"
+        android:textSize="@dimen/thirty_sp" />
+</LinearLayout>

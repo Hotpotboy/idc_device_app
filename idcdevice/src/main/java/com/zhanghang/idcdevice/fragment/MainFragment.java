@@ -1,17 +1,23 @@
 package com.zhanghang.idcdevice.fragment;
 
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.zhanghang.idcdevice.Const;
+import com.zhanghang.idcdevice.DeviceApplication;
 import com.zhanghang.idcdevice.MainActivity;
 import com.zhanghang.idcdevice.R;
+import com.zhanghang.idcdevice.db.TaskTable;
 import com.zhanghang.self.base.BaseFragment;
 import com.zhanghang.self.fragment.ViewPagerFragement;
+import com.zhanghang.self.utils.camera.CameraUtils;
 
 import java.util.ArrayList;
 
@@ -98,6 +104,7 @@ public class MainFragment extends ViewPagerFragement implements View.OnClickList
 
             }
         });
+        onPageSelected(0);
     }
 
     @Override
@@ -117,11 +124,14 @@ public class MainFragment extends ViewPagerFragement implements View.OnClickList
         mButtonHolds[getCurrentItem()].setSelected(true);
         if(position==0){
             mTitileCenter.setText("设备巡检");
-            mTitileRight.setVisibility(View.GONE);
+            mTitileRight.setVisibility(View.VISIBLE);
+            if(mTitileRight.getBackground()==null||!(mTitileRight.getBackground() instanceof BitmapDrawable)){
+                mTitileRight.setBackgroundResource(R.drawable.scanner);
+            }
         }else if(position==1){
             mTitileCenter.setText("资产盘点");
-            mTitileRight.setText("新增");
-            mTitileRight.setVisibility(View.VISIBLE);
+//            mTitileRight.setText("新增");
+            mTitileRight.setVisibility(View.GONE);
         }
     }
 
@@ -145,6 +155,12 @@ public class MainFragment extends ViewPagerFragement implements View.OnClickList
             case R.id.fragment_title_right:
                 if(getCurrentItem()==1){//新增设备
                     clickAdd();
+                }else if(getCurrentItem()==0){//扫描二维码
+                    if (((DeviceApplication) DeviceApplication.getInstance()).isUploadData()) {
+                        Toast.makeText(mActivity, "数据已上传,无法扫描!", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    CameraUtils.scannerQRCode(mActivity);
                 }
                 break;
         }

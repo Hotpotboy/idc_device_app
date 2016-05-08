@@ -396,12 +396,13 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="@dimen/sixteen_dp"
                 android:layout_weight="1"
-                android:background="@drawable/button_circle_bg"
+                android:background="@drawable/button_selector"
                 android:paddingLeft="@dimen/twenty_dp"
                 android:paddingRight="@dimen/twenty_dp"
                 android:text="保      存"
                 android:textColor="@color/idc_f5e9e9"
-                android:textSize="@dimen/thirty_sp" />
+                android:textSize="@dimen/thirty_sp"
+                android:visibility="gone"/>
 
             <Button
                 android:id="@+id/fragment_device_deleteButton"
@@ -410,12 +411,13 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/sixteen_dp"
                 android:layout_weight="1"
-                android:background="@drawable/button_circle_bg"
+                android:background="@drawable/button_selector"
                 android:paddingLeft="@dimen/twenty_dp"
                 android:paddingRight="@dimen/twenty_dp"
                 android:text="删      除"
                 android:textColor="@color/idc_f5e9e9"
-                android:textSize="@dimen/thirty_sp"/>
+                android:textSize="@dimen/thirty_sp"
+                android:visibility="gone"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
