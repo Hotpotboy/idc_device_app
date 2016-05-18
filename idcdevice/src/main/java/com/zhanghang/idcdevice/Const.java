@@ -30,9 +30,9 @@ public class Const {
     /**数据库名字*/
     public static final String DB_FILE_NAME = "idc_device.db";
     /**任务状态——已处理*/
-    public static final String TASK_STATE_DEALED = "已处理";
+    public static final String TASK_STATE_DEALED = "已完成";
     /**任务状态——未处理*/
-    public static final String TASK_STATE_UNDEAL = "未处理";
+    public static final String TASK_STATE_UNDEAL = "未开始";
     /*************Intent之中的key***********************************************/
     /**设备ID的key*/
 //    public static final String INTENT_KEY_DEVICE_ID = "intent_key_device_id";

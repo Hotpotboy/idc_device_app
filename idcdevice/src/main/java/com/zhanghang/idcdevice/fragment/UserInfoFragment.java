@@ -17,6 +17,9 @@ import com.zhanghang.idcdevice.LoginActivity;
 import com.zhanghang.idcdevice.PublicDialog;
 import com.zhanghang.idcdevice.R;
 import com.zhanghang.idcdevice.adbsocket.Request;
+import com.zhanghang.idcdevice.db.DeviceTable;
+import com.zhanghang.idcdevice.db.PatrolItemTable;
+import com.zhanghang.idcdevice.db.TaskTable;
 import com.zhanghang.self.base.BaseFragment;
 import com.zhanghang.self.utils.PopupWindowUtils;
 
@@ -74,6 +77,10 @@ public class UserInfoFragment extends BaseFragment implements View.OnClickListen
                                     @Override
                                     public void onSuccess(String result) {
                                         mNetLoadingWindow.getPopupWindow().dismiss();
+                                        /**删除相关表*/
+                                        DeviceTable.getDeviceTableInstance().deleteTable();
+                                        TaskTable.getTaskTableInstance().deleteTable();
+                                        PatrolItemTable.getPatrolItemTableInstance().deleteTable();
                                         Toast.makeText(mActivity, "成功上传数据库!", Toast.LENGTH_LONG).show();
                                     }
 

@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:paddingTop="@dimen/ten_dp"
-                android:text="任务"
+                android:text="任务处理"
                 android:textSize="@dimen/twenty_two_sp" />
         </LinearLayout>
 
@@ -70,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:paddingTop="@dimen/ten_dp"
-                android:text="资产"
+                android:text="资产信息"
                 android:textSize="@dimen/twenty_two_sp" />
         </LinearLayout>
 
@@ -99,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:paddingTop="@dimen/ten_dp"
-                android:text="我的"
+                android:text="个人信息"
                 android:textSize="@dimen/twenty_two_sp" />
         </LinearLayout>
     </LinearLayout>

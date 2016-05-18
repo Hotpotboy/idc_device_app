@@ -104,7 +104,7 @@ public class PatrolItemsFragment extends BaseFragment implements View.OnClickLis
         mTitileLeft.setBackgroundColor(getResources().getColor(android.R.color.transparent));
         mTitileRight.setText("下一项");
         mTitileRight.setVisibility(View.VISIBLE);
-        initData(mDeviceIdView, R.string.she_bei_bian_hao_s, mData.getDeviceType(),R.color.idc_000000);
+        initData(mDeviceIdView, R.string.she_bei_bian_hao_s, mData.getAssetNum(),R.color.idc_000000);
         initData(mTaskNameView, R.string.ren_wu_ming_cheng_s, mData.getTaskName(),R.color.idc_000000);
         initData(mDealPeopleView,R.string.shi_shi_yuan_gong_s,mData.getDealPeople(),R.color.idc_000000);
         String startTime;
@@ -286,7 +286,7 @@ public class PatrolItemsFragment extends BaseFragment implements View.OnClickLis
         }
 
         private void initView(final PatrolItemData data,View view){
-            int isNormal = data.isNormal();
+            int isNormal = data.getNormal();
             TextView patrolItemNormalView = (TextView) view.findViewById(R.id.public_patrol_nomal);
             TextView patrolItemUnNormalView = (TextView) view.findViewById(R.id.public_patrol_unnomal);
             TextView patrolItemDetailView = (TextView) view.findViewById(R.id.public_patrol_patrolDetail);

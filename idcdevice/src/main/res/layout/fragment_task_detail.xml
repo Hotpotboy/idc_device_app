@@ -28,7 +28,64 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/seventy_dp"
                 android:background="@color/idc_f5f5f5"
-                android:text="基本属性"
+                android:text="巡检详情信息"
+                android:paddingLeft="@dimen/twenty_dp"
+                android:textSize="@dimen/thirty_sp"
+                android:textColor="@android:color/black"
+                android:gravity="center_vertical"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/zero_point_five_dp"
+                android:background="@color/idc_e2e2e2" />
+
+            <LinearLayout
+                android:id="@+id/fragment_task_detail_patrolsInfos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/fifty_dp"
+                android:layout_marginLeft="@dimen/fifty_dp"
+                android:orientation="vertical"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/zero_point_five_dp"
+                android:background="@color/idc_e2e2e2" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/seventy_dp"
+                android:background="@color/idc_f5f5f5"
+                android:text="任务详述"
+                android:paddingLeft="@dimen/twenty_dp"
+                android:textSize="@dimen/thirty_sp"
+                android:textColor="@android:color/black"
+                android:gravity="center_vertical"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/zero_point_five_dp"
+                android:background="@color/idc_e2e2e2" />
+            <TextView
+                android:id="@+id/fragment_task_detail_taskDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/fifteen_dp"
+                android:paddingLeft="@dimen/fifty_dp"
+                android:paddingRight="@dimen/fifty_dp"
+                android:paddingTop="@dimen/fifteen_dp"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/thirty_sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/zero_point_five_dp"
+                android:background="@color/idc_e2e2e2" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/seventy_dp"
+                android:background="@color/idc_f5f5f5"
+                android:text="任务基本信息"
                 android:paddingLeft="@dimen/twenty_dp"
                 android:textSize="@dimen/thirty_sp"
                 android:textColor="@android:color/black"
@@ -263,62 +320,6 @@
                     android:textColor="@color/idc_999999"
                     android:textSize="@dimen/thirty_sp" />
             </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/zero_point_five_dp"
-                android:background="@color/idc_e2e2e2" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/seventy_dp"
-                android:background="@color/idc_f5f5f5"
-                android:text="任务详情"
-                android:paddingLeft="@dimen/twenty_dp"
-                android:textSize="@dimen/thirty_sp"
-                android:textColor="@android:color/black"
-                android:gravity="center_vertical"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/zero_point_five_dp"
-                android:background="@color/idc_e2e2e2" />
-            <TextView
-                android:id="@+id/fragment_task_detail_taskDetail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/fifteen_dp"
-                android:paddingLeft="@dimen/fifty_dp"
-                android:paddingRight="@dimen/fifty_dp"
-                android:paddingTop="@dimen/fifteen_dp"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/thirty_sp" />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/zero_point_five_dp"
-                android:background="@color/idc_e2e2e2" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/seventy_dp"
-                android:background="@color/idc_f5f5f5"
-                android:text="巡检详情"
-                android:paddingLeft="@dimen/twenty_dp"
-                android:textSize="@dimen/thirty_sp"
-                android:textColor="@android:color/black"
-                android:gravity="center_vertical"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/zero_point_five_dp"
-                android:background="@color/idc_e2e2e2" />
-            <LinearLayout
-                android:id="@+id/fragment_task_detail_patrolsInfos"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/fifty_dp"
-                android:layout_marginLeft="@dimen/fifty_dp"
-                android:orientation="vertical"/>
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

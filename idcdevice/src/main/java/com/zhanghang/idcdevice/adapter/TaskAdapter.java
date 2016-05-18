@@ -43,16 +43,17 @@ public class TaskAdapter extends BaseViewHolderAdapter {
         TextView taskNameView = (TextView) getViewByTag(R.id.item_task_name,TASK_NAME_KEY,baseViewHolder,convertView);
         TextView taskDetail = (TextView) getViewByTag(R.id.item_task_details,TASK_DETAIL_KEY,baseViewHolder,convertView);
         TextView taskOperation = (TextView) getViewByTag(R.id.item_task_dealing,TASK_OPERATION_KEY,baseViewHolder,convertView);
-        ImageView taskDealed = (ImageView) getViewByTag(R.id.item_task_dealed,TASK_DEALED_KEY,baseViewHolder,convertView);
+        TextView taskDealed = (TextView) getViewByTag(R.id.item_task_dealed,TASK_DEALED_KEY,baseViewHolder,convertView);
 
         final TaskData data = (TaskData) getItem(position);
         taskNameView.setText(data.getTaskName());
         taskDetail.setText(data.getDetails());
-        if(!Const.isDealed(data)){//未处理
-            taskDealed.setVisibility(View.INVISIBLE);
-        }else{//已处理
-            taskDealed.setVisibility(View.VISIBLE);
-        }
+        taskDealed.setText(data.getTaskState());
+//        if(!Const.isDealed(data)){//未处理
+//            taskDealed.setVisibility(View.INVISIBLE);
+//        }else{//已处理
+//            taskDealed.setVisibility(View.VISIBLE);
+//        }
         taskOperation.setVisibility(View.VISIBLE);
         taskOperation.setOnClickListener(new View.OnClickListener() {
             @Override

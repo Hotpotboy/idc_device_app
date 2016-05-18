@@ -4,4 +4,5 @@ tasks.withType(JavaCompile) {
 }
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.1.4'
 }

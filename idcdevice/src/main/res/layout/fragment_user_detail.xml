@@ -4,7 +4,9 @@
     android:orientation="vertical"
     android:background="@android:color/white">
 
-    <com.zhanghang.self.widget.CycleImageView
+    <include layout="@layout/public_title"/>
+
+    <ImageView
         android:id="@+id/my_info_headImage"
         android:layout_width="@dimen/one_hundred_dp"
         android:layout_height="@dimen/one_hundred_dp"
@@ -42,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/twenty_five_dp"
-                android:text="用户名称:"
+                android:text="人    员:"
                 android:textColor="@color/idc_9c9c9c"
                 android:textSize="@dimen/thirty_dp" />
 
@@ -68,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/my_info_split1"
                 android:padding="@dimen/twenty_five_dp"
-                android:text="用户账户:"
+                android:text="登录名:"
                 android:textColor="@color/idc_9c9c9c"
                 android:textSize="@dimen/thirty_dp" />
 
@@ -97,7 +99,8 @@
                 android:padding="@dimen/twenty_five_dp"
                 android:text="职位描述:"
                 android:textColor="@color/idc_9c9c9c"
-                android:textSize="@dimen/thirty_dp" />
+                android:textSize="@dimen/thirty_dp"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/my_info_loginTime"
@@ -107,14 +110,16 @@
                 android:layout_toRightOf="@id/my_info_loginTime_tip"
                 android:padding="@dimen/twenty_five_dp"
                 android:text="初级巡检员"
-                android:textSize="@dimen/thirty_dp" />
+                android:textSize="@dimen/thirty_dp"
+                android:visibility="gone"/>
 
             <View
                 android:id="@+id/my_info_split4"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/zero_point_five_dp"
                 android:layout_below="@id/my_info_loginTime_tip"
-                android:background="@color/idc_9c9c9c" />
+                android:background="@color/idc_9c9c9c"
+                android:visibility="gone"/>
         </RelativeLayout>
     </ScrollView>
 </LinearLayout>

@@ -28,7 +28,7 @@ public class TaskFragment extends BaseListFragment<TaskData> implements DeviceAp
     public void loadData(){
         mDatas = new ArrayList<>();
         try {
-            mDatas = TaskTable.getTaskTableInstance().selectDatas("",null,"","","",TaskData.class);
+            mDatas = TaskTable.getTaskTableInstance().selectAllDatas(TaskData.class);
             if(mDatas!=null&&mDatas.size()>0){
                 showList(true);
                 for(int i = 0;i<mDatas.size();i++){

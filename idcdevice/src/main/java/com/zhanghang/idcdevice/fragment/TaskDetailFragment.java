@@ -1,35 +1,20 @@
 package com.zhanghang.idcdevice.fragment;
 
-import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.os.SystemClock;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.text.SpannableString;
-import android.text.TextUtils;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.zhanghang.idcdevice.Const;
-import com.zhanghang.idcdevice.EditDeviceDialog;
-import com.zhanghang.idcdevice.MainActivity;
-import com.zhanghang.idcdevice.PublicDialog;
 import com.zhanghang.idcdevice.R;
-import com.zhanghang.idcdevice.db.PatrolItemTable;
-import com.zhanghang.idcdevice.db.TaskTable;
 import com.zhanghang.idcdevice.mode.PatrolItemData;
 import com.zhanghang.idcdevice.mode.TaskData;
-import com.zhanghang.idcdevice.view.PatrolItemProgress;
 import com.zhanghang.self.base.BaseFragment;
-import com.zhanghang.self.utils.SystemUtils;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by Administrator on 2016-03-29.
@@ -103,6 +88,8 @@ public class TaskDetailFragment extends BaseFragment implements View.OnClickList
      * 任务数据
      */
     private TaskData mData;
+    private TextView mTitileLeft;
+    private TextView mTitileCenter;
 
     @Override
     protected int specifyRootLayoutId() {
@@ -117,9 +104,8 @@ public class TaskDetailFragment extends BaseFragment implements View.OnClickList
     @Override
     protected void initView() {
         //标题
-//        mTitileLeft = (TextView) findViewById(R.id.fragment_title_left);
-//        mTitileCenter = (TextView) findViewById(R.id.fragment_title_center);
-//        mTitileRight = (TextView) findViewById(R.id.fragment_title_right);
+        mTitileLeft = (TextView) findViewById(R.id.fragment_title_left);
+        mTitileCenter = (TextView) findViewById(R.id.fragment_title_center);
 
         //任务信息
         mDeviceIdView = (TextView) findViewById(R.id.fragment_task_detail_deviceID);
@@ -142,7 +128,14 @@ public class TaskDetailFragment extends BaseFragment implements View.OnClickList
 
     @Override
     protected void initData() {
-        initData(mDeviceIdView, R.string.she_bei_bian_hao_s, mData.getDeviceType(), R.color.idc_000000);
+        //相关标题
+        mTitileCenter.setText("任务详情");
+        mTitileLeft.setText("返回");
+        mTitileLeft.setBackgroundColor(Color.TRANSPARENT);
+        mTitileLeft.setOnClickListener(this);
+
+        //具体数据
+        initData(mDeviceIdView, R.string.she_bei_bian_hao_s, mData.getAssetNum(), R.color.idc_000000);
         initData(mTaskNameView, R.string.ren_wu_ming_cheng_s, mData.getTaskName(), R.color.idc_000000);
         initData(mDealPeopleView, R.string.shi_shi_yuan_gong_s, Const.isNullForDBData(mData.getDealPeople()) ? "无数据" : mData.getDealPeople(), R.color.idc_000000);
         String time = Const.getDataString(mData.getRealStartTime());
@@ -202,7 +195,7 @@ public class TaskDetailFragment extends BaseFragment implements View.OnClickList
         if (patrolItemData != null) {
             valueView.setVisibility(View.VISIBLE);
             nameView.setText((i+1)+"、"+patrolItemData.getPatrolItemName());
-            String value = patrolItemData.isNormal() == 1 ? "正常" : "不正常";
+            String value = patrolItemData.getNormal() == 1 ? "正常" : "不正常";
             value += Const.isNullForDBData(patrolItemData.getRecordValue()) ? "" : "(" + patrolItemData.getRecordValue() + ")";
             valueView.setText(value);
         } else {
@@ -215,7 +208,9 @@ public class TaskDetailFragment extends BaseFragment implements View.OnClickList
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
+            case R.id.fragment_title_left:
+                mActivity.finish();
+                break;
         }
     }
 }

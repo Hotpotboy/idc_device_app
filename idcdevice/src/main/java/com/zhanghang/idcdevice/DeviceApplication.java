@@ -2,6 +2,8 @@ package com.zhanghang.idcdevice;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -9,6 +11,12 @@ import android.widget.Toast;
 
 import com.adbsocket.AdbSocketUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.introspect.AnnotatedClass;
+import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
+import com.fasterxml.jackson.databind.ser.FilterProvider;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.zhanghang.idcdevice.adbsocket.AdbSocketService;
 import com.zhanghang.idcdevice.adbsocket.Request;
 import com.zhanghang.idcdevice.db.DeviceTable;
@@ -30,9 +38,10 @@ import java.util.ArrayList;
  */
 public class DeviceApplication extends BaseApplication {
     private ArrayList<OnDataDownFinishedListener> mOnDataDownFinishedListeners = new ArrayList<>();
+    private static String TAG = "DeviceApplication.class";
 
-    public void addDataDownFinishedListener(OnDataDownFinishedListener listener){
-        if(!mOnDataDownFinishedListeners.contains(listener)){
+    public void addDataDownFinishedListener(OnDataDownFinishedListener listener) {
+        if (!mOnDataDownFinishedListeners.contains(listener)) {
             mOnDataDownFinishedListeners.add(listener);
         }
     }
@@ -46,11 +55,11 @@ public class DeviceApplication extends BaseApplication {
 
     public void stop(final Activity activity) {
         mOnDataDownFinishedListeners.clear();
-        if(Const.isConnetionToPc()) {
+        if (Const.isConnetionToPc()) {
             Request.addRequestForCode(AdbSocketUtils.CLOSE_CONNECTION_COMMAND, "", null);
             activity.finish();
             activity.moveTaskToBack(false);
-        }else {
+        } else {
             activity.finish();
             activity.moveTaskToBack(false);
         }
@@ -61,6 +70,7 @@ public class DeviceApplication extends BaseApplication {
      */
     public void saveDatasFromPC(DBdata dBdata) {
         if (dBdata != null) {
+            String tip = "";
             //设备信息
             ArrayList<DeviceData> devices = dBdata.getDevices();
             if (devices != null && devices.size() > 0) {
@@ -73,6 +83,8 @@ public class DeviceApplication extends BaseApplication {
                         Toast.makeText(this, "设备信息【" + item.getDeviceId() + "," + item.getDeviceName() + "】插入数据库失败,原因：" + e.toString(), Toast.LENGTH_LONG).show();
                     }
                 }
+            }else{
+                tip="设备信息为空!";
             }
             //任务信息
             ArrayList<TaskData> tasks = dBdata.getTasks();
@@ -86,6 +98,8 @@ public class DeviceApplication extends BaseApplication {
                         Toast.makeText(this, "任务信息【" + item.getTaskId() + "," + item.getTaskName() + "】插入数据库失败,原因：" + e.toString(), Toast.LENGTH_LONG).show();
                     }
                 }
+            }else{
+                tip+="任务信息为空!";
             }
             //巡检项信息
             ArrayList<PatrolItemData> patrolItemDatas = dBdata.getPatrols();
@@ -99,20 +113,26 @@ public class DeviceApplication extends BaseApplication {
                         Toast.makeText(this, "巡检项信息【" + item.getPatrolId() + "," + item.getPatrolItemName() + "】插入数据库失败,原因：" + e.toString(), Toast.LENGTH_LONG).show();
                     }
                 }
+            }else{
+                tip+="巡检项信息为空!";
+            }
+            if(!TextUtils.isEmpty(tip)){
+                Toast.makeText(this, tip, Toast.LENGTH_LONG).show();
             }
         }
     }
 
     /**
      * 是否已经上传数据了~
+     *
      * @return
      */
-    public boolean isUploadData(){
+    public boolean isUploadData() {
         try {
             ArrayList<DeviceData> deviceDatas = DeviceTable.getDeviceTableInstance().selectAllDatas(DeviceData.class);
             ArrayList<TaskData> taskDatas = TaskTable.getTaskTableInstance().selectAllDatas(TaskData.class);
             ArrayList<PatrolItemData> patrolItemDatas = PatrolItemTable.getPatrolItemTableInstance().selectAllDatas(PatrolItemData.class);
-            return (deviceDatas==null||deviceDatas.size()<=0)&&(taskDatas==null||taskDatas.size()<=0)&&(patrolItemDatas==null||patrolItemDatas.size()<=0);
+            return (deviceDatas == null || deviceDatas.size() <= 0) && (taskDatas == null || taskDatas.size() <= 0) && (patrolItemDatas == null || patrolItemDatas.size() <= 0);
         } catch (Exception e) {
             e.printStackTrace();
             return true;
@@ -133,13 +153,22 @@ public class DeviceApplication extends BaseApplication {
             DBdata dBdata = new DBdata();
             dBdata.setDevices(deviceDatas);
             dBdata.setPatrols(patrolItemDatas);
+            if(taskDatas!=null&&taskDatas.size()>0){
+                for(TaskData taskData:taskDatas){
+                    String status = taskData.getTaskState();
+                    if(Const.TASK_STATE_DEALED.equals(status)){
+                        taskData.setTaskState("2");
+                    }else{
+                        taskData.setTaskState("1");
+                    }
+                }
+            }
             dBdata.setTasks(taskDatas);
-            /**删除相关表*/
-            DeviceTable.getDeviceTableInstance().deleteTable();
-            TaskTable.getTaskTableInstance().deleteTable();
-            PatrolItemTable.getPatrolItemTableInstance().deleteTable();
             //转换为字符串
-            result = new ObjectMapper().writeValueAsString(dBdata);
+            ObjectMapper objectMapper = new ObjectMapper();
+//            filterFileds(objectMapper);
+            result = objectMapper.writeValueAsString(dBdata);
+            Log.i(TAG, "上传数据长度【" + result.length() + "】");
             return result;
         } catch (Exception e) {
             e.printStackTrace();
@@ -149,14 +178,26 @@ public class DeviceApplication extends BaseApplication {
         }
     }
 
+    private void filterFileds(ObjectMapper mapper) {
+        SimpleFilterProvider filters = new SimpleFilterProvider();
+        String[] fields = {"id","dealInfo","dealResult","patrolItems","realEndTime","realStartTime","taskState"};
+        filters.addFilter(TaskData.class.getName(),SimpleBeanPropertyFilter.serializeAllExcept(fields));
+        mapper.setFilters(filters);
+        mapper.setAnnotationIntrospector(new JacksonAnnotationIntrospector() {
+            @Override
+            public Object findFilterId(AnnotatedClass ac) {
+                return ac.getName();
+            }
+        });
+    }
 
 
     /**
      * 从PC端获取数据
      */
-    public void getDataFromPC(final Activity activity){
+    public void getDataFromPC(final Activity activity) {
         final PopupWindowUtils netLoadingWindow = PopupWindowUtils.getInstance(R.layout.net_loading, activity, activity.getWindow().getDecorView(), ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        ((TextView)netLoadingWindow.getViewById(R.id.net_loading_tip)).setText("正在获取数据中......");
+        ((TextView) netLoadingWindow.getViewById(R.id.net_loading_tip)).setText("正在获取数据中......");
         netLoadingWindow.showAtLocation();
         Request.addRequestForCode(AdbSocketUtils.GET_ALL_INFOS_COMMANDE, "", new Request.CallBack() {
             @Override
@@ -166,20 +207,20 @@ public class DeviceApplication extends BaseApplication {
                 try {
                     DBdata dBdata = objectMapper.readValue(result, DBdata.class);
                     saveDatasFromPC(dBdata);
-                    if(mOnDataDownFinishedListeners.size()>0){
-                        for (OnDataDownFinishedListener item:mOnDataDownFinishedListeners)
+                    if (mOnDataDownFinishedListeners.size() > 0) {
+                        for (OnDataDownFinishedListener item : mOnDataDownFinishedListeners)
                             item.onDown();
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
-                    Toast.makeText(activity,"解析数据失败……",Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "解析数据失败……", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFail(String erroInfo) {
                 netLoadingWindow.getPopupWindow().dismiss();
-                Toast.makeText(activity,"与PC通信失败,【"+erroInfo+"】……",Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "与PC通信失败,【" + erroInfo + "】……", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -187,7 +228,7 @@ public class DeviceApplication extends BaseApplication {
     /**
      * 数据下载完成后回调接口
      */
-    public interface OnDataDownFinishedListener{
+    public interface OnDataDownFinishedListener {
         public void onDown();
     }
 }

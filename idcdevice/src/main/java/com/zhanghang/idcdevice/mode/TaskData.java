@@ -11,6 +11,8 @@ import java.util.ArrayList;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TaskData extends BaseData implements Serializable {
+    /**此巡检项对应的设备编号*/
+    private String assetNum;
     /**实施组*/
     private String dealGroup;
     /**任务处理信息*/
@@ -21,8 +23,6 @@ public class TaskData extends BaseData implements Serializable {
     private String dealResult;
     /**详细描述*/
     private String details;
-    /**此巡检项对应的设备类别*/
-    private String deviceType;
     private long id;
     /**巡检项目*/
     private ArrayList<PatrolItemData> patrolItems;
@@ -183,11 +183,11 @@ public class TaskData extends BaseData implements Serializable {
         this.id = id;
     }
 
-    public String getDeviceType() {
-        return deviceType;
+    public String getAssetNum() {
+        return assetNum;
     }
 
-    public void setDeviceType(String deviceType) {
-        this.deviceType = deviceType;
+    public void setAssetNum(String assetNum) {
+        this.assetNum = assetNum;
     }
 }

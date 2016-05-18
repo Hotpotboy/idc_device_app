@@ -25,16 +25,19 @@
         android:paddingLeft="@dimen/twenty_dp"
         android:paddingRight="@dimen/twenty_dp"
         android:layout_marginRight="@dimen/twenty_dp"
-        android:text="查看详情"
+        android:text="打开"
         android:textColor="@color/idc_f5e9e9"
         android:textSize="@dimen/thirty_sp" />
-    <ImageView
+    <TextView
         android:id="@+id/item_task_dealed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/task_dealed"
         android:paddingLeft="@dimen/twenty_dp"
-        android:paddingRight="@dimen/twenty_dp"
+        android:paddingRight="@dimen/fifty_dp"
+        android:layout_centerVertical="true"
+        android:text="未开始"
+        android:textColor="@color/idc_af0012"
+        android:textSize="@dimen/thirty_sp"
         android:layout_toLeftOf="@id/item_task_dealing"/>
 
     <LinearLayout

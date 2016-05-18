@@ -3,6 +3,9 @@ package com.zhanghang.idcdevice.adbsocket;
 import android.util.SparseArray;
 
 import com.adbsocket.AdbSocketConnectionThread;
+import com.adbsocket.AdbSocketUtils;
+import com.adbsocket.NetResponseModel;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.nio.channels.SocketChannel;
@@ -117,13 +120,28 @@ public class Request {
      * @param info  如果isSuc为true，则表示PC端返回的结果，否则为错误信息
      */
     void waitingToEnd(boolean isSuc, String info) {
-        if (isSuc) {
-            if (mCallBack != null) {
-                mCallBack.onSuccess(info);
+        try {
+            if (isSuc) {
+                ObjectMapper objectMapper = new ObjectMapper();
+                NetResponseModel netResponseMode = objectMapper.readValue(info,NetResponseModel.class);
+                if(netResponseMode.getErroCode()== AdbSocketUtils.NET_RESPONSE_SUC) {
+                    if (mCallBack != null) {
+                        mCallBack.onSuccess(netResponseMode.getContent());
+                    }
+                }else{
+                    if (mCallBack != null) {
+                        mCallBack.onFail(netResponseMode.getContent());
+                    }
+                }
+            } else {
+                if (mCallBack != null) {
+                    mCallBack.onFail(info);
+                }
             }
-        } else {
+        } catch (IOException e) {
+            e.printStackTrace();
             if (mCallBack != null) {
-                mCallBack.onFail(info);
+                mCallBack.onFail("解析错误!");
             }
         }
         sRequests.remove(code);//清空

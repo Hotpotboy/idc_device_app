@@ -20,7 +20,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="@dimen/fifty_dp"
         android:layout_marginTop="@dimen/fifty_dp"
-        android:text="巡检设备"
+        android:text="设备巡检"
         android:textColor="@color/idc_231815"
         android:textSize="@dimen/six_sp"
         android:textStyle="bold" />

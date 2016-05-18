@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
                         if (resultArray[0].equals(md5Result)) {//签名正确
                             //根据计划开始时间、计划结束时间、设备类型查询符合条件的任务，如果没有，则查询只符合设备类型的任务；
                             //所有的查询结果以计划开始时间排序
-                            String selections = TaskTable.getTaskTableInstance().getComlueInfos()[5].getName()+"=? AND "
+                            String selections = TaskTable.getTaskTableInstance().getComlueInfos()[0].getName()+"=? AND "
                                                +TaskTable.getTaskTableInstance().getComlueInfos()[9].getName()+"<= ? AND "
                                                +TaskTable.getTaskTableInstance().getComlueInfos()[8].getName()+">= ?";
                             String[] args = new String[3];
@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
                                 if(datas!=null&&datas.size()>0){
                                     selecteFitData(datas);
                                 }else{
-                                    selections = TaskTable.getTaskTableInstance().getComlueInfos()[5].getName()+"=?";
+                                    selections = TaskTable.getTaskTableInstance().getComlueInfos()[0].getName()+"=?";
                                     args = new String[1];
                                     args[0] = resultArray[1];
                                     datas = TaskTable.getTaskTableInstance().selectDatas(selections, args, null, null, TaskTable.getTaskTableInstance().getComlueInfos()[9].getName(), TaskData.class);

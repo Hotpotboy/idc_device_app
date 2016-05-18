@@ -196,10 +196,11 @@ public abstract class AdbSocketConnectionThread extends Thread {
      * @throws IOException
      */
     protected String readDataFromChannel(ReadableByteChannel readableChannel) throws IOException {
-        ByteBuffer byteBuffer = ByteBuffer.allocate(64);
+        ByteBuffer byteBuffer = ByteBuffer.allocate(1024*500);
         byte[] dataFromChannel = new byte[0];
         int count;
-        while ((count=readableChannel.read(byteBuffer))>0){
+        int allCount = 0;
+        while ((count=readableChannel.read(byteBuffer))>=0||allCount<AdbSocketUtils.sPreLen){
             byteBuffer.flip();
             byte[] content = new byte[count];
             byteBuffer.get(content);

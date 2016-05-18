@@ -17,6 +17,7 @@ import com.adbsocket.AdbSocketUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zhanghang.idcdevice.adbsocket.Request;
 import com.zhanghang.idcdevice.mode.DBdata;
+import com.zhanghang.idcdevice.mode.LoginResultData;
 import com.zhanghang.self.utils.PopupWindowUtils;
 
 import java.io.IOException;
@@ -64,17 +65,26 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     }
     private void login(String userName,String password){
         if(Const.isConnetionToPc()){
-            String params = "userName="+userName+"&password="+password;
+            String params = "{\"userName\":\""+userName+"\",\"password\":\""+password+"\"}";
             mNetLoadingWindow.showAtLocation();
             ((TextView)mNetLoadingWindow.getViewById(R.id.net_loading_tip)).setText("正在登陆中......");
             Request.addRequestForCode(AdbSocketUtils.LOGIN_IN_COMMANDE, params, new Request.CallBack() {
                 @Override
                 public void onSuccess(String result) {
                     mNetLoadingWindow.getPopupWindow().dismiss();
-                    Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                    startActivity(intent);
-//                    ((TextView)mNetLoadingWindow.getViewById(R.id.net_loading_tip)).setText("登陆成功,正在获取数据中......");
-//                    getDataFromPC();
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    try {
+                        LoginResultData loginResultData = objectMapper.readValue(result,LoginResultData.class);
+                        if("true".equals(loginResultData.getIsSucc())) {
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(intent);
+                        }else{
+                            Toast.makeText(LoginActivity.this,"用户名或者密码错误~!",Toast.LENGTH_LONG).show();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Toast.makeText(LoginActivity.this,"解析错误!",Toast.LENGTH_LONG).show();
+                    }
                 }
 
                 @Override

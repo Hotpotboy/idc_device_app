@@ -100,7 +100,7 @@ public class PatrolItemData extends BaseData  implements Serializable {
         this.patrolId = patrolId;
     }
 
-    public int isNormal() {
+    public int getNormal() {
         return isNormal;
     }
 

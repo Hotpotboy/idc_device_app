@@ -6,21 +6,15 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.adbsocket.AdbSocketConnectionThread;
 import com.adbsocket.AdbSocketServer;
 import com.adbsocket.AdbSocketUtils;
 import com.zhanghang.idcdevice.DeviceApplication;
-import com.zhanghang.self.utils.PreferenceUtil;
 
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.nio.channels.ReadableByteChannel;
-import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * Created by Administrator on 2016-03-27.
@@ -112,16 +106,22 @@ public class AdbSocketService extends Service {
                 private void dealCommand(String command) {
                     Object[] commands = AdbSocketConnectionThread.resolveRawCommand(command);
                     if (commands != null) {
-                        if (commands[0] == AdbSocketUtils.CONNECTIONED_COMMANDE) {//连接命令
+                        if ((int)commands[0] == AdbSocketUtils.CONNECTIONED_COMMANDE) {//连接命令
                             setIsConnectonPc(true);
                             mHandler.sendEmptyMessage(AdbSocketUtils.CONNECTIONED_COMMANDE);
                         }else if ((int) commands[0] >= AdbSocketUtils.PC_RETURN_COMMAND) {//pc返回命令
-                            if(commands[0]==AdbSocketUtils.CLOSE_CONNECTION_COMMAND){//关闭连接
+                            if((int)commands[0]==AdbSocketUtils.CLOSE_CONNECTION_COMMAND){//关闭连接
                                 dealConnectionCloseException();
                             }else {
                                 Message message = mHandler.obtainMessage(AdbSocketUtils.PC_RETURN_COMMAND);
                                 message.obj = commands;
                                 message.sendToTarget();
+                            }
+                        }else if((int)commands[0]==AdbSocketUtils.PRE_ONE_COMMANDE){//预传输命令
+                            try {
+                                writeContent(AdbSocketUtils.PRE_TWO_COMMANDE+"?",mPCSocketChannel);
+                            } catch (IOException e) {
+                                e.printStackTrace();
                             }
                         }
                     }
