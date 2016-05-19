@@ -156,12 +156,13 @@ public class DeviceApplication extends BaseApplication {
             dBdata.setPatrols(patrolItemDatas);
             if(taskDatas!=null&&taskDatas.size()>0){
                 for(TaskData taskData:taskDatas){
-                    String status = taskData.getTaskState();
-                    if(Const.TASK_STATE_DEALED.equals(status)){
-                        taskData.setTaskState("2");
-                    }else{
-                        taskData.setTaskState("1");
-                    }
+                    taskData.setTaskState("2");
+//                    String status = taskData.getTaskState();
+//                    if(Const.TASK_STATE_DEALED.equals(status)){
+//                        taskData.setTaskState("2");
+//                    }else{
+//                        taskData.setTaskState("1");
+//                    }
                 }
             }
             dBdata.setTasks(taskDatas);
@@ -207,12 +208,13 @@ public class DeviceApplication extends BaseApplication {
                     ObjectMapper objectMapper = new ObjectMapper();
                     final DBdata dBdata = objectMapper.readValue(result, DBdata.class);
                     ((TextView) netLoadingWindow.getViewById(R.id.net_loading_tip)).setText("获取数据成功，正在本地化......");
-                    AsyncTask<Void,Void,Void> task = new AsyncTask<Void, Void, Void>() {
+                    AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
                         @Override
                         protected Void doInBackground(Void... params) {
                             saveDatasFromPC(dBdata);
                             return null;
                         }
+
                         @Override
                         protected void onPostExecute(Void result) {
                             netLoadingWindow.getPopupWindow().dismiss();
