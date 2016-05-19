@@ -200,11 +200,31 @@ public abstract class AdbSocketConnectionThread extends Thread {
         byte[] dataFromChannel = new byte[0];
         int count;
         int allCount = 0;
-        while ((count=readableChannel.read(byteBuffer))>=0||allCount<AdbSocketUtils.sPreLen){
+        while ((count=readableChannel.read(byteBuffer))>=0){
+            if(count==0){//是否读取完毕
+                String commandData = new String(dataFromChannel, AdbSocketUtils.CHARSET);
+                Object[] commands = resolveRawCommand(commandData);
+                if(commands!=null&&commands.length>=1){
+                    if((int)commands[0]==AdbSocketUtils.GET_ALL_INFOS_COMMANDE
+                            ||(int)commands[0]==AdbSocketUtils.UPLOAD_DB_COMMAND){//如果是上传或者下载命令
+                        if(allCount<AdbSocketUtils.sPreLen){//等待
+                            continue;
+                        }else{//结束
+                            AdbSocketUtils.sPreLen=0;
+                            break;
+                        }
+                    }else{
+                        break;
+                    }
+                }else{
+                    break;
+                }
+            }
             byteBuffer.flip();
             byte[] content = new byte[count];
             byteBuffer.get(content);
             dataFromChannel = mergeByteArray(dataFromChannel,content);
+            allCount+=count;
             byteBuffer.clear();
         }
         String commandData = new String(dataFromChannel, AdbSocketUtils.CHARSET);

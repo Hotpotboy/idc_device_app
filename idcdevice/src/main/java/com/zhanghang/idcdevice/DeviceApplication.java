@@ -2,6 +2,7 @@ package com.zhanghang.idcdevice;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -202,15 +203,26 @@ public class DeviceApplication extends BaseApplication {
         Request.addRequestForCode(AdbSocketUtils.GET_ALL_INFOS_COMMANDE, "", new Request.CallBack() {
             @Override
             public void onSuccess(String result) {
-                netLoadingWindow.getPopupWindow().dismiss();
-                ObjectMapper objectMapper = new ObjectMapper();
                 try {
-                    DBdata dBdata = objectMapper.readValue(result, DBdata.class);
-                    saveDatasFromPC(dBdata);
-                    if (mOnDataDownFinishedListeners.size() > 0) {
-                        for (OnDataDownFinishedListener item : mOnDataDownFinishedListeners)
-                            item.onDown();
-                    }
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    final DBdata dBdata = objectMapper.readValue(result, DBdata.class);
+                    ((TextView) netLoadingWindow.getViewById(R.id.net_loading_tip)).setText("获取数据成功，正在本地化......");
+                    AsyncTask<Void,Void,Void> task = new AsyncTask<Void, Void, Void>() {
+                        @Override
+                        protected Void doInBackground(Void... params) {
+                            saveDatasFromPC(dBdata);
+                            return null;
+                        }
+                        @Override
+                        protected void onPostExecute(Void result) {
+                            netLoadingWindow.getPopupWindow().dismiss();
+                            if (mOnDataDownFinishedListeners.size() > 0) {
+                                for (OnDataDownFinishedListener item : mOnDataDownFinishedListeners)
+                                    item.onDown();
+                            }
+                        }
+                    };
+                    task.execute();
                 } catch (IOException e) {
                     e.printStackTrace();
                     Toast.makeText(activity, "解析数据失败……", Toast.LENGTH_LONG).show();

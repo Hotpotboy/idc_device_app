@@ -3,6 +3,7 @@ package com.zhanghang.idcdevice.fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,8 @@ import java.util.List;
  * Created by Administrator on 2016-04-11.
  */
 public class DeviceListFragment extends BaseListFragment<DeviceData> implements DeviceApplication.OnDataDownFinishedListener {
+    private FragmentManager mFragmentManager;
+
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle onSavedInstance){
         ((DeviceApplication)DeviceApplication.getInstance()).addDataDownFinishedListener(this);
@@ -67,7 +70,10 @@ public class DeviceListFragment extends BaseListFragment<DeviceData> implements 
     }
 
     private DeviceFragment getDeviceFragment(){
-        List<Fragment> fragments = getFragmentManager().getFragments();
+        if(mFragmentManager==null){
+            mFragmentManager = getFragmentManager();
+        }
+        List<Fragment> fragments = mFragmentManager.getFragments();
         for(Fragment item:fragments){
             if(item instanceof DeviceFragment){
                 return (DeviceFragment) item;

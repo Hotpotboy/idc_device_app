@@ -35,9 +35,9 @@ public class AdbSocketUtils {
     public static final int PC_RETURN_COMMAND = 602;
     /**登陆命令,登陆命令的格式为{“userName”:”yhm”,”password”:”123456"}*/
     public static final int LOGIN_IN_COMMANDE = PC_RETURN_COMMAND+1;
-    /**获取巡检、设备信息的命令*/
+    /**获取巡检、设备信息的命令，此命令分为两步，第一步先传递获取内容的总长度，第二步在传递获取内容*/
     public static final int GET_ALL_INFOS_COMMANDE = PC_RETURN_COMMAND + 2;
-    /**上传数据库命令*/
+    /**上传数据库命令，此命令分为两步，第一步先传递上传数据的总长度，第二步在传递上传数据*/
     public static final int UPLOAD_DB_COMMAND = PC_RETURN_COMMAND+3;
     /**手机关闭连接命令*/
     public static final int CLOSE_CONNECTION_COMMAND = PC_RETURN_COMMAND + 4;
@@ -67,7 +67,7 @@ public class AdbSocketUtils {
     static final String[] NET_ERRO_INFOS = {"请求参数为空!","与网络接口所在的服务端连接失败!","发送请求失败!",
                                                     "连接超时，请检查网络!","不能从HTTP连接中获取响应!","读取响应数据错误!",""};
     /**预传输的长度*/
-    static int sPreLen;
+    public static int sPreLen;
     /**预传输的内容*/
     static String sPreStr;
 

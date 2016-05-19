@@ -212,13 +212,24 @@ public class AdbSocketClient extends AdbSocketConnectionThread {
                 netResponseModel.setErroCode(AdbSocketUtils.NET_RESPONSE_SUC);
                 result = code + "?"+netResponseModel.toString();
                 break;
+            case AdbSocketUtils.PRE_ONE_COMMANDE:
+                AdbSocketUtils.sPreLen = Integer.valueOf(command);
+                result = code + "?";
+                break;
         }
         if (mSocketChannel != null && mSocketChannel.isConnected()) {
             try {
                 if (code == AdbSocketUtils.GET_ALL_INFOS_COMMANDE) {//需要进入预传输
                     AdbSocketUtils.sPreStr = result;
                     int len = result.getBytes(AdbSocketUtils.CHARSET).length;
-                    writeContent(AdbSocketUtils.PRE_ONE_COMMANDE +"?"+len,mSocketChannel);
+                    writeContent(AdbSocketUtils.PRE_ONE_COMMANDE + "?" + len, mSocketChannel);
+                }else if(code == AdbSocketUtils.PRE_ONE_COMMANDE){//完成预传输命令
+                    NetResponseModel netResponseModel = new NetResponseModel();
+                    netResponseModel.setErroCode(AdbSocketUtils.NET_RESPONSE_SUC);
+                    result = code + "?"+netResponseModel.toString();
+                    writeContent(result, mSocketChannel);
+                }else if(code == AdbSocketUtils.PRE_TWO_COMMANDE){//完成下载命令
+                    writeContent(AdbSocketUtils.sPreStr, mSocketChannel);
                 }else{
                     writeContent(result, mSocketChannel);
                 }

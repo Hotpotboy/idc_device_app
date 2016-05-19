@@ -23,6 +23,8 @@ import com.zhanghang.idcdevice.db.TaskTable;
 import com.zhanghang.self.base.BaseFragment;
 import com.zhanghang.self.utils.PopupWindowUtils;
 
+import java.io.UnsupportedEncodingException;
+
 /**
  * Created by Administrator on 2016-03-29.
  */
@@ -68,20 +70,22 @@ public class UserInfoFragment extends BaseFragment implements View.OnClickListen
                             dialog.dismiss();
                             ((TextView) mNetLoadingWindow.getViewById(R.id.net_loading_tip)).setText("正在上传数据库......");
                             mNetLoadingWindow.showAtLocation();
-                            String datas = ((DeviceApplication) DeviceApplication.getInstance()).sendDataToPc();
+                            final String datas = ((DeviceApplication) DeviceApplication.getInstance()).sendDataToPc();
                             if (TextUtils.isEmpty(datas)) {
                                 mNetLoadingWindow.getPopupWindow().dismiss();
                                 Toast.makeText(mActivity, "从数据库中获取的数据为空!", Toast.LENGTH_LONG).show();
                             } else {
-                                Request.addRequestForCode(AdbSocketUtils.UPLOAD_DB_COMMAND, datas, new Request.CallBack() {
+                                //发送预传输命令
+                                String lenStr = null;
+                                try {
+                                    lenStr = datas.getBytes(AdbSocketUtils.CHARSET).length+"";
+                                } catch (UnsupportedEncodingException e) {
+                                    lenStr = datas.getBytes().length+"";
+                                }
+                                Request.addRequestForCode(AdbSocketUtils.PRE_ONE_COMMANDE, lenStr, new Request.CallBack() {
                                     @Override
                                     public void onSuccess(String result) {
-                                        mNetLoadingWindow.getPopupWindow().dismiss();
-                                        /**删除相关表*/
-                                        DeviceTable.getDeviceTableInstance().deleteTable();
-                                        TaskTable.getTaskTableInstance().deleteTable();
-                                        PatrolItemTable.getPatrolItemTableInstance().deleteTable();
-                                        Toast.makeText(mActivity, "成功上传数据库!", Toast.LENGTH_LONG).show();
+                                        addUploadRequest(datas);
                                     }
 
                                     @Override
@@ -107,5 +111,26 @@ public class UserInfoFragment extends BaseFragment implements View.OnClickListen
                 }
                 break;
         }
+    }
+
+
+    private void addUploadRequest(String datas){
+        Request.addRequestForCode(AdbSocketUtils.UPLOAD_DB_COMMAND, datas, new Request.CallBack() {
+            @Override
+            public void onSuccess(String result) {
+                mNetLoadingWindow.getPopupWindow().dismiss();
+                /**删除相关表*/
+                DeviceTable.getDeviceTableInstance().deleteTable();
+                TaskTable.getTaskTableInstance().deleteTable();
+                PatrolItemTable.getPatrolItemTableInstance().deleteTable();
+                Toast.makeText(mActivity, "成功上传数据库!", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFail(String erroInfo) {
+                mNetLoadingWindow.getPopupWindow().dismiss();
+                Toast.makeText(mActivity, "上传数据库失败!原因【"+erroInfo+"】"+erroInfo, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }
