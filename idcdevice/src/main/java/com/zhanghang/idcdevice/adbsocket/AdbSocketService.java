@@ -112,15 +112,6 @@ public class AdbSocketService extends Service {
                         }else if ((int) commands[0] >= AdbSocketUtils.PC_RETURN_COMMAND) {//pc返回命令
                             if((int)commands[0]==AdbSocketUtils.CLOSE_CONNECTION_COMMAND){//关闭连接
                                 dealConnectionCloseException();
-                            }else if((int)commands[0]==AdbSocketUtils.PRE_ONE_COMMANDE){//完成预传输第一步命令
-                                try {
-                                    AdbSocketUtils.sPreLen = Integer.valueOf((String)commands[1]);
-                                    writeContent(AdbSocketUtils.PRE_TWO_COMMANDE+"?",mPCSocketChannel);//仅需预传输第二步
-                                } catch (Exception e) {
-                                    Message message = mHandler.obtainMessage(AdbSocketUtils.PC_RETURN_COMMAND);
-                                    message.obj = commands;
-                                    message.sendToTarget();
-                                }
                             }else {
                                 Message message = mHandler.obtainMessage(AdbSocketUtils.PC_RETURN_COMMAND);
                                 message.obj = commands;

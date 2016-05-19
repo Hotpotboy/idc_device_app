@@ -75,17 +75,15 @@ public class UserInfoFragment extends BaseFragment implements View.OnClickListen
                                 mNetLoadingWindow.getPopupWindow().dismiss();
                                 Toast.makeText(mActivity, "从数据库中获取的数据为空!", Toast.LENGTH_LONG).show();
                             } else {
-                                //发送预传输命令
-                                String lenStr = null;
-                                try {
-                                    lenStr = datas.getBytes(AdbSocketUtils.CHARSET).length+"";
-                                } catch (UnsupportedEncodingException e) {
-                                    lenStr = datas.getBytes().length+"";
-                                }
-                                Request.addRequestForCode(AdbSocketUtils.PRE_ONE_COMMANDE, lenStr, new Request.CallBack() {
+                                Request.addRequestForCode(AdbSocketUtils.UPLOAD_DB_COMMAND, datas, new Request.CallBack() {
                                     @Override
                                     public void onSuccess(String result) {
-                                        addUploadRequest(datas);
+                                        mNetLoadingWindow.getPopupWindow().dismiss();
+                                        /**删除相关表*/
+                                        DeviceTable.getDeviceTableInstance().deleteTable();
+                                        TaskTable.getTaskTableInstance().deleteTable();
+                                        PatrolItemTable.getPatrolItemTableInstance().deleteTable();
+                                        Toast.makeText(mActivity, "成功上传数据库!", Toast.LENGTH_LONG).show();
                                     }
 
                                     @Override
@@ -106,31 +104,11 @@ public class UserInfoFragment extends BaseFragment implements View.OnClickListen
                     intent = new Intent(mActivity, LoginActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     startActivity(intent);
+                    mActivity.finish();
                 }else{
                     Toast.makeText(mActivity, "还未上传数据，退出之前，请点击【上传当前数据】按钮进行数据上传!", Toast.LENGTH_LONG).show();
                 }
                 break;
         }
-    }
-
-
-    private void addUploadRequest(String datas){
-        Request.addRequestForCode(AdbSocketUtils.UPLOAD_DB_COMMAND, datas, new Request.CallBack() {
-            @Override
-            public void onSuccess(String result) {
-                mNetLoadingWindow.getPopupWindow().dismiss();
-                /**删除相关表*/
-                DeviceTable.getDeviceTableInstance().deleteTable();
-                TaskTable.getTaskTableInstance().deleteTable();
-                PatrolItemTable.getPatrolItemTableInstance().deleteTable();
-                Toast.makeText(mActivity, "成功上传数据库!", Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onFail(String erroInfo) {
-                mNetLoadingWindow.getPopupWindow().dismiss();
-                Toast.makeText(mActivity, "上传数据库失败!原因【"+erroInfo+"】"+erroInfo, Toast.LENGTH_LONG).show();
-            }
-        });
     }
 }

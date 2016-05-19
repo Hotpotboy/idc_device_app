@@ -26,7 +26,7 @@ public class AdbSocketUtils {
     /**命令的位数*/
     public static final int COMMAND_LEN = 3;
     /**每一个命令的结束符*/
-//    public static final String END_COMMAND = "_END";
+    public static final String END_COMMAND = "_ADBCONNECTIONEND";
     /**建立链接命令*/
     public static final int CONNECTIONED_COMMANDE = 600;
     /**连接丢失*/
@@ -43,10 +43,10 @@ public class AdbSocketUtils {
     public static final int CLOSE_CONNECTION_COMMAND = PC_RETURN_COMMAND + 4;
     /**登出命令*/
     public static final int LOGIN_OUT_COMMANDE = PC_RETURN_COMMAND+5;
-    /**预传输长度命令1*/
-    public static final int PRE_ONE_COMMANDE = PC_RETURN_COMMAND+6;
-    /**预传输长度命令2*/
-    public static final int PRE_TWO_COMMANDE = PC_RETURN_COMMAND+7;
+//    /**预传输长度命令1*/
+//    public static final int PRE_ONE_COMMANDE = PC_RETURN_COMMAND+6;
+//    /**预传输长度命令2*/
+//    public static final int PRE_TWO_COMMANDE = PC_RETURN_COMMAND+7;
     /**与网络服务端连接，参数为空错误*/
     public static final int NET_NULL_PARAM_ERRO = 800;
     /**与网络服务端连接，服务器连接失败错误*/
@@ -66,10 +66,10 @@ public class AdbSocketUtils {
     /**错误码与描述信息的映射数组，以{@link #NET_NULL_PARAM_ERRO}为基数索引*/
     static final String[] NET_ERRO_INFOS = {"请求参数为空!","与网络接口所在的服务端连接失败!","发送请求失败!",
                                                     "连接超时，请检查网络!","不能从HTTP连接中获取响应!","读取响应数据错误!",""};
-    /**预传输的长度*/
-    public static int sPreLen;
-    /**预传输的内容*/
-    static String sPreStr;
+//    /**预传输的长度*/
+//    public static int sPreLen;
+//    /**预传输的内容*/
+//    static String sPreStr;
 
     /**
      * 根据错误码获取对应的错误描述

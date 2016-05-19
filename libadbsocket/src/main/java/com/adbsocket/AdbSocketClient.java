@@ -130,7 +130,7 @@ public class AdbSocketClient extends AdbSocketConnectionThread {
         }
         if (isConnected) {
             mSocketChannel = socketChannel;
-            writeContent(AdbSocketUtils.CONNECTIONED_COMMANDE + "", socketChannel);
+            writeToAdbSocket(AdbSocketUtils.CONNECTIONED_COMMANDE + "", socketChannel);
             System.out.println("[adb socket:]_______________________________建立连接成功……");
         }
     }
@@ -199,7 +199,6 @@ public class AdbSocketClient extends AdbSocketConnectionThread {
                 break;
             case AdbSocketUtils.GET_ALL_INFOS_COMMANDE://获取所有数据
                 netResult = getMsgFromNet(AdbSocketUtils.HttpMethod.POST, AdbSocketUtils.DOWNLOAD_URL, command);//下载
-//                result =code + "?{\"devices\":[{ \"deviceId\":1, \"deviceName\":\"IBM网络服务器【1】\", \"deviceNum\":\"0000000000000001\", \"assetNum\":\"7854691\", \"assetSerialNum\":\"7854691\", \"entityAssetNum\":\"IBM-PSO123456-1\", \"assetType1\":\"电脑\", \"assetType2\":\"网络电脑\", \"assetType3\":\"网络服务器电脑\", \"deviceModel\":\"网络服务器电脑\", \"city\":\"北京\", \"idcRoom\":\"服务器机房1\", \"cabinet\":\"第1机柜\", \"position\":\"第1位置\" }, { \"deviceId\":2, \"deviceName\":\"IBM网络服务器【2】\", \"deviceNum\":\"0000000000000002\", \"assetNum\":\"7854692\", \"assetSerialNum\":\"7854692\", \"entityAssetNum\":\"IBM-PSO123456-2\", \"assetType1\":\"电脑\", \"assetType2\":\"网络电脑\", \"assetType3\":\"网络服务器电脑\", \"deviceModel\":\"网络服务器电脑\", \"city\":\"北京\", \"idcRoom\":\"服务器机房1\", \"cabinet\":\"第1机柜\", \"position\":\"第2位置\" }, { \"deviceId\":3, \"deviceName\":\"IBM网络服务器【3】\", \"deviceNum\":\"0000000000000003\", \"assetNum\":\"7854693\", \"assetSerialNum\":\"7854693\", \"entityAssetNum\":\"IBM-PSO123456-3\", \"assetType1\":\"电脑\", \"assetType2\":\"网络电脑\", \"assetType3\":\"网络服务器电脑\", \"deviceModel\":\"网络服务器电脑\", \"city\":\"北京\", \"idcRoom\":\"服务器机房1\", \"cabinet\":\"第2机柜\", \"position\":\"第1位置\" }, { \"deviceId\":4, \"deviceName\":\"IBM网络服务器【4】\", \"deviceNum\":\"0000000000000004\", \"assetNum\":\"7854694\", \"assetSerialNum\":\"7854694\", \"entityAssetNum\":\"IBM-PSO123456-4\", \"assetType1\":\"电脑\", \"assetType2\":\"网络电脑\", \"assetType3\":\"网络服务器电脑\", \"deviceModel\":\"网络服务器电脑\", \"city\":\"北京\", \"idcRoom\":\"服务器机房1\", \"cabinet\":\"第2机柜\", \"position\":\"第2位置\" }, { \"deviceId\":5, \"deviceName\":\"IBM网络服务器【5】\", \"deviceNum\":\"0000000000000005\", \"assetNum\":\"7854695\", \"assetSerialNum\":\"7854695\", \"entityAssetNum\":\"IBM-PSO123456-5\", \"assetType1\":\"电脑\", \"assetType2\":\"网络电脑\", \"assetType3\":\"网络服务器电脑\", \"deviceModel\":\"网络服务器电脑\", \"city\":\"北京\", \"idcRoom\":\"服务器机房1\", \"cabinet\":\"第3机柜\", \"position\":\"第1位置\" },{ \"deviceId\":6, \"deviceName\":\"IBM网络服务器【6】\", \"deviceNum\":\"0000000000000006\", \"assetNum\":\"7854696\", \"assetSerialNum\":\"7854696\", \"entityAssetNum\":\"IBM-PSO123456-6\", \"assetType1\":\"电脑\", \"assetType2\":\"网络电脑\", \"assetType3\":\"网络服务器电脑\", \"deviceModel\":\"网络服务器电脑\", \"city\":\"北京\", \"idcRoom\":\"服务器机房1\", \"cabinet\":\"第3机柜\", \"position\":\"第2位置\" }],\"tasks\": [ {\"planedStartTime\":1450656000000,\"planedEndTime\":1482192000000,\"deviceType\":1,\"details\":\"详情详情详情详情详情详情…\",\"taskName\":\"日常巡检任务1\",\"taskId\":1 }, {\"planedStartTime\":1450656000000,\"planedEndTime\":1482192000000,\"deviceType\":1,\"details\":\"详情详情详情详情详情详情…\",\"taskName\":\"日常巡检任务2\",\"taskId\":2 }, {\"planedStartTime\":1450656000000,\"planedEndTime\":1482192000000,\"deviceType\":1,\"details\":\"详情详情详情详情详情详情…\",\"taskName\":\"日常巡检任务3\",\"taskId\":3 }, {\"planedStartTime\":1450656000000,\"planedEndTime\":1482192000000,\"deviceType\":1,\"details\":\"详情详情详情详情详情详情…\",\"taskName\":\"日常巡检任务4\",\"taskId\":4 }, {\"planedStartTime\":1450656000000,\"planedEndTime\":1482192000000,\"deviceType\":1,\"details\":\"详情详情详情详情详情详情…\",\"taskName\":\"日常巡检任务5\",\"taskId\":5 }],\"patrols\":[ {\"deviceType\":1,\"enable\":1,\"patrolId\":1,\"patrolItemName\":\"检查是否能够联网?\",\"patrolDetail\":\"通过访问浏览器，以及检测网线是否正常等手段来确定是否能上网!\",\"taskId\":1 }, {\"deviceType\":1,\"enable\":1,\"patrolId\":2,\"patrolItemName\":\"检查是否能够开关机?\",\"patrolDetail\":\"通过电源键来确定是否能开关机!\",\"taskId\":1 }, {\"deviceType\":1,\"enable\":1,\"patrolId\":3,\"patrolItemName\":\"检查是否能够扩展内存?\",\"patrolDetail\":\"通过相关检测软件来确定是否能够扩展内存!\",\"taskId\":1 }, {\"deviceType\":1,\"enable\":1,\"patrolId\":4,\"patrolItemName\":\"检查是否能够联网?\",\"patrolDetail\":\"通过访问浏览器，以及检测网线是否正常等手段来确定是否能上网!\",\"taskId\":1 }, {\"deviceType\":1,\"enable\":1,\"patrolId\":5,\"patrolItemName\":\"检查是否能够联网?\",\"patrolDetail\":\"通过访问浏览器，以及检测网线是否正常等手段来确定是否能上网!\",\"taskId\":1 }, {\"deviceType\":1,\"enable\":1,\"patrolId\":6,\"patrolItemName\":\"检查是否能够联网?\",\"patrolDetail\":\"通过访问浏览器，以及检测网线是否正常等手段来确定是否能上网!\",\"taskId\":2 }, {\"deviceType\":1,\"enable\":1,\"patrolId\":7,\"patrolItemName\":\"检查是否能够开关机?\",\"patrolDetail\":\"通过电源键来确定是否能开关机!\",\"taskId\":2 }, {\"deviceType\":1,\"enable\":1,\"patrolId\":8,\"patrolItemName\":\"检查是否能够扩展内存?\",\"patrolDetail\":\"通过相关检测软件来确定是否能够扩展内存!\",\"taskId\":2 }, {\"deviceType\":1,\"enable\":1,\"patrolId\":9,\"patrolItemName\":\"检查是否能够联网?\",\"patrolDetail\":\"通过访问浏览器，以及检测网线是否正常等手段来确定是否能上网!\",\"taskId\":2 }, {\"deviceType\":1,\"enable\":1,\"patrolId\":10,\"patrolItemName\":\"检查是否能够联网?\",\"patrolDetail\":\"通过访问浏览器，以及检测网线是否正常等手段来确定是否能上网!\",\"taskId\":2 }, {\"deviceType\":1,\"enable\":1,\"patrolId\":11,\"patrolItemName\":\"检查是否能够联网?\",\"patrolDetail\":\"通过访问浏览器，以及检测网线是否正常等手段来确定是否能上网!\",\"taskId\":3 }, {\"deviceType\":1,\"enable\":1,\"patrolId\":12,\"patrolItemName\":\"检查是否能够开关机?\",\"patrolDetail\":\"通过电源键来确定是否能开关机!\",\"taskId\":3 }, {\"deviceType\":1,\"enable\":1,\"patrolId\":13,\"patrolItemName\":\"检查是否能够扩展内存?\",\"patrolDetail\":\"通过相关检测软件来确定是否能够扩展内存!\",\"taskId\":3 }, {\"deviceType\":1,\"enable\":1,\"patrolId\":14,\"patrolItemName\":\"检查是否能够联网?\",\"patrolDetail\":\"通过访问浏览器，以及检测网线是否正常等手段来确定是否能上网!\",\"taskId\":3 }, {\"deviceType\":1,\"enable\":1,\"patrolId\":5,\"patrolItemName\":\"检查是否能够联网?\",\"patrolDetail\":\"通过访问浏览器，以及检测网线是否正常等手段来确定是否能上网!\",\"taskId\":3 }, {\"deviceType\":1,\"enable\":1,\"patrolId\":16,\"patrolItemName\":\"检查是否能够联网?\",\"patrolDetail\":\"通过访问浏览器，以及检测网线是否正常等手段来确定是否能上网!\",\"taskId\":4 }, {\"deviceType\":1,\"enable\":1,\"patrolId\":17,\"patrolItemName\":\"检查是否能够开关机?\",\"patrolDetail\":\"通过电源键来确定是否能开关机!\",\"taskId\":4 }, {\"deviceType\":1,\"enable\":1,\"patrolId\":18,\"patrolItemName\":\"检查是否能够扩展内存?\",\"patrolDetail\":\"通过相关检测软件来确定是否能够扩展内存!\",\"taskId\":4 }, {\"deviceType\":1,\"enable\":1,\"patrolId\":19,\"patrolItemName\":\"检查是否能够联网?\",\"patrolDetail\":\"通过访问浏览器，以及检测网线是否正常等手段来确定是否能上网!\",\"taskId\":4 }, {\"deviceType\":1,\"enable\":1,\"patrolId\":20,\"patrolItemName\":\"检查是否能够联网?\",\"patrolDetail\":\"通过访问浏览器，以及检测网线是否正常等手段来确定是否能上网!\",\"taskId\":4 }, {\"deviceType\":1,\"enable\":1,\"patrolId\":21,\"patrolItemName\":\"检查是否能够联网?\",\"patrolDetail\":\"通过访问浏览器，以及检测网线是否正常等手段来确定是否能上网!\",\"taskId\":5 }, {\"deviceType\":1,\"enable\":1,\"patrolId\":22,\"patrolItemName\":\"检查是否能够开关机?\",\"patrolDetail\":\"通过电源键来确定是否能开关机!\",\"taskId\":5 }, {\"deviceType\":1,\"enable\":1,\"patrolId\":23,\"patrolItemName\":\"检查是否能够扩展内存?\",\"patrolDetail\":\"通过相关检测软件来确定是否能够扩展内存!\",\"taskId\":5 }, {\"deviceType\":1,\"enable\":1,\"patrolId\":24,\"patrolItemName\":\"检查是否能够联网?\",\"patrolDetail\":\"通过访问浏览器，以及检测网线是否正常等手段来确定是否能上网!\",\"taskId\":5 }, {\"deviceType\":1,\"enable\":1,\"patrolId\":25,\"patrolItemName\":\"检查是否能够联网?\",\"patrolDetail\":\"通过访问浏览器，以及检测网线是否正常等手段来确定是否能上网!\",\"taskId\":5 }]}";
                 result = code + "?" + netResult;
                 break;
             case AdbSocketUtils.UPLOAD_DB_COMMAND://上传数据库
@@ -212,27 +211,10 @@ public class AdbSocketClient extends AdbSocketConnectionThread {
                 netResponseModel.setErroCode(AdbSocketUtils.NET_RESPONSE_SUC);
                 result = code + "?"+netResponseModel.toString();
                 break;
-            case AdbSocketUtils.PRE_ONE_COMMANDE:
-                AdbSocketUtils.sPreLen = Integer.valueOf(command);
-                result = code + "?";
-                break;
         }
         if (mSocketChannel != null && mSocketChannel.isConnected()) {
             try {
-                if (code == AdbSocketUtils.GET_ALL_INFOS_COMMANDE) {//需要进入预传输
-                    AdbSocketUtils.sPreStr = result;
-                    int len = result.getBytes(AdbSocketUtils.CHARSET).length;
-                    writeContent(AdbSocketUtils.PRE_ONE_COMMANDE + "?" + len, mSocketChannel);
-                }else if(code == AdbSocketUtils.PRE_ONE_COMMANDE){//完成预传输命令
-                    NetResponseModel netResponseModel = new NetResponseModel();
-                    netResponseModel.setErroCode(AdbSocketUtils.NET_RESPONSE_SUC);
-                    result = code + "?"+netResponseModel.toString();
-                    writeContent(result, mSocketChannel);
-                }else if(code == AdbSocketUtils.PRE_TWO_COMMANDE){//完成下载命令
-                    writeContent(AdbSocketUtils.sPreStr, mSocketChannel);
-                }else{
-                    writeContent(result, mSocketChannel);
-                }
+                writeToAdbSocket(result, mSocketChannel);
             } catch (IOException e) {
                 e.printStackTrace();
             }

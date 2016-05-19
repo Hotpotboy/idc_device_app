@@ -37,24 +37,6 @@ public class DeviceListFragment extends BaseListFragment<DeviceData> implements 
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        for(int i=0;i<9;i++) {
-//            DeviceData deviceData = new DeviceData();
-//            deviceData.setDeviceId(i+1);
-//            deviceData.setDeviceName("IBM网络服务器【" + i + "】");
-//            deviceData.setDeviceNum("000000000000000" + (i + 1));
-//            deviceData.setAssetNum((785469 + i) + "");
-//            deviceData.setAssetSerialNum((785469 + i) + "");
-//            deviceData.setEntityAssetNum("IBM-PSO123456-" + i + "");
-//            deviceData.setAssetType1("电脑");
-//            deviceData.setAssetType2("网络电脑");
-//            deviceData.setAssetType3("网络服务器电脑");
-//            deviceData.setDeviceModel("网络服务器电脑");
-//            deviceData.setCity("北京");
-//            deviceData.setIdcRoom("服务器机房1");
-//            deviceData.setCabinet("第" + (1 + i / 3) + "机柜");
-//            deviceData.setPosition("第" + (1 + i % 3) + "位置");
-//            mDatas.add(deviceData);
-//        }
         DeviceFragment deviceFragment = getDeviceFragment();
         if(mDatas!=null&&mDatas.size()>0) {
             deviceFragment.showList(true);
@@ -69,10 +51,16 @@ public class DeviceListFragment extends BaseListFragment<DeviceData> implements 
         }
     }
 
+    @Override
+    public void onDestroyView(){
+        super.onDestroyView();
+        ((DeviceApplication)DeviceApplication.getInstance()).removeDataDownFinishedListener(this);
+    }
+
     private DeviceFragment getDeviceFragment(){
-        if(mFragmentManager==null){
+//        if(mFragmentManager==null){
             mFragmentManager = getFragmentManager();
-        }
+//        }
         List<Fragment> fragments = mFragmentManager.getFragments();
         for(Fragment item:fragments){
             if(item instanceof DeviceFragment){

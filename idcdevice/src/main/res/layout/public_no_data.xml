@@ -1,47 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/public_no_data"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:visibility="gone">
 
-    <ScrollView
-        android:layout_width="match_parent"
+    <ImageView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:scrollbars="vertical">
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="@dimen/fifty_dp"
+        android:paddingTop="@dimen/one_hundred_dp"
+        android:src="@drawable/no_data" />
 
-        <LinearLayout
-            android:id="@+id/public_no_data"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/white"
-            android:orientation="vertical"
-            android:visibility="gone">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="@dimen/fifty_dp"
+        android:text="抱歉,当前没有数据!"
+        android:textSize="@dimen/thirty_sp" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:paddingBottom="@dimen/fifty_dp"
-                android:paddingTop="@dimen/one_hundred_dp"
-                android:src="@drawable/no_data" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:paddingBottom="@dimen/fifty_dp"
-                android:text="抱歉,当前没有数据!"
-                android:textSize="@dimen/thirty_sp" />
-
-            <Button
-                android:id="@+id/public_noData_downLoad"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/button_selector"
-                android:padding="@dimen/twenty_dp"
-                android:text="下载数据"
-                android:textColor="@color/idc_ffffff"
-                android:textSize="@dimen/thirty_sp" />
-        </LinearLayout>
-    </ScrollView>
-</FrameLayout>
+    <Button
+        android:id="@+id/public_noData_downLoad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/button_selector"
+        android:padding="@dimen/twenty_dp"
+        android:text="下载数据"
+        android:textColor="@color/idc_ffffff"
+        android:textSize="@dimen/thirty_sp" />
+</LinearLayout>

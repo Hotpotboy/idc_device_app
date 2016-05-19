@@ -47,6 +47,12 @@ public class DeviceApplication extends BaseApplication {
         }
     }
 
+    public void removeDataDownFinishedListener(OnDataDownFinishedListener listener) {
+        if (mOnDataDownFinishedListeners.contains(listener)) {
+            mOnDataDownFinishedListeners.remove(listener);
+        }
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
