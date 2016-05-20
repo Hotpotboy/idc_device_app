@@ -2,6 +2,7 @@ package com.zhanghang.idcdevice;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.Log;
@@ -40,6 +41,8 @@ import java.util.ArrayList;
 public class DeviceApplication extends BaseApplication {
     private ArrayList<OnDataDownFinishedListener> mOnDataDownFinishedListeners = new ArrayList<>();
     private static String TAG = "DeviceApplication.class";
+    /**监听USB插入广播*/
+    private USBBroadcastReceiver mUsbBroadcastReceiver;
 
     public void addDataDownFinishedListener(OnDataDownFinishedListener listener) {
         if (!mOnDataDownFinishedListeners.contains(listener)) {
@@ -58,10 +61,15 @@ public class DeviceApplication extends BaseApplication {
         super.onCreate();
         Intent intent = new Intent(this, AdbSocketService.class);
         startService(intent);
+        mUsbBroadcastReceiver = new USBBroadcastReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("android.hardware.usb.action.USB_STATE");
+        registerReceiver(mUsbBroadcastReceiver,intentFilter);
     }
 
     public void stop(final Activity activity) {
         mOnDataDownFinishedListeners.clear();
+        unregisterReceiver(mUsbBroadcastReceiver);
         if (Const.isConnetionToPc()) {
             Request.addRequestForCode(AdbSocketUtils.CLOSE_CONNECTION_COMMAND, "", null);
             activity.finish();

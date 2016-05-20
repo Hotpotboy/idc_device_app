@@ -40,6 +40,8 @@ public class Const {
     public static final String INTENT_KEY_TASK_DATA = "intent_key_task_data";
     /**加载Fragmentd的key*/
     public static final String INTENT_KEY_LOAD_FRAGMENT = "intent_key_load_fragment";
+    /**{@link DialogActivity}展示值的key*/
+    public static final String INTENT_KEY_DIALOG_ACTIVITY_SHOW = "intent_key_dialog_activity_show";
     /*************相关的工具方法***********************************************/
     /**
      * 改变一个指定字符串中指定子集的颜色

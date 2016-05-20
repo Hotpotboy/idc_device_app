@@ -32,6 +32,10 @@
             android:name="com.google.zxing.CaptureActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".DialogActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat.Dialog"/>
 
         <service android:name=".adbsocket.AdbSocketService" />
     </application>
