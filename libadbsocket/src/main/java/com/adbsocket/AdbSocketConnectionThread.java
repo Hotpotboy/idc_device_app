@@ -101,7 +101,7 @@ public abstract class AdbSocketConnectionThread extends Thread {
      */
     private int invokeSelector() throws IOException {
         try {
-            return selector.select(AdbSocketUtils.SLEEP_TIME);
+            return selector.select(AdbSocketUtils.SLEEP_TIME/10);
         } catch (IOException e) {
             e.printStackTrace();
             selector.close();
@@ -237,6 +237,10 @@ public abstract class AdbSocketConnectionThread extends Thread {
         }
         String commandData = new String(dataFromChannel, AdbSocketUtils.CHARSET);
         int index = commandData.lastIndexOf(AdbSocketUtils.END_COMMAND);
+        if(index==-1){//通信数据的格式不对，重启手机助手程序
+            dealConnectionCloseException();
+            return null;
+        }
         commandData = commandData.substring(0,index);
         return commandData;
     }

@@ -114,6 +114,9 @@ public class DeviceApplication extends BaseApplication {
                 for (PatrolItemData item : patrolItemDatas) {
                     try {
                         item.setId(BaseSQLiteHelper.getId());
+                        if(item.getEnable()==-1){
+                            item.setEnable(1);//默认为启用
+                        }
                         PatrolItemTable.getPatrolItemTableInstance().insertData(item);
                     } catch (Exception e) {
                         e.printStackTrace();

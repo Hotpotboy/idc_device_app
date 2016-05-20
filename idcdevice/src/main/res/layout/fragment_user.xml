@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/fifty_five_dp"
+            android:layout_marginTop="@dimen/seventy_dp"
             android:src="@drawable/cgb_logo" />
 
         <TextView
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/user_tip"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/one_hundred_dp"
+            android:layout_marginBottom="@dimen/seventy_dp"
             android:layout_marginTop="@dimen/twenty_eight_dp"
             android:text="版本  1.0"
             android:textColor="@android:color/white"
@@ -46,7 +46,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/user_tip1"
-            android:layout_marginBottom="@dimen/one_hundred_dp"
             android:orientation="vertical"
             android:paddingLeft="@dimen/twenty_dp">
 
@@ -174,28 +173,40 @@
                 android:background="@color/idc_838383" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/user_upload_data"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/eighty_dp"
+            android:layout_height="@dimen/sixty_dp"
             android:layout_below="@id/user_info_layout"
-            android:layout_margin="@dimen/thirty_dp"
-            android:background="@drawable/button_selector"
-            android:text="上传当前数据"
-            android:textColor="@color/idc_f5e9e9"
-            android:textSize="@dimen/thirty_sp" />
+            android:layout_marginLeft="@dimen/fifty_dp"
+            android:layout_marginRight="@dimen/fifty_dp"
+            android:layout_marginBottom="@dimen/seventy_dp"
+            android:layout_marginTop="@dimen/fifty_dp"
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/user_login_out"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/eighty_dp"
-            android:layout_below="@id/user_upload_data"
-            android:layout_marginLeft="@dimen/thirty_dp"
-            android:layout_marginRight="@dimen/thirty_dp"
-            android:layout_marginBottom="@dimen/thirty_dp"
-            android:background="@drawable/button_selector"
-            android:text="退出当前用户"
-            android:textColor="@color/idc_f5e9e9"
-            android:textSize="@dimen/thirty_sp" />
+            <Button
+                android:id="@+id/user_upload_data"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:background="@drawable/button_selector"
+                android:text="上传数据"
+                android:textColor="@color/idc_f5e9e9"
+                android:textSize="@dimen/thirty_sp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/user_login_out"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:background="@drawable/button_selector"
+                android:text="退出用户"
+                android:textColor="@color/idc_f5e9e9"
+                android:textSize="@dimen/thirty_sp" />
+        </LinearLayout>
     </RelativeLayout>
 </ScrollView>

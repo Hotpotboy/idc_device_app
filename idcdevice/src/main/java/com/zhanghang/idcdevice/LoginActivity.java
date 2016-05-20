@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,7 @@ import java.io.IOException;
 /**
  * Created by Administrator on 2016-04-20.
  */
-public class LoginActivity extends Activity implements View.OnClickListener {
+public class LoginActivity extends Activity implements View.OnClickListener,TextView.OnEditorActionListener {
     /**用户名视图*/
     private EditText mUserNameView;
     /**密码视图*/
@@ -43,6 +44,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         mLoginButton = (Button) findViewById(R.id.login_button);
         mNetLoadingWindow = PopupWindowUtils.getInstance(R.layout.net_loading,this,getWindow().getDecorView(), ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         mLoginButton.setOnClickListener(this);
+        mUserNameView.setOnEditorActionListener(this);
+        mPasswordView.setOnEditorActionListener(this);
     }
 
     @Override
@@ -106,5 +109,11 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             return true;
         }
         return super.onKeyDown(keyCode,event);
+    }
+
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        Log.e("",v.getClass().getSimpleName()+actionId);
+        return false;
     }
 }

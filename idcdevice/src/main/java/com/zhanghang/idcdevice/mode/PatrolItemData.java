@@ -15,7 +15,7 @@ public class PatrolItemData extends BaseData  implements Serializable {
     /**此巡检项对应的设备类别*/
     private String deviceType;
     /**启动状态*/
-    private int enable;
+    private int enable=-1;
     private long id;
     /**是否正常*/
     private int isNormal;
