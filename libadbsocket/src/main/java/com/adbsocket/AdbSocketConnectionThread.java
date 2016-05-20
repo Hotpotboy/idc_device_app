@@ -27,6 +27,8 @@ public abstract class AdbSocketConnectionThread extends Thread {
             e.printStackTrace();
         }
     }
+    /**PC端与手机端的连接通道*/
+    protected SocketChannel mSocketChannel;
 
     private boolean isStop;
 
@@ -150,8 +152,16 @@ public abstract class AdbSocketConnectionThread extends Thread {
     /**
      * 处理USB数据线断开时的异常
      */
-    protected void dealConnectionCloseException() {
-
+    protected void dealConnectionCloseException(){
+        if(mSocketChannel!=null) {
+            try {
+                selector.selectedKeys().remove(mSocketChannel.keyFor(selector));
+                mSocketChannel.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        mSocketChannel = null;
     }
 
     /**
@@ -180,11 +190,21 @@ public abstract class AdbSocketConnectionThread extends Thread {
      *
      * @param readableChannel
      */
-    protected abstract void readForChannal(ReadableByteChannel readableChannel) throws IOException, InterruptedException;
+    protected void readForChannal(ReadableByteChannel readableChannel) throws IOException, InterruptedException{
+        String command = readDataFromChannel(readableChannel);
+        Object[] commands = resolveRawCommand(command);
+        if (commands != null) {
+            resolveCommand((int) commands[0], (String) commands[1]);
+        }
+    }
 
-//    protected void writeContent(String content, WritableByteChannel writableByteChannel) throws IOException {
-//        writeToAdbSocket(content+AdbSocketUtils.END_COMMAND, writableByteChannel);
-//    }
+    /**
+     * 解析接收到的命令
+     *
+     * @param code    命令码
+     * @param command 除命令码之外的整个命令
+     */
+    protected abstract void resolveCommand(int code, String command);
 
     public static void writeToAdbSocket(String content, WritableByteChannel writableByteChannel) throws IOException {
         ByteBuffer byteBuffer = null;

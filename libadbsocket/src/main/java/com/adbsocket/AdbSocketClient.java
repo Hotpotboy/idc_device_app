@@ -39,7 +39,6 @@ public class AdbSocketClient extends AdbSocketConnectionThread {
      * Socket PC端通信线程
      */
     public static AdbSocketClient mSocketThread;
-    private SocketChannel mSocketChannel;
 
     static void initPipe() {
         try {
@@ -160,11 +159,7 @@ public class AdbSocketClient extends AdbSocketConnectionThread {
                 }
             }
         } else {
-            String command = readDataFromChannel(readableChannel);
-            Object[] commands = resolveRawCommand(command);
-            if (commands != null) {
-                resolveCommand((int) commands[0], (String) commands[1]);
-            }
+            super.readForChannal(readableChannel);
         }
     }
 
@@ -185,7 +180,7 @@ public class AdbSocketClient extends AdbSocketConnectionThread {
      * @param code    命令码
      * @param command 除命令码之外的整个命令
      */
-    private void resolveCommand(int code, String command) {
+    protected void resolveCommand(int code, String command) {
         String result = "";
         String netResult = "";
         switch (code) {
@@ -229,21 +224,6 @@ public class AdbSocketClient extends AdbSocketConnectionThread {
                 }.start();
             }
         }
-    }
-
-    /**
-     * 处理USB数据线断开时的异常
-     */
-    protected void dealConnectionCloseException() {
-        if (mSocketChannel != null) {
-            try {
-                selector.selectedKeys().remove(mSocketChannel.keyFor(selector));
-                mSocketChannel.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        mSocketChannel = null;
     }
 
     /**

@@ -75,7 +75,7 @@ public class Request {
                         AdbSocketConnectionThread.writeToAdbSocket(request.mContent,socketChannel);
                         request.unSendToWaiting();
                     } catch (IOException e) {
-                        request.waitingToEnd(false,"连接关闭……");
+                        request.waitingToEnd(false,"Socket连接丢失,请检查USB数据线……");
                     }
                 }
             }
