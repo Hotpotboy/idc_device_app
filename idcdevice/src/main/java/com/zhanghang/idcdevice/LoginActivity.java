@@ -1,14 +1,16 @@
 package com.zhanghang.idcdevice;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -17,7 +19,6 @@ import android.widget.Toast;
 import com.adbsocket.AdbSocketUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zhanghang.idcdevice.adbsocket.Request;
-import com.zhanghang.idcdevice.mode.DBdata;
 import com.zhanghang.idcdevice.mode.LoginResultData;
 import com.zhanghang.self.utils.PopupWindowUtils;
 
@@ -44,6 +45,8 @@ public class LoginActivity extends Activity implements View.OnClickListener,Text
         mLoginButton = (Button) findViewById(R.id.login_button);
         mNetLoadingWindow = PopupWindowUtils.getInstance(R.layout.net_loading,this,getWindow().getDecorView(), ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         mLoginButton.setOnClickListener(this);
+        mUserNameView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        mPasswordView.setImeOptions(EditorInfo.IME_ACTION_DONE);
         mUserNameView.setOnEditorActionListener(this);
         mPasswordView.setOnEditorActionListener(this);
     }
@@ -113,7 +116,16 @@ public class LoginActivity extends Activity implements View.OnClickListener,Text
 
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-        Log.e("",v.getClass().getSimpleName()+actionId);
+        if(actionId== EditorInfo.IME_ACTION_DONE){
+            if(v.getId()==R.id.login_username){
+                mUserNameView.clearFocus();
+                mPasswordView.requestFocus();
+            }else if(v.getId()==R.id.login_password){
+                mPasswordView.clearFocus();
+                InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                im.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),0);
+            }
+        }
         return false;
     }
 }
