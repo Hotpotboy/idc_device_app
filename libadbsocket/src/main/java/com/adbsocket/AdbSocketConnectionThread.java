@@ -24,7 +24,7 @@ public abstract class AdbSocketConnectionThread extends Thread {
         try {
             selector = Selector.open();
         } catch (IOException e) {
-            e.printStackTrace();
+            AdbSocketUtils.printLog(true, e);
         }
     }
     /**PC端与手机端的连接通道*/
@@ -51,18 +51,18 @@ public abstract class AdbSocketConnectionThread extends Thread {
                 }
             }
         } catch (ClosedChannelException e) {
-            e.printStackTrace();
+            AdbSocketUtils.printLog(true, e);
         } catch (IOException e) {
-            e.printStackTrace();
+            AdbSocketUtils.printLog(true, e);
         } finally {
             dealWhenIDEL();
             if (selector != null) {
                 try {
                     selector.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    AdbSocketUtils.printLog(true, e);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    AdbSocketUtils.printLog(true, e);
                 }
             }
             endThread();
@@ -105,7 +105,7 @@ public abstract class AdbSocketConnectionThread extends Thread {
         try {
             return selector.select(AdbSocketUtils.SLEEP_TIME/10);
         } catch (IOException e) {
-            e.printStackTrace();
+            AdbSocketUtils.printLog(true, e);
             selector.close();
             return -1;
         }
@@ -137,15 +137,15 @@ public abstract class AdbSocketConnectionThread extends Thread {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            AdbSocketUtils.printLog(true, e);
             if (e.toString().indexOf("远程主机强迫关闭了一个现有的连接") > 0
                     || e.toString().indexOf("Connection refused") > 0) {//USB连接断开
                 dealConnectionCloseException();
             }
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            AdbSocketUtils.printLog(true, e);
         } catch (Exception e) {
-            e.printStackTrace();
+            AdbSocketUtils.printLog(true, e);
         }
     }
 
@@ -158,7 +158,7 @@ public abstract class AdbSocketConnectionThread extends Thread {
                 selector.selectedKeys().remove(mSocketChannel.keyFor(selector));
                 mSocketChannel.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                AdbSocketUtils.printLog(true, e);
             }
         }
         mSocketChannel = null;
@@ -219,7 +219,7 @@ public abstract class AdbSocketConnectionThread extends Thread {
             byte[] contentBytes = new byte[byteBuffer.position()];
             byteBuffer.flip();
             byteBuffer.get(contentBytes);
-            System.out.println("写入内容【" + new String(contentBytes) + "】到adb socket之中");
+            AdbSocketUtils.printLog(false, "写入内容【" + new String(contentBytes) + "】到adb socket之中");
         }
     }
 

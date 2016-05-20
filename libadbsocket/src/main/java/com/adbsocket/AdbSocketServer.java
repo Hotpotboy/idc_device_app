@@ -24,7 +24,7 @@ public abstract class AdbSocketServer extends AdbSocketConnectionThread {
             mServerSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
             return true;
         } catch (IOException e) {
-            e.printStackTrace();
+            AdbSocketUtils.printLog(true, e);
         }
         return false;
     }
@@ -35,7 +35,7 @@ public abstract class AdbSocketServer extends AdbSocketConnectionThread {
             mSocketChannel = serverSocketChannel.accept();
             mSocketChannel.configureBlocking(false);
             mSocketChannel.register(selector, SelectionKey.OP_READ);
-            System.out.println("[adb socket:]_______________________________接收到一个连接……");
+            AdbSocketUtils.printLog(true, "接收到一个连接……");
         }
     }
 }

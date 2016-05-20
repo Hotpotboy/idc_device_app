@@ -45,7 +45,7 @@ public class AdbSocketClient extends AdbSocketConnectionThread {
             sPie = Pipe.open();
             sPie.source().configureBlocking(false);
         } catch (IOException e) {
-            e.printStackTrace();
+            AdbSocketUtils.printLog(true, e);
         }
     }
 
@@ -62,7 +62,7 @@ public class AdbSocketClient extends AdbSocketConnectionThread {
         mSocketThread = new AdbSocketClient();
         mScannerThread.start();
         mSocketThread.start();
-        System.out.println("[adb socket:]_______________________________PC手机服务助手开始启动……");
+        AdbSocketUtils.printLog(true, "PC手机服务助手开始启动……");
     }
 
     /**
@@ -75,12 +75,12 @@ public class AdbSocketClient extends AdbSocketConnectionThread {
             try {
                 Thread.sleep(AdbSocketUtils.SLEEP_TIME);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                AdbSocketUtils.printLog(true, e);
             }
         }
         mScannerThread = null;
         mSocketThread = null;
-        System.out.println("[adb socket:]_______________________________PC手机服务助手停止……");
+        AdbSocketUtils.printLog(true, "PC手机服务助手停止……");
     }
 
     @Override
@@ -102,7 +102,7 @@ public class AdbSocketClient extends AdbSocketConnectionThread {
         super.onPreLoop();
         try {
             initPipe();//注册与
-            System.out.println("注册通道");
+            AdbSocketUtils.printLog(true, "注册通道");
             sPie.source().register(selector, SelectionKey.OP_READ);
             synchronized (AdbSocketUtils.sLock) {
                 isRegister = true;
@@ -110,7 +110,7 @@ public class AdbSocketClient extends AdbSocketConnectionThread {
             }
             return true;
         } catch (ClosedChannelException e) {
-            e.printStackTrace();
+            AdbSocketUtils.printLog(true, e);
         }
         return false;
     }
@@ -130,7 +130,7 @@ public class AdbSocketClient extends AdbSocketConnectionThread {
         if (isConnected) {
             mSocketChannel = socketChannel;
             writeToAdbSocket(AdbSocketUtils.CONNECTIONED_COMMANDE + "", socketChannel);
-            System.out.println("[adb socket:]_______________________________建立连接成功……");
+            AdbSocketUtils.printLog(true, "建立连接成功……");
         }
     }
 
@@ -151,7 +151,7 @@ public class AdbSocketClient extends AdbSocketConnectionThread {
             String deviceStr = new String(bytes, "UTF-8");
             deviceStr = deviceStr.replaceAll(" ", "");
             if (deviceStr.length() > 0) {
-                System.out.println("[adb socket:]_______________________________【" + deviceStr + "】");
+                AdbSocketUtils.printLog(true, "发现设备【" + deviceStr + "】");
                 Device device = new Device(deviceStr);
 //                if (!mDevices.contains(device)) {
                 if (mSocketChannel == null) {
@@ -165,7 +165,7 @@ public class AdbSocketClient extends AdbSocketConnectionThread {
 
     private void conncetion(Device device) throws IOException, InterruptedException {
         Runtime.getRuntime().exec(AdbSocketScannerThread.ADB_PATH + " -s " + device.getDeviceId() + " forward tcp:" + device.getPort() + " tcp:" + AdbSocketUtils.SERVER_PORT);
-        System.out.println("[adb socket:]_______________________________" + AdbSocketScannerThread.ADB_PATH + " -s " + device.getDeviceId() + " forward tcp:" + device.getPort() + " tcp:" + AdbSocketUtils.SERVER_PORT);
+        AdbSocketUtils.printLog(true, AdbSocketScannerThread.ADB_PATH + " -s " + device.getDeviceId() + " forward tcp:" + device.getPort() + " tcp:" + AdbSocketUtils.SERVER_PORT);
         Thread.sleep(3000);
         SocketChannel socketChannel = SocketChannel.open();
         socketChannel.configureBlocking(false);//非阻塞
@@ -197,7 +197,6 @@ public class AdbSocketClient extends AdbSocketConnectionThread {
                 result = code + "?" + netResult;
                 break;
             case AdbSocketUtils.UPLOAD_DB_COMMAND://上传数据库
-                System.out.println("上传的数据：" + command);
                 netResult = getMsgFromNet(AdbSocketUtils.HttpMethod.POST,AdbSocketUtils.UPLOAD_URL,command);
                 result = code + "?" + netResult;
                 break;
@@ -211,7 +210,7 @@ public class AdbSocketClient extends AdbSocketConnectionThread {
             try {
                 writeToAdbSocket(result, mSocketChannel);
             } catch (IOException e) {
-                e.printStackTrace();
+                AdbSocketUtils.printLog(true, e);
             }
             if (code == AdbSocketUtils.CLOSE_CONNECTION_COMMAND) {
                 //重启服务
@@ -240,16 +239,16 @@ public class AdbSocketClient extends AdbSocketConnectionThread {
             try {
                 param = URLEncoder.encode(param, AdbSocketUtils.CHARSET);
             } catch (UnsupportedEncodingException e) {
-                System.out.println("[adb socket:]_______________________________encode错误");
-                e.printStackTrace();
+                AdbSocketUtils.printLog(true, "encode网络参数错误");
+                AdbSocketUtils.printLog(true, e);
             }
         }
-        System.out.println("[adb socket:]_______________________________请求网络encode后的参数为【" + param + "】");
+        AdbSocketUtils.printLog(false, "请求网络encode后的参数为【" + param + "】");
         HttpURLConnection conn = null;
         try {
             conn = AdbSocketUtils.getNetUrl(method, urlName, param);
         } catch (IOException e) {
-            e.printStackTrace();//连接失败
+            AdbSocketUtils.printLog(true, e);
             netResponseModel.setErroCode(AdbSocketUtils.NET_FAIL_CONNEC_ERRO);
             netResponseModel.setContent(AdbSocketUtils.getErroInfoByCode(AdbSocketUtils.NET_FAIL_CONNEC_ERRO));
             return netResponseModel.toString();
@@ -262,7 +261,7 @@ public class AdbSocketClient extends AdbSocketConnectionThread {
                 outStream.flush();
                 outStream.close();
             } catch (IOException e) {//发送消息失败
-                e.printStackTrace();
+                AdbSocketUtils.printLog(true, e);
                 netResponseModel.setErroCode(AdbSocketUtils.NET_REQUEST_FAIL_ERRO);
                 netResponseModel.setContent(AdbSocketUtils.getErroInfoByCode(AdbSocketUtils.NET_REQUEST_FAIL_ERRO));
                 return netResponseModel.toString();
@@ -271,7 +270,7 @@ public class AdbSocketClient extends AdbSocketConnectionThread {
                     try {
                         outStream.close();
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        AdbSocketUtils.printLog(true, e);
                     }
                 }
             }
@@ -281,7 +280,7 @@ public class AdbSocketClient extends AdbSocketConnectionThread {
         try {
             responseCode = conn.getResponseCode();
         } catch (IOException e) {
-            e.printStackTrace();
+            AdbSocketUtils.printLog(true, e);
         }
         if (responseCode == -1) {
             // -1 is returned by getResponseCode() if the response code could not be retrieved.
@@ -300,7 +299,7 @@ public class AdbSocketClient extends AdbSocketConnectionThread {
                 netResponseModel.setContent(AdbSocketUtils.getErroInfoByCode(AdbSocketUtils.NET_CONN_TIMEOUT_ERRO));
                 return netResponseModel.toString();
             } catch (IOException e) {
-                e.printStackTrace();
+                AdbSocketUtils.printLog(true, e);
                 inStream = conn.getErrorStream();
                 isErro = true;
             }
@@ -308,7 +307,7 @@ public class AdbSocketClient extends AdbSocketConnectionThread {
             try {
                 data = readContentFromInputStream(inStream);
             } catch (IOException e) {
-                e.printStackTrace();
+                AdbSocketUtils.printLog(true, e);
                 netResponseModel.setErroCode(AdbSocketUtils.NET_READ_RESPONSE_ERRO);
                 netResponseModel.setContent(AdbSocketUtils.getErroInfoByCode(AdbSocketUtils.NET_READ_RESPONSE_ERRO));
                 return netResponseModel.toString();
@@ -317,10 +316,10 @@ public class AdbSocketClient extends AdbSocketConnectionThread {
             try {
                 result = new String(data, AdbSocketUtils.CHARSET);
             } catch (UnsupportedEncodingException e) {
-                System.out.println("[adb socket:]_______________________________encode错误");
-                e.printStackTrace();
+                AdbSocketUtils.printLog(true, "encode网络结果错误");
+                AdbSocketUtils.printLog(true, e);
             }
-            System.out.println("[adb socket:]_______________________________获取返回结果【" + result + "】");
+            AdbSocketUtils.printLog(false, "获取返回结果【" + result + "】");
             if (isErro) {
                 netResponseModel.setErroCode(AdbSocketUtils.NET_RESPONSE_ERRO);
                 netResponseModel.setContent(result);

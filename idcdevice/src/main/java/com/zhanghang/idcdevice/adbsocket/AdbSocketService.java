@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.adbsocket.AdbSocketConnectionThread;
@@ -45,6 +46,8 @@ public class AdbSocketService extends Service {
      * adb socket服务端
      */
     private AndroidAdbSocketServer mAdbSocketServer;
+    private String TAG = AdbSocketService.class.getSimpleName();
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -65,7 +68,7 @@ public class AdbSocketService extends Service {
         if (mAdbSocketServer == null) {
             mAdbSocketServer = new AndroidAdbSocketServer(mHandler);
             mAdbSocketServer.start();//开启监听线程
-            System.out.println("[adb socket:]_______________________________开启监听线程……");
+            Log.i(TAG,"[adb socket:]_______________________________开启监听线程……");
         }
         return START_STICKY;
     }

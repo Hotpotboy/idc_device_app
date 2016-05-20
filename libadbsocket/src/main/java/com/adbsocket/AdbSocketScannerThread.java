@@ -25,7 +25,7 @@ public class AdbSocketScannerThread extends Thread {
             try {
                 Thread.sleep(AdbSocketUtils.SLEEP_TIME);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                AdbSocketUtils.printLog(true, e);
                 break;
             }
         }
@@ -53,7 +53,7 @@ public class AdbSocketScannerThread extends Thread {
             process = Runtime.getRuntime().exec(ADB_PATH + " devices");
             ReadableByteChannel channel = Channels.newChannel(process.getInputStream());//get channel
             String result = getResultFromAdb(channel);
-            System.out.println(result);
+            AdbSocketUtils.printLog(true, "发现设备"+result);
             if(result!=null&&result.indexOf(ENTER_STR)>=0) {
                 String[] lines = result.split(ENTER_STR);
                 //relove every line
@@ -73,7 +73,6 @@ public class AdbSocketScannerThread extends Thread {
                                         AdbSocketUtils.sLock.wait();
                                     }
                                 }
-                                System.out.println("往通道里写");
                                 AdbSocketClient.sPie.sink().write(byteBuffer);//send data to connection thread by pipe
                             }
                             port++;
@@ -82,9 +81,9 @@ public class AdbSocketScannerThread extends Thread {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            AdbSocketUtils.printLog(true, e);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            AdbSocketUtils.printLog(true, e);
         }
     }
 

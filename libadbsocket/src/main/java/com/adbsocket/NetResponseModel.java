@@ -33,7 +33,7 @@ public class NetResponseModel {
             String result = objectMapper.writeValueAsString(this);
             return result;
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            AdbSocketUtils.printLog(true, e);
             return "";
         }
     }
