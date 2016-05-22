@@ -20,7 +20,7 @@ public class USBBroadcastReceiver extends BroadcastReceiver {
                 // usb 插入
                 if(!AdbSocketService.isConnectionPc()){
                     Intent showDilagActivityIntent = new Intent(context, DialogActivity.class);
-                    showDilagActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    showDilagActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     showDilagActivityIntent.putExtra(Const.INTENT_KEY_DIALOG_ACTIVITY_SHOW,"插入USB，正与PC助手通信，请稍候...");
                     context.startActivity(showDilagActivityIntent);
                     AsyncTask<Void,Void,Void> task = new AsyncTask<Void, Void, Void>() {
@@ -34,7 +34,7 @@ public class USBBroadcastReceiver extends BroadcastReceiver {
                         @Override
                         protected void onPostExecute(Void result){
                             Intent dismissDilagActivityIntent = new Intent(context, DialogActivity.class);
-                            dismissDilagActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            dismissDilagActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP);
                             context.startActivity(dismissDilagActivityIntent);
                         }
                     };

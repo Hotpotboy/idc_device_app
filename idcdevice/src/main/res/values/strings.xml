@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">IdcDevice</string>
+    <string name="app_name">移动运维</string>
     <string name="action_settings">Settings</string>
     <string name="she_bei_bian_hao_s">"设备编号:%1$s"</string>
     <string name="ren_wu_ming_cheng_s">"任务名称:%1$s"</string>

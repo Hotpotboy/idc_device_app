@@ -29,9 +29,9 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="@dimen/fifty_dp"
                 android:layout_marginTop="@dimen/fifty_dp"
-                android:text="设备巡检"
+                android:text="广发银行数据中心移动运维平台"
                 android:textColor="@color/idc_231815"
-                android:textSize="@dimen/six_sp"
+                android:textSize="@dimen/thirty_sp"
                 android:textStyle="bold" />
 
             <View

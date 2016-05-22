@@ -25,7 +25,7 @@
             android:layout_below="@id/user_logo_image"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/twenty_eight_dp"
-            android:text="广发银行数据中心运维管理平台"
+            android:text="广发银行数据中心移动运维平台"
             android:textColor="@android:color/white"
             android:textSize="@dimen/thirty_sp" />
 
