@@ -26,7 +26,7 @@ public class AdbSocketUtils {
      * FINE显示除异常之外所有的日志；
      * INFO只显示方法{@link #printLog(boolean, Object)}第一个参数为true的日志
      * */
-    private static Level sLevel = Level.FINER;
+    private static Level sLevel = Level.INFO;
     /**
      * 登陆接口
      */
@@ -213,7 +213,9 @@ public class AdbSocketUtils {
         if (info instanceof Exception&&sLevel==Level.FINER) {
             ((Exception) info).printStackTrace();
             return;
-        } else {
+        } else if(info instanceof Exception&&sLevel!=Level.FINER){
+            return;
+        }else {
             log = (String) info;
         }
         if (isShowScreen) sLog.info("[adb socket:info]____________________" + log);
