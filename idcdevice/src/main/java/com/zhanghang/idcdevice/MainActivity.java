@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
      * 从扫描二维码页面返回回来时，缓存的任务数据
      */
 //    private TaskData mCacheTaskData;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,48 +96,41 @@ public class MainActivity extends AppCompatActivity {
             switch (requestCode) {
                 case CameraUtils.SCANNER_QR_CODE_REQUEST_CODE://二维码扫描页面
                     String result = data.getStringExtra(Intents.Scan.RESULT);
-                    if (!TextUtils.isEmpty(result) && result.indexOf("&") >= 0) {
-                        final String[] resultArray = result.split("&");
-                        String md5Result = GenerateQRCode.getMD5(resultArray[1]);
-                        if (resultArray[0].equals(md5Result)) {//签名正确
-                            mNetLoadingWindow.showAtLocation();
-                            ((TextView)mNetLoadingWindow.getViewById(R.id.net_loading_tip)).setText("解析二维码成功，正在查询符合条件的任务......");
-                            new AsyncTask<Void,Void,ArrayList<TaskData>>(){
+                    mNetLoadingWindow.showAtLocation();
+                    ((TextView) mNetLoadingWindow.getViewById(R.id.net_loading_tip)).setText("解析二维码成功，正在查询符合条件的任务......");
+                    final String[] resultArray = result.split("&");
+                    String md5Result = GenerateQRCode.getMD5(resultArray[1]);
+                    AsyncTask task = new AsyncTask<String, Void, ArrayList<TaskData>>() {
 
-                                @Override
-                                protected ArrayList<TaskData> doInBackground(Void... params) {
-                                    return resolveScannerResult(resultArray[1]);
-                                }
-
-                                @Override
-                                public void onPostExecute(ArrayList<TaskData> datas){
-                                    mNetLoadingWindow.getPopupWindow().dismiss();
-                                    try {
-                                        selecteFitData(datas);
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                        Toast.makeText(MainActivity.this,"此设备无相应的任务，请扫描下一个设备!",Toast.LENGTH_LONG).show();
-                                    }
-                                }
-                            }.execute();
-                        }else{
-                            Toast.makeText(this,"二维码格式有误!",Toast.LENGTH_LONG).show();
+                        @Override
+                        protected ArrayList<TaskData> doInBackground(String... params) {
+                            return resolveScannerResult(params[1]);
                         }
-                    }else{
-                        Toast.makeText(this,"二维码格式有误!",Toast.LENGTH_LONG).show();
-                    }
+
+                        @Override
+                        public void onPostExecute(ArrayList<TaskData> datas) {
+                            mNetLoadingWindow.getPopupWindow().dismiss();
+                            try {
+                                selecteFitData(datas);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                Toast.makeText(MainActivity.this, "此设备无相应的任务，请扫描下一个设备!", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    };
+                    ((DeviceApplication)DeviceApplication.getInstance()).resolveScannerResult(md5Result,task);//解析结果
                     break;
             }
         }
     }
 
     /***/
-    private ArrayList<TaskData> resolveScannerResult(String result){
+    private ArrayList<TaskData> resolveScannerResult(String result) {
         //根据计划开始时间、计划结束时间、设备类型查询符合条件的任务，如果没有，则查询只符合设备类型的任务；
         //所有的查询结果以计划开始时间排序
-        String selections = TaskTable.getTaskTableInstance().getComlueInfos()[0].getName()+"=? AND "
-                +TaskTable.getTaskTableInstance().getComlueInfos()[9].getName()+"<= ? AND "
-                +TaskTable.getTaskTableInstance().getComlueInfos()[8].getName()+">= ?";
+        String selections = TaskTable.getTaskTableInstance().getComlueInfos()[0].getName() + "=? AND "
+                + TaskTable.getTaskTableInstance().getComlueInfos()[9].getName() + "<= ? AND "
+                + TaskTable.getTaskTableInstance().getComlueInfos()[8].getName() + ">= ?";
         String[] args = new String[3];
         long currentTime = System.currentTimeMillis();
         args[0] = result;
@@ -146,16 +138,16 @@ public class MainActivity extends AppCompatActivity {
         args[2] = currentTime + "";
         try {
             ArrayList<TaskData> datas = TaskTable.getTaskTableInstance().selectDatas(selections, args, null, null, TaskTable.getTaskTableInstance().getComlueInfos()[9].getName(), TaskData.class);
-            if(datas!=null&&datas.size()>0){
+            if (datas != null && datas.size() > 0) {
                 return datas;
-            }else{
-                selections = TaskTable.getTaskTableInstance().getComlueInfos()[0].getName()+"=?";
+            } else {
+                selections = TaskTable.getTaskTableInstance().getComlueInfos()[0].getName() + "=?";
                 args = new String[1];
                 args[0] = result;
                 datas = TaskTable.getTaskTableInstance().selectDatas(selections, args, null, null, TaskTable.getTaskTableInstance().getComlueInfos()[9].getName(), TaskData.class);
-                if(datas!=null&&datas.size()>0) {
+                if (datas != null && datas.size() > 0) {
                     return datas;
-                }else{
+                } else {
                     return null;
                 }
             }
@@ -167,44 +159,46 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * 从数据库查询出来的结果集中，选择第一个非处理的任务进行处理
+     *
      * @param datas
      */
     private void selecteFitData(ArrayList<TaskData> datas) throws Exception {
-        if(datas==null||datas.size()<=0){
-            Toast.makeText(this,"此设备无相应的任务，请扫描下一个设备!",Toast.LENGTH_LONG).show();
+        if (datas == null || datas.size() <= 0) {
+            Toast.makeText(this, "此设备无相应的任务，请扫描下一个设备!", Toast.LENGTH_LONG).show();
             return;
         }
         TaskData taskData = null;
-        for(TaskData item:datas){
-            if(!Const.isDealed(item)){
+        for (TaskData item : datas) {
+            if (!Const.isDealed(item)) {
                 taskData = item;
                 break;
             }
         }
-        if(taskData!=null) {
+        if (taskData != null) {
             taskData.setRealStartTime(System.currentTimeMillis());
             taskData.setDealPeople(Const.CURRENT_USER_NAME);
             ArrayList<PatrolItemData> items = Const.getPatrolItemDataByTaskId(taskData.getTaskId() + "");
             taskData.setPatrolItems(items);
             gotoTaskDetail(taskData);
-        }else{
-            Toast.makeText(this,"此设备无相应的任务，请扫描下一个设备!",Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "此设备无相应的任务，请扫描下一个设备!", Toast.LENGTH_LONG).show();
         }
     }
 
     /**
      * 前往任务详情页
+     *
      * @param data
      */
-    private void gotoTaskDetail(TaskData data){
+    private void gotoTaskDetail(TaskData data) {
         //保存数据到数据库
         data.setRealStartTime(System.currentTimeMillis());
         data.setDealPeople(Const.CURRENT_USER_NAME);
-        String selection = TaskTable.getTaskTableInstance().getComlueInfos()[14].getName()+"=?";
+        String selection = TaskTable.getTaskTableInstance().getComlueInfos()[14].getName() + "=?";
         String[] args = new String[1];
-        args[0] = data.getTaskId()+"";
+        args[0] = data.getTaskId() + "";
         try {
-            TaskTable.getTaskTableInstance().updateData(data,selection,args);
+            TaskTable.getTaskTableInstance().updateData(data, selection, args);
         } catch (Exception e) {
             e.printStackTrace();
         }
