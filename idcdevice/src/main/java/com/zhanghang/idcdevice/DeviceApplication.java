@@ -31,6 +31,7 @@ import com.zhanghang.idcdevice.mode.TaskData;
 import com.zhanghang.self.base.BaseApplication;
 import com.zhanghang.self.db.BaseSQLiteHelper;
 import com.zhanghang.self.utils.PopupWindowUtils;
+import com.zxing.util.GenerateQRCode;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,7 +42,9 @@ import java.util.ArrayList;
 public class DeviceApplication extends BaseApplication {
     private ArrayList<OnDataDownFinishedListener> mOnDataDownFinishedListeners = new ArrayList<>();
     private static String TAG = "DeviceApplication.class";
-    /**监听USB插入广播*/
+    /**
+     * 监听USB插入广播
+     */
     private USBBroadcastReceiver mUsbBroadcastReceiver;
 
     public void addDataDownFinishedListener(OnDataDownFinishedListener listener) {
@@ -64,7 +67,7 @@ public class DeviceApplication extends BaseApplication {
         mUsbBroadcastReceiver = new USBBroadcastReceiver();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("android.hardware.usb.action.USB_STATE");
-        registerReceiver(mUsbBroadcastReceiver,intentFilter);
+        registerReceiver(mUsbBroadcastReceiver, intentFilter);
     }
 
     public void stop(final Activity activity) {
@@ -98,8 +101,8 @@ public class DeviceApplication extends BaseApplication {
                         Toast.makeText(this, "设备信息【" + item.getDeviceId() + "," + item.getDeviceName() + "】插入数据库失败,原因：" + e.toString(), Toast.LENGTH_LONG).show();
                     }
                 }
-            }else{
-                tip="设备信息为空!";
+            } else {
+                tip = "设备信息为空!";
             }
             //任务信息
             ArrayList<TaskData> tasks = dBdata.getTasks();
@@ -113,8 +116,8 @@ public class DeviceApplication extends BaseApplication {
                         Toast.makeText(this, "任务信息【" + item.getTaskId() + "," + item.getTaskName() + "】插入数据库失败,原因：" + e.toString(), Toast.LENGTH_LONG).show();
                     }
                 }
-            }else{
-                tip+="任务信息为空!";
+            } else {
+                tip += "任务信息为空!";
             }
             //巡检项信息
             ArrayList<PatrolItemData> patrolItemDatas = dBdata.getPatrols();
@@ -122,7 +125,7 @@ public class DeviceApplication extends BaseApplication {
                 for (PatrolItemData item : patrolItemDatas) {
                     try {
                         item.setId(BaseSQLiteHelper.getId());
-                        if(item.getEnable()==-1){
+                        if (item.getEnable() == -1) {
                             item.setEnable(1);//默认为启用
                         }
                         PatrolItemTable.getPatrolItemTableInstance().insertData(item);
@@ -131,10 +134,10 @@ public class DeviceApplication extends BaseApplication {
                         Toast.makeText(this, "巡检项信息【" + item.getPatrolId() + "," + item.getPatrolItemName() + "】插入数据库失败,原因：" + e.toString(), Toast.LENGTH_LONG).show();
                     }
                 }
-            }else{
-                tip+="巡检项信息为空!";
+            } else {
+                tip += "巡检项信息为空!";
             }
-            if(!TextUtils.isEmpty(tip)){
+            if (!TextUtils.isEmpty(tip)) {
                 Toast.makeText(this, tip, Toast.LENGTH_LONG).show();
             }
         }
@@ -171,8 +174,8 @@ public class DeviceApplication extends BaseApplication {
             DBdata dBdata = new DBdata();
             dBdata.setDevices(deviceDatas);
             dBdata.setPatrols(patrolItemDatas);
-            if(taskDatas!=null&&taskDatas.size()>0){
-                for(TaskData taskData:taskDatas){
+            if (taskDatas != null && taskDatas.size() > 0) {
+                for (TaskData taskData : taskDatas) {
                     taskData.setTaskState("2");
 //                    String status = taskData.getTaskState();
 //                    if(Const.TASK_STATE_DEALED.equals(status)){
@@ -199,8 +202,8 @@ public class DeviceApplication extends BaseApplication {
 
     private void filterFileds(ObjectMapper mapper) {
         SimpleFilterProvider filters = new SimpleFilterProvider();
-        String[] fields = {"id","dealInfo","dealResult","patrolItems","realEndTime","realStartTime","taskState"};
-        filters.addFilter(TaskData.class.getName(),SimpleBeanPropertyFilter.serializeAllExcept(fields));
+        String[] fields = {"id", "dealInfo", "dealResult", "patrolItems", "realEndTime", "realStartTime", "taskState"};
+        filters.addFilter(TaskData.class.getName(), SimpleBeanPropertyFilter.serializeAllExcept(fields));
         mapper.setFilters(filters);
         mapper.setAnnotationIntrospector(new JacksonAnnotationIntrospector() {
             @Override
@@ -254,6 +257,27 @@ public class DeviceApplication extends BaseApplication {
                 Toast.makeText(activity, "与PC通信失败,【" + erroInfo + "】……", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    /**
+     * 解析从二维码扫描页面返回的数据
+     *
+     * @param result 二维码扫描结果
+     * @param asyncTask 此异步任务的执行参数为二维码扫描对应的值
+     */
+    public <U,R> void resolveScannerResult(String result,AsyncTask<String,U,R> asyncTask) {
+
+        if (!TextUtils.isEmpty(result) && result.indexOf("&") >= 0) {
+            final String[] resultArray = result.split("&");
+            String md5Result = GenerateQRCode.getMD5(resultArray[1]);
+            if (resultArray[0].equals(md5Result)) {//签名正确
+                asyncTask.execute(resultArray[1]);
+            } else {
+                Toast.makeText(this, "二维码格式有误!", Toast.LENGTH_LONG).show();
+            }
+        } else {
+            Toast.makeText(this, "二维码格式有误!", Toast.LENGTH_LONG).show();
+        }
     }
 
     /**

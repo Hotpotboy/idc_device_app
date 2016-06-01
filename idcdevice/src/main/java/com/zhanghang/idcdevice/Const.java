@@ -33,6 +33,10 @@ public class Const {
     public static final String TASK_STATE_DEALED = "已完成";
     /**任务状态——未处理*/
     public static final String TASK_STATE_UNDEAL = "未开始";
+    /**任务类型——巡检*/
+    public static final String TASK_TYPE_XUNJIAN = "1";
+    /**任务类型——盘点*/
+    public static final String TASK_TYPE_PANDIAN = "2";
     /*************Intent之中的key***********************************************/
     /**设备ID的key*/
 //    public static final String INTENT_KEY_DEVICE_ID = "intent_key_device_id";

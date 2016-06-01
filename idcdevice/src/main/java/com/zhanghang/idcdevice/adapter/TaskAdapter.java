@@ -1,21 +1,15 @@
 package com.zhanghang.idcdevice.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.text.TextUtils;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zhanghang.idcdevice.Const;
 import com.zhanghang.idcdevice.FragmentActivity;
-import com.zhanghang.idcdevice.MainActivity;
 import com.zhanghang.idcdevice.R;
-import com.zhanghang.idcdevice.db.TaskTable;
 import com.zhanghang.idcdevice.mode.TaskData;
 import com.zhanghang.self.adpter.BaseViewHolderAdapter;
-import com.zhanghang.self.utils.camera.CameraUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,12 +49,17 @@ public class TaskAdapter extends BaseViewHolderAdapter {
 //            taskDealed.setVisibility(View.VISIBLE);
 //        }
         taskOperation.setVisibility(View.VISIBLE);
+        final String type = data.getTaskType();
         taskOperation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, FragmentActivity.class);
-                intent.putExtra(Const.INTENT_KEY_LOAD_FRAGMENT, FragmentActivity.TASK_DETAIL_FRAGMENT);
-                intent.putExtra(Const.INTENT_KEY_TASK_DATA, data);
+                if(Const.TASK_TYPE_XUNJIAN.equals(type)) {
+                    intent.putExtra(Const.INTENT_KEY_LOAD_FRAGMENT, FragmentActivity.XUNJIAN_TASK_DETAIL_FRAGMENT);
+                    intent.putExtra(Const.INTENT_KEY_TASK_DATA, data);
+                }else if(Const.TASK_TYPE_PANDIAN.equals(type)){
+                    intent.putExtra(Const.INTENT_KEY_LOAD_FRAGMENT, FragmentActivity.PANDIAN_TASK_DETAIL_FRAGMENT);
+                }
                 mContext.startActivity(intent);
             }
         });
