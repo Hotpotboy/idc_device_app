@@ -7,6 +7,9 @@ import android.widget.ListView;
 
 import com.zhanghang.idcdevice.DeviceApplication;
 import com.zhanghang.idcdevice.R;
+import com.zhanghang.idcdevice.adapter.TaskAdapter;
+import com.zhanghang.idcdevice.mode.PatrolItemData;
+import com.zhanghang.idcdevice.mode.TaskData;
 import com.zhanghang.self.adpter.BaseViewHolderAdapter;
 import com.zhanghang.self.base.BaseFragment;
 
@@ -22,8 +25,8 @@ public abstract class BaseListFragment<T> extends BaseFragment {
     ArrayList<T> mDatas;
     /**无数据布局*/
     private LinearLayout mNoDataLayout;
-    /**无数据时的数据按钮，默认为下载数据*/
-    Button mNoDataOperationButton;
+    /**下载数据按钮*/
+    private Button mDownloadButton;
     /**任务适配器*/
     BaseViewHolderAdapter mListAdapter;
     @Override
@@ -35,7 +38,7 @@ public abstract class BaseListFragment<T> extends BaseFragment {
     protected void initView(){
         mListView = (ListView)findViewById(R.id.all_list);
         mNoDataLayout = (LinearLayout) findViewById(R.id.public_no_data);
-        mNoDataOperationButton = (Button) findViewById(R.id.public_noData_downLoad);
+        mDownloadButton = (Button) findViewById(R.id.public_noData_downLoad);
     }
 
     @Override
@@ -49,11 +52,11 @@ public abstract class BaseListFragment<T> extends BaseFragment {
         if(isShowList){
             mListView.setVisibility(View.VISIBLE);
             mNoDataLayout.setVisibility(View.GONE);
-            mNoDataOperationButton.setOnClickListener(null);
+            mDownloadButton.setOnClickListener(null);
         }else{
             mListView.setVisibility(View.GONE);
             mNoDataLayout.setVisibility(View.VISIBLE);
-            mNoDataOperationButton.setOnClickListener(new View.OnClickListener() {
+            mDownloadButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     ((DeviceApplication) DeviceApplication.getInstance()).getDataFromPC(mActivity);
