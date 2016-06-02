@@ -156,7 +156,7 @@ public class AdbSocketUtils {
      * @return
      */
     public static HttpURLConnection getNetUrl(HttpMethod method, String urlName, String param) throws IOException {
-        String path = "http://115.28.15.123:8080/";//"http://21.2.6.239:8088/"
+        String path = "http://21.5.18.90:8088/";//"http://115.28.15.123:8080/";//"http://21.2.6.239:8088/"
         if (method == HttpMethod.GET) path += (urlName + "?" + param);
         else if (method == HttpMethod.POST) path += urlName;
         URL url = new URL(path);
