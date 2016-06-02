@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.zxing.Intents;
 import com.zhanghang.idcdevice.db.PandianResultTable;
@@ -24,7 +23,7 @@ import com.zxing.util.GenerateQRCode;
 
 import java.util.ArrayList;
 
-public class FragmentActivity extends BaseFragmentActivity {
+public class PandianActivity extends BaseFragmentActivity {
     /**加载任务巡检页面*/
     public static final int LOAD_PATROL_ITEM_FRAGMENT = 1;
     /**用户详情页*/
@@ -106,7 +105,7 @@ public class FragmentActivity extends BaseFragmentActivity {
                             argments.putSerializable(Const.INTENT_KEY_PANDIAN_TASK_DATA_LIST, datas);
                             PandianListFragment pandianListFragment = new PandianListFragment();
                             pandianListFragment.setArguments(argments);
-                            FragmentActivity.this.addFragment(pandianListFragment,false);
+                            PandianActivity.this.addFragment(pandianListFragment,false);
                         }
                     };
                     ((DeviceApplication)DeviceApplication.getInstance()).resolveScannerResult(md5Result,task);//解析结果

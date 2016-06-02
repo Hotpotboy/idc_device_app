@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import com.zhanghang.idcdevice.DeviceApplication;
 import com.zhanghang.idcdevice.adapter.HouseAdapter;
 import com.zhanghang.idcdevice.db.HouseTable;
-import com.zhanghang.idcdevice.mode.room.HouseData;
+import com.zhanghang.idcdevice.mode.pandian.HouseData;
 
 import java.util.ArrayList;
 

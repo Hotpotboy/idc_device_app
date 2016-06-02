@@ -2,14 +2,11 @@ package com.zhanghang.idcdevice.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
-import com.zhanghang.idcdevice.Const;
-import com.zhanghang.idcdevice.FragmentActivity;
 import com.zhanghang.idcdevice.R;
-import com.zhanghang.idcdevice.mode.room.HouseData;
+import com.zhanghang.idcdevice.mode.pandian.HouseData;
 import com.zhanghang.self.adpter.BaseViewHolderAdapter;
 import com.zhanghang.self.utils.camera.CameraUtils;
 

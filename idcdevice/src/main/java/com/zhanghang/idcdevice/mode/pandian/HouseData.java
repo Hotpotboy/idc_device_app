@@ -1,4 +1,4 @@
-package com.zhanghang.idcdevice.mode.room;
+package com.zhanghang.idcdevice.mode.pandian;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.zhanghang.idcdevice.mode.BaseData;

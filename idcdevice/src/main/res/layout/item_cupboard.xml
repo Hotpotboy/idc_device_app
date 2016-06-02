@@ -5,16 +5,29 @@
     android:background="@color/idc_af0012"
     android:padding="@dimen/twenty_dp">
     <TextView
-        android:id="@+id/item_pandian_name"
+        android:id="@+id/item_cupboard_num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:text="机柜编号:IX-123-J-009"
+        android:text="@string/ji_gui_bian_hao_s"
         android:textColor="@android:color/white"
         android:textSize="@dimen/thirty_sp" />
     <ImageView
+        android:id="@+id/item_cupboard_expand"
         android:layout_width="@dimen/fifty_dp"
         android:layout_height="@dimen/fifty_dp"
         android:layout_alignParentRight="true"
-        android:src="@drawable/scanner"/>
+        android:src="@drawable/white_down_arrow"/>
+    <TextView
+        android:id="@+id/item_cupboard_addDevice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/fifty_dp"
+        android:layout_toLeftOf="@id/item_cupboard_expand"
+        android:layout_centerVertical="true"
+        android:padding="@dimen/ten_dp"
+        android:text="添加设备"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/twenty_sp"
+        android:background="@drawable/white_stroke_trans_solid_ten_corner_button_bg"/>
 </RelativeLayout>

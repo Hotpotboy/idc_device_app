@@ -2,8 +2,7 @@ package com.zhanghang.idcdevice.db;
 
 import com.zhanghang.idcdevice.Const;
 import com.zhanghang.idcdevice.DeviceApplication;
-import com.zhanghang.idcdevice.mode.TaskData;
-import com.zhanghang.idcdevice.mode.room.HouseData;
+import com.zhanghang.idcdevice.mode.pandian.HouseData;
 import com.zhanghang.self.db.BaseSQLiteHelper;
 import com.zhanghang.self.db.ComlueInfo;
 

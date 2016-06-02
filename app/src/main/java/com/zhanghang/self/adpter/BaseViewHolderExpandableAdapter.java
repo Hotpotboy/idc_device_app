@@ -56,7 +56,7 @@ public abstract class BaseViewHolderExpandableAdapter extends BaseExpandableList
 
     @Override
     public Object getGroup(int groupPosition) {
-        return null;
+        return mGroupDatas.get(groupPosition);
     }
 
     @Override

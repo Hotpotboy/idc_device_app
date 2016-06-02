@@ -40,8 +40,10 @@ public class Const {
     /*************Intent之中的key***********************************************/
     /**设备ID的key*/
 //    public static final String INTENT_KEY_DEVICE_ID = "intent_key_device_id";
-    /**任务数据key*/
+    /**巡检任务数据key*/
     public static final String INTENT_KEY_TASK_DATA = "intent_key_task_data";
+    /**盘点任务数据列表key*/
+    public static final String INTENT_KEY_PANDIAN_TASK_DATA_LIST = "intent_key_pandian_task_data_list";
     /**加载Fragmentd的key*/
     public static final String INTENT_KEY_LOAD_FRAGMENT = "intent_key_load_fragment";
     /**{@link DialogActivity}展示值的key*/
