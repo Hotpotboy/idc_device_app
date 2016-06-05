@@ -29,8 +29,8 @@ public class MainFragment extends ViewPagerFragement implements View.OnClickList
     private static final int BUTTON_NUM = 3;
     /**左上角菜单按钮*/
     private TextView menuView;
-    /**设备Fragment*/
-    private DeviceFragment mDeviceFragment;
+    /**设备(机房列表)Fragment*/
+    private DeviceListFragment mDeviceFragment;
     /**下方三个按钮*/
     private ButtonHold[] mButtonHolds = new ButtonHold[BUTTON_NUM];
     private TextView mTitileCenter;
@@ -40,7 +40,7 @@ public class MainFragment extends ViewPagerFragement implements View.OnClickList
     protected ArrayList<BaseFragment> specifyFragmentList() {
         ArrayList<BaseFragment> fragments = new ArrayList<>();
         fragments.add(new TaskFragment());
-        mDeviceFragment = new DeviceFragment();
+        mDeviceFragment = new DeviceListFragment();
         fragments.add(mDeviceFragment);
         return fragments;
     }
@@ -123,7 +123,7 @@ public class MainFragment extends ViewPagerFragement implements View.OnClickList
         super.onPageSelected(position);
         mButtonHolds[getCurrentItem()].setSelected(true);
         if(position==0){
-            mTitileCenter.setText("设备巡检");
+            mTitileCenter.setText("机房巡检");
             mTitileRight.setVisibility(View.VISIBLE);
             if(mTitileRight.getBackground()==null||!(mTitileRight.getBackground() instanceof BitmapDrawable)){
                 mTitileRight.setBackgroundResource(R.drawable.scanner);
@@ -168,15 +168,11 @@ public class MainFragment extends ViewPagerFragement implements View.OnClickList
 
     public void clickAdd(){
         String content = (String) mTitileRight.getText();
-        boolean isCancel;
         if(TextUtils.equals(content,"新增")){
             mTitileRight.setText("取消");
-            isCancel = false;
         }else{
             mTitileRight.setText("新增");
-            isCancel = true;
         }
-        mDeviceFragment.dealAddDevice(isCancel);
     }
 
     private class ButtonHold {

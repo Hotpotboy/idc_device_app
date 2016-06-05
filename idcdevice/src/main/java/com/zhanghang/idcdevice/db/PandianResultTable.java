@@ -2,7 +2,6 @@ package com.zhanghang.idcdevice.db;
 
 import com.zhanghang.idcdevice.Const;
 import com.zhanghang.idcdevice.DeviceApplication;
-import com.zhanghang.idcdevice.mode.pandian.HouseData;
 import com.zhanghang.idcdevice.mode.pandian.PandianResultData;
 import com.zhanghang.self.db.BaseSQLiteHelper;
 import com.zhanghang.self.db.ComlueInfo;

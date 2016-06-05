@@ -26,7 +26,7 @@ public class AdbSocketUtils {
      * FINE显示除异常之外所有的日志；
      * INFO只显示方法{@link #printLog(boolean, Object)}第一个参数为true的日志
      * */
-    private static Level sLevel = Level.INFO;
+    private static Level sLevel = Level.FINER;
     /**
      * 登陆接口
      */

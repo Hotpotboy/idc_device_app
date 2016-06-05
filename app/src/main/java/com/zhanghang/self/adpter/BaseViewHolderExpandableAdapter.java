@@ -41,6 +41,49 @@ public abstract class BaseViewHolderExpandableAdapter extends BaseExpandableList
         notifyDataSetInvalidated();
     }
 
+    public void addParentData(Object object){
+        if(object!=null){
+            mGroupDatas.add(object);
+            notifyDataSetChanged();
+        }
+    }
+
+    /**
+     * 判断给定的子类是否位于给定父类的ArrayList之中
+     * @param parent           给定的子数据
+     * @return
+     */
+    public boolean isInParent(Object parent){
+        if(mGroupDatas==null) return false;
+        return mGroupDatas.contains(parent);
+    }
+
+    public void addChildData(int parentPosition,Object object){
+        if(object!=null){
+            ArrayList childDatas = mChildDatas.get(parentPosition);
+            if(childDatas==null){
+                childDatas = new ArrayList();
+            }
+            childDatas.add(object);
+            mChildDatas.put(parentPosition, childDatas);
+            notifyDataSetChanged();
+        }
+    }
+
+    /**
+     * 判断给定的子类是否位于给定父类的ArrayList之中
+     * @param parentPosition  给定的父数据的索引
+     * @param child           给定的子数据
+     * @return
+     */
+    public boolean isInSpecailParent(int parentPosition,Object child){
+        if(mChildDatas==null) return false;
+        if(parentPosition<0&&parentPosition>=mChildDatas.size()) return false;
+        ArrayList list = mChildDatas.get(parentPosition);
+        if(list==null) return false;
+        return list.contains(child);
+    }
+
     @Override
     public int getGroupCount() {
         return mGroupDatas.size();

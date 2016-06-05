@@ -36,7 +36,7 @@
         android:layout_centerVertical="true"
         android:layout_toRightOf="@id/item_room_image"
         android:layout_toLeftOf="@id/item_room_dealing"
-        android:paddingLeft="@dimen/fifty_dp"
+        android:paddingLeft="@dimen/twenty_dp"
         android:orientation="vertical">
 
         <TextView
@@ -51,7 +51,7 @@
             android:id="@+id/item_room_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/twenty_dp"
+            android:paddingTop="@dimen/ten_dp"
             android:text="@string/fang_jian_wei_zhi_s"
             android:singleLine="true"
             android:ellipsize="end"

@@ -20,31 +20,32 @@
         android:layout_centerVertical="true"
         android:layout_toRightOf="@id/item_device_num_image"
         android:paddingLeft="@dimen/twenty_dp"
+        android:paddingRight="@dimen/twenty_dp"
         android:text="@string/she_bei_bian_hao_s"
         android:textColor="@color/idc_3b3b3b"
         android:lines="1"
+        android:ellipsize="end"
         android:textSize="@dimen/fourty_sp"
         />
     <Button
         android:id="@+id/item_device_num_delete"
-        android:layout_centerVertical="true"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/eighty_dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
         android:layout_gravity="center_vertical"
         android:background="@drawable/button_selector"
-        android:paddingLeft="@dimen/twenty_dp"
-        android:paddingRight="@dimen/twenty_dp"
+        android:padding="@dimen/ten_dp"
+        android:layout_marginBottom="@dimen/twenty_dp"
         android:layout_marginRight="@dimen/twenty_dp"
         android:text="删除编号"
         android:textColor="@color/idc_f5e9e9"
-        android:textSize="@dimen/thirty_sp" />
+        android:textSize="@dimen/twenty_sp" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/zero_point_five_dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="@dimen/twenty_dp"
         android:background="@color/idc_c4c4c4" />
 
 </RelativeLayout>

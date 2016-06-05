@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import com.zhanghang.idcdevice.Const;
 import com.zhanghang.idcdevice.DeviceApplication;
 import com.zhanghang.idcdevice.adapter.DeviceAdapter;
+import com.zhanghang.idcdevice.adapter.HouseAdapter;
 import com.zhanghang.idcdevice.db.DeviceTable;
 import com.zhanghang.idcdevice.mode.DeviceData;
 
@@ -37,17 +38,16 @@ public class DeviceListFragment extends BaseListFragment<DeviceData> implements 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        DeviceFragment deviceFragment = getDeviceFragment();
         if(mDatas!=null&&mDatas.size()>0) {
-            deviceFragment.showList(true);
+            showList(true);
             if (mListAdapter == null) {
-                mListAdapter = new DeviceAdapter(mActivity, mDatas);
+                mListAdapter = new HouseAdapter(mActivity, mDatas);
                 mListView.setAdapter(mListAdapter);
             } else {
                 mListAdapter.setDatas(mDatas);
             }
         }else{
-            deviceFragment.showList(false);
+            showList(false);
         }
     }
 
@@ -57,24 +57,13 @@ public class DeviceListFragment extends BaseListFragment<DeviceData> implements 
         ((DeviceApplication)DeviceApplication.getInstance()).removeDataDownFinishedListener(this);
     }
 
-    private DeviceFragment getDeviceFragment(){
-//        if(mFragmentManager==null){
-            mFragmentManager = getFragmentManager();
-//        }
-        List<Fragment> fragments = mFragmentManager.getFragments();
-        for(Fragment item:fragments){
-            if(item instanceof DeviceFragment){
-                return (DeviceFragment) item;
-            }
-        }
-        return null;
-    }
-
     /**
      * 获取指定位置的数据
      * @return
      */
-    public DeviceData getCurrentData(int position){
+    public DeviceData getCurrentData(){
+        if(mListAdapter==null) return null;
+        int position = ((HouseAdapter)mListAdapter).getCurrentIndex();
         if(mDatas==null||mDatas.size()<=0){
             return null;
         }else if(position<=0){
@@ -83,21 +72,6 @@ public class DeviceListFragment extends BaseListFragment<DeviceData> implements 
             position = mDatas.size()-1;
         }
         return mDatas.get(position);
-    }
-
-    public void setOnItemClickListener(final AdapterView.OnItemClickListener listener){
-        if(listener!=null){
-            if(mListView!=null) {
-                mListView.setOnItemClickListener(listener);
-            }else {
-                new Handler().post(new Runnable() {
-                    @Override
-                    public void run() {
-                        setOnItemClickListener(listener);
-                    }
-                });
-            }
-        }
     }
 
     /**

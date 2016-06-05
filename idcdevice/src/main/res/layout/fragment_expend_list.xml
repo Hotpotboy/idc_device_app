@@ -3,13 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white">
+    <include
+        android:id="@+id/fragment_main_title"
+        layout="@layout/public_title"/>
     <ExpandableListView
         android:id="@+id/all_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:dividerHeight="@dimen/zero_point_five_dp"
-        android:scrollbars="none"
+        android:layout_below="@id/fragment_main_title"
         android:divider="@android:color/transparent"
         android:groupIndicator="@android:color/transparent"/>
-    <include layout="@layout/public_no_data"/>
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/fragment_main_title"
+        layout="@layout/public_no_data"/>
 </RelativeLayout>

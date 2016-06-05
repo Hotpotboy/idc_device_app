@@ -2,32 +2,49 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/idc_af0012"
-    android:padding="@dimen/twenty_dp">
-    <TextView
-        android:id="@+id/item_cupboard_num"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:text="@string/ji_gui_bian_hao_s"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/thirty_sp" />
+    android:background="@color/idc_c4c4c4"
+    android:paddingBottom="@dimen/twenty_dp">
+    <View
+        android:id="@+id/item_cupboard_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/one_dp"
+        android:background="@android:color/white"
+        android:layout_marginBottom="@dimen/twenty_dp"/>
     <ImageView
         android:id="@+id/item_cupboard_expand"
+        android:layout_below="@id/item_cupboard_line"
         android:layout_width="@dimen/fifty_dp"
         android:layout_height="@dimen/fifty_dp"
         android:layout_alignParentRight="true"
+        android:paddingRight="@dimen/twenty_dp"
+        android:scaleType="fitStart"
         android:src="@drawable/white_down_arrow"/>
     <TextView
         android:id="@+id/item_cupboard_addDevice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/fifty_dp"
+        android:layout_below="@id/item_cupboard_line"
         android:layout_toLeftOf="@id/item_cupboard_expand"
-        android:layout_centerVertical="true"
         android:padding="@dimen/ten_dp"
         android:text="添加设备"
         android:textColor="@android:color/white"
         android:textSize="@dimen/twenty_sp"
         android:background="@drawable/white_stroke_trans_solid_ten_corner_button_bg"/>
+    <TextView
+        android:id="@+id/item_cupboard_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@id/item_cupboard_addDevice"
+        android:layout_alignTop="@id/item_cupboard_expand"
+        android:layout_alignBottom="@id/item_cupboard_expand"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/twenty_dp"
+        android:paddingRight="@dimen/twenty_dp"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:text="@string/ji_gui_bian_hao_s"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/thirty_sp" />
 </RelativeLayout>

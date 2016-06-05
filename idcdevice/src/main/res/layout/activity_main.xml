@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:id="@+id/main_drawerlayout">
     <fragment
+        android:id="@+id/main_mainFragement"
         android:name="com.zhanghang.idcdevice.fragment.MainFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

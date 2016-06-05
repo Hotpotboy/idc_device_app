@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    android:orientation="vertical"
-    android:visibility="gone">
+    android:orientation="vertical">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -17,9 +16,13 @@
         android:src="@drawable/no_data" />
 
     <TextView
+        android:id="@+id/public_noData_tip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="@dimen/fifty_dp"
+        android:layout_marginRight="@dimen/fifty_dp"
+        android:gravity="center_horizontal"
         android:paddingBottom="@dimen/fifty_dp"
         android:text="抱歉,当前没有数据!"
         android:textSize="@dimen/thirty_sp" />

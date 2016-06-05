@@ -59,18 +59,18 @@ public abstract class ViewPagerFragement extends BaseFragment implements ViewPag
      * 将指定的Fragment作为当前显示的页面
      * @param index
      */
-    protected void setCurrentFragment(int index){
+    public void setCurrentFragment(int index){
         if(index>=0&&index<mBaseFragmentPagerAdapter.getCount()&&index!=mCurrentItem){
             mCurrentItem = index;
             mViewPager.setCurrentItem(index);
         }
     }
 
-    protected int getCurrentItem(){
+    public int getCurrentItem(){
         return mCurrentItem;
     }
 
-    protected BaseFragment getCurrentFragment(){
+    public BaseFragment getCurrentFragment(){
         return getFragmentInList(mCurrentItem);
     }
 

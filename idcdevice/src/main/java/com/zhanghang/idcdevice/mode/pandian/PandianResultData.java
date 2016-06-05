@@ -17,6 +17,7 @@ public class PandianResultData extends BaseData implements Serializable {
     private String cupboardNum;
     /**设备编码*/
     private String deviceNum;
+    private long id;
 
     public String getBuildNum() {
         return buildNum;
@@ -40,5 +41,13 @@ public class PandianResultData extends BaseData implements Serializable {
 
     public void setDeviceNum(String deviceNum) {
         this.deviceNum = deviceNum;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }
