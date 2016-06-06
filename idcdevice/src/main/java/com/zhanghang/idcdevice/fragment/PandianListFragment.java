@@ -104,7 +104,7 @@ public class PandianListFragment extends BaseListFragment<PandianResultData> imp
         ArrayList<String> cupboardNums = new ArrayList<>();//已盘点的机柜二维码信息列表
         SparseArray<ArrayList> deviceNums = new SparseArray<>();//已盘点的设备二维码信息列表
         if (mPanListAdapter == null) {
-            mPanListAdapter = new PandianAdapter(mActivity, cupboardNums, deviceNums);
+            mPanListAdapter = new PandianAdapter(mActivity, cupboardNums, deviceNums,mHouseCode);
             mPanListView.setAdapter(mPanListAdapter);
             mPanListView.setOnGroupClickListener(this);
             mPanListView.setOnGroupExpandListener(this);
@@ -302,11 +302,23 @@ public class PandianListFragment extends BaseListFragment<PandianResultData> imp
     }
 
     @Override
-    public void operation(int operationCode) {
+    public void operation(int operationCode,Object ext) {
         switch (operationCode){
             case PandianAdapter.OPERATION_CODE_ADD_DEVICE://添加设备
                 CameraUtils.scannerQRCode((BaseFragmentActivity) mActivity, PandianListFragment.this);
                 isAddDevice = true;
+                break;
+            case PandianAdapter.OPERATION_CODE_DELETE_DEVICE:
+                if(ext!=null&&ext instanceof PandianResultData) {//同步
+                    PandianResultData needDeleted = null;
+                    for (PandianResultData item : mDatas) {
+                        if (item.getId() == ((PandianResultData) ext).getId()) {
+                            needDeleted = item;
+                            break;
+                        }
+                    }
+                    if (needDeleted != null) mDatas.remove(needDeleted);
+                }
                 break;
         }
     }
