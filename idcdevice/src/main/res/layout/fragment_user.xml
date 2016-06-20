@@ -1,196 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:overScrollMode="never"
-    android:scrollbars="none">
+    android:layout_height="match_parent"
+    android:background="@color/idc_c8000000">
 
-    <RelativeLayout
+    <ImageView
+        android:id="@+id/user_logo_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/seventy_dp"
+        android:src="@drawable/cgb_logo" />
+
+    <TextView
+        android:id="@+id/user_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/user_logo_image"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/twenty_eight_dp"
+        android:text="广发银行数据中心移动运维平台"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/thirty_sp" />
+
+    <TextView
+        android:id="@+id/user_tip1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/user_tip"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/seventy_dp"
+        android:layout_marginTop="@dimen/twenty_eight_dp"
+        android:text="版本  1.0"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/twenty_six_sp" />
+
+    <LinearLayout
+        android:id="@+id/user_info_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/idc_c8000000">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/user_tip1"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/twenty_dp">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/zero_point_five_dp"
+            android:layout_marginLeft="@dimen/sixty_five_dp"
+            android:background="@color/idc_838383" />
 
-        <ImageView
-            android:id="@+id/user_logo_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/seventy_dp"
-            android:src="@drawable/cgb_logo" />
-
-        <TextView
-            android:id="@+id/user_tip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/user_logo_image"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/twenty_eight_dp"
-            android:text="广发银行数据中心移动运维平台"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/thirty_sp" />
-
-        <TextView
-            android:id="@+id/user_tip1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/user_tip"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/seventy_dp"
-            android:layout_marginTop="@dimen/twenty_eight_dp"
-            android:text="版本  1.0"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/twenty_six_sp" />
 
         <LinearLayout
-            android:id="@+id/user_info_layout"
+            android:id="@+id/user_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/user_tip1"
-            android:orientation="vertical"
-            android:paddingLeft="@dimen/twenty_dp">
-
-            <LinearLayout
-                android:id="@+id/user_name"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/eighty_dp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/user_name_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/icon_my" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="@dimen/thirty_two_dp"
-                    android:text="书生"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/thirty_sp" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="@dimen/fifty_dp"
-                    android:src="@drawable/right_arrow" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/zero_point_five_dp"
-                android:layout_marginLeft="@dimen/sixty_five_dp"
-                android:background="@color/idc_838383" />
-
-            <LinearLayout
-                android:id="@+id/user_task"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/eighty_dp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/user_task_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/icon_schedule" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="@dimen/thirty_two_dp"
-                    android:text="值班明细"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/thirty_sp" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="@dimen/fifty_dp"
-                    android:src="@drawable/right_arrow" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/zero_point_five_dp"
-                android:layout_marginLeft="@dimen/sixty_five_dp"
-                android:background="@color/idc_838383" />
-
-            <LinearLayout
-                android:id="@+id/user_about"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/eighty_dp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/user_about_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/icon_my" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="@dimen/thirty_two_dp"
-                    android:text="关于我们"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/thirty_sp" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="@dimen/fifty_dp"
-                    android:src="@drawable/right_arrow" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/zero_point_five_dp"
-                android:layout_marginLeft="@dimen/sixty_five_dp"
-                android:background="@color/idc_838383" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/sixty_dp"
-            android:layout_below="@id/user_info_layout"
-            android:layout_marginLeft="@dimen/fifty_dp"
-            android:layout_marginRight="@dimen/fifty_dp"
-            android:layout_marginBottom="@dimen/seventy_dp"
-            android:layout_marginTop="@dimen/fifty_dp"
+            android:layout_height="@dimen/eighty_dp"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/user_upload_data"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="3"
-                android:background="@drawable/button_selector"
-                android:text="上传数据"
-                android:textColor="@color/idc_f5e9e9"
+            <ImageView
+                android:id="@+id/user_name_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/icon_my" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/thirty_two_dp"
+                android:text="书生"
+                android:textColor="@android:color/white"
                 android:textSize="@dimen/thirty_sp" />
 
             <View
@@ -198,15 +76,140 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1" />
 
-            <Button
-                android:id="@+id/user_login_out"
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="@dimen/fifty_dp"
+                android:src="@drawable/right_arrow" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/zero_point_five_dp"
+            android:layout_marginLeft="@dimen/sixty_five_dp"
+            android:background="@color/idc_838383" />
+
+        <LinearLayout
+            android:id="@+id/user_task"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/eighty_dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/user_task_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/icon_schedule" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/thirty_two_dp"
+                android:text="值班明细"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/thirty_sp" />
+
+            <View
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="3"
-                android:background="@drawable/button_selector"
-                android:text="退出用户"
-                android:textColor="@color/idc_f5e9e9"
-                android:textSize="@dimen/thirty_sp" />
+                android:layout_weight="1" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="@dimen/fifty_dp"
+                android:src="@drawable/right_arrow" />
         </LinearLayout>
-    </RelativeLayout>
-</ScrollView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/zero_point_five_dp"
+            android:layout_marginLeft="@dimen/sixty_five_dp"
+            android:background="@color/idc_838383"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/user_about"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/eighty_dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/user_about_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/icon_my" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/thirty_two_dp"
+                android:text="关于我们"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/thirty_sp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="@dimen/fifty_dp"
+                android:src="@drawable/right_arrow" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/zero_point_five_dp"
+            android:layout_marginLeft="@dimen/sixty_five_dp"
+            android:background="@color/idc_838383"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sixty_dp"
+        android:layout_below="@id/user_info_layout"
+        android:layout_marginBottom="@dimen/seventy_dp"
+        android:layout_marginLeft="@dimen/fifty_dp"
+        android:layout_marginRight="@dimen/fifty_dp"
+        android:layout_marginTop="@dimen/fifty_dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/user_upload_data"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:background="@drawable/button_selector"
+            android:text="上传数据"
+            android:textColor="@color/idc_f5e9e9"
+            android:textSize="@dimen/thirty_sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/user_login_out"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:background="@drawable/button_selector"
+            android:text="退出用户"
+            android:textColor="@color/idc_f5e9e9"
+            android:textSize="@dimen/thirty_sp" />
+    </LinearLayout>
+</RelativeLayout>
