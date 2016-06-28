@@ -48,6 +48,25 @@ public abstract class BaseViewHolderExpandableAdapter extends BaseExpandableList
         }
     }
 
+    public void removeParentData(int parentPosition){
+        if(mGroupDatas!=null) {
+            int groupCount = getGroupCount();
+            if (parentPosition >= 0 && parentPosition < groupCount) {
+                mGroupDatas.remove(parentPosition);
+                SparseArray<ArrayList> tmp = new SparseArray<>();
+                for(int i=0;i<groupCount;i++){
+                    if(i<parentPosition){
+                        tmp.put(i,mChildDatas.get(i));
+                    }else if(i>parentPosition){
+                        tmp.put(i,mChildDatas.get(i-1));
+                    }
+                }
+                mChildDatas = tmp;
+                notifyDataSetChanged();
+            }
+        }
+    }
+
     /**
      * 判断给定的子类是否位于给定父类的ArrayList之中
      * @param parent           给定的子数据

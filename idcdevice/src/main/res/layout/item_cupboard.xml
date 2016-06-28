@@ -20,12 +20,24 @@
         android:scaleType="fitStart"
         android:src="@drawable/white_down_arrow"/>
     <TextView
+        android:id="@+id/item_cupboard_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/twenty_dp"
+        android:layout_below="@id/item_cupboard_line"
+        android:layout_toLeftOf="@id/item_cupboard_expand"
+        android:padding="@dimen/ten_dp"
+        android:text="删除机柜"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/twenty_sp"
+        android:background="@drawable/white_stroke_trans_solid_ten_corner_button_bg"/>
+    <TextView
         android:id="@+id/item_cupboard_addDevice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/fifty_dp"
+        android:layout_marginRight="@dimen/twenty_dp"
         android:layout_below="@id/item_cupboard_line"
-        android:layout_toLeftOf="@id/item_cupboard_expand"
+        android:layout_toLeftOf="@id/item_cupboard_delete"
         android:padding="@dimen/ten_dp"
         android:text="添加设备"
         android:textColor="@android:color/white"

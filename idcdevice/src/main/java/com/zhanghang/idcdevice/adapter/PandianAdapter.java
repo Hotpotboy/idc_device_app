@@ -27,15 +27,22 @@ public class PandianAdapter extends BaseViewHolderExpandableAdapter {
     /**
      * 添加设备操作码
      */
-    public static final int OPERATION_CODE_ADD_DEVICE = 1;/**
+    public static final int OPERATION_CODE_ADD_DEVICE = 1;
+    /**
      * 删除设备操作码
      */
     public static final int OPERATION_CODE_DELETE_DEVICE = 2;
+    /**
+     * 删除机柜操作码
+     */
+    public static final int OPERATION_CODE_DELETE_CUPBOARD = 3;
     private static final String KEY_CUPBOARD_NUM = "key_cupboard_num";
     private static final String KEY_CUPBOARD_EXPAND = "key_cupboard_expand";
     private static final String KEY_CUPBOARD_ADDDEVICE = "key_cupboard_addDevice";
+    private static final String KEY_CUPBOARD_DELETE = "key_cupboard_delete";
     private static final String KEY_DEVICE_NUM = "key_device_num";
     private static final String KEY_DEVICE_DELETE = "key_device_delete";
+    private static final String KEY_DEVICE_SPILES = "item_device_spiles";
     /**
      * 操作接口
      */
@@ -61,10 +68,11 @@ public class PandianAdapter extends BaseViewHolderExpandableAdapter {
     }
 
     @Override
-    protected void reBindDataAndGroupView(int groupPosition, boolean isExpanded, HashMap<String, View> baseViewHolder, View convertView) {
+    protected void reBindDataAndGroupView(final int groupPosition, boolean isExpanded, HashMap<String, View> baseViewHolder, View convertView) {
         TextView cupboardNum = (TextView) getViewByTag(R.id.item_cupboard_num, KEY_CUPBOARD_NUM, baseViewHolder, convertView);
         ImageView cupboardExpand = (ImageView) getViewByTag(R.id.item_cupboard_expand, KEY_CUPBOARD_EXPAND, baseViewHolder, convertView);
         TextView addDevice = (TextView) getViewByTag(R.id.item_cupboard_addDevice, KEY_CUPBOARD_ADDDEVICE, baseViewHolder, convertView);
+        TextView deleteCupBoard = (TextView) getViewByTag(R.id.item_cupboard_delete, KEY_CUPBOARD_DELETE, baseViewHolder, convertView);
 
         String num = (String) getGroup(groupPosition);
         cupboardNum.setText(String.format(mContext.getResources().getString(R.string.ji_gui_bian_hao_s), num));
@@ -84,13 +92,23 @@ public class PandianAdapter extends BaseViewHolderExpandableAdapter {
             cupboardExpand.setImageResource(R.drawable.white_down_arrow);
             addDevice.setVisibility(View.GONE);//不能添加设备
         }
+
+        deleteCupBoard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mOperationListener != null) {
+                    mOperationListener.operation(OPERATION_CODE_DELETE_CUPBOARD,groupPosition);
+                }
+            }
+        });
     }
 
     @Override
     protected void reBindDataAndChildView(final int groupPosition, final int childPosition, boolean isLastChild, HashMap<String, View> baseViewHolder, View convertView) {
         TextView deviceNum = (TextView) getViewByTag(R.id.item_device_num, KEY_DEVICE_NUM, baseViewHolder, convertView);
         final Button deviceDelete = (Button) getViewByTag(R.id.item_device_num_delete, KEY_DEVICE_DELETE, baseViewHolder, convertView);
-        deviceDelete.setText("删除编号");
+        View spiles = getViewByTag(R.id.item_device_spiles,KEY_DEVICE_SPILES,baseViewHolder,convertView);
+        deviceDelete.setText("删除设备");
         String num = (String) getChild(groupPosition, childPosition);
         deviceNum.setText(String.format(mContext.getResources().getString(R.string.she_bei_bian_hao_s), num));
         deviceDelete.setOnClickListener(new View.OnClickListener() {
@@ -103,6 +121,13 @@ public class PandianAdapter extends BaseViewHolderExpandableAdapter {
                 new DeleteDeviceTask(groupPosition, childPosition).execute(params);
             }
         });
+
+        int childCount = getChildrenCount(groupPosition);
+        if(childCount==childPosition+1){
+            spiles.setVisibility(View.GONE);
+        }else {
+            spiles.setVisibility(View.VISIBLE);
+        }
     }
 
     public void setOperationListener(OperationListener mOperationListener) {

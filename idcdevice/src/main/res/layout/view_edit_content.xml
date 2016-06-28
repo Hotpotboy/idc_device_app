@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+    <TextView
+        android:id="@+id/view_content_tip"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ninty_dp"
+        android:paddingLeft="@dimen/thirty_two_dp"
+        android:paddingRight="@dimen/thirty_two_dp"
+        android:gravity="center_vertical"
+        android:text="请输入内容:"
+        android:lines="1"
+        android:textColor="@color/idc_999999"
+        android:textSize="@dimen/thirty_two_sp" />
+
+    <View
+        android:id="@+id/view_content_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/zero_point_five_dp"
+        android:layout_marginLeft="@dimen/twenty_eight_dp"
+        android:layout_below="@id/view_content_tip"
+        android:background="@color/idc_9c9c9c" />
+
+    <EditText
+        android:id="@+id/view_content_new"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/one_hundred_fifty_dp"
+        android:background="@drawable/black_stroke_trans_solid_ten_corner_button_bg"
+        android:layout_below="@id/view_content_line"
+        android:layout_marginTop="@dimen/thirty_dp"
+        android:layout_marginLeft="@dimen/thirty_two_dp"
+        android:layout_marginRight="@dimen/thirty_two_dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/idc_000000"
+        android:textSize="@dimen/thirty_two_sp" />
+</RelativeLayout>

@@ -13,20 +13,7 @@
         android:layout_centerVertical="true"
         android:src="@drawable/device_icon" />
 
-    <TextView
-        android:id="@+id/item_device_num"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toRightOf="@id/item_device_num_image"
-        android:paddingLeft="@dimen/twenty_dp"
-        android:paddingRight="@dimen/twenty_dp"
-        android:text="@string/she_bei_bian_hao_s"
-        android:textColor="@color/idc_3b3b3b"
-        android:lines="1"
-        android:ellipsize="end"
-        android:textSize="@dimen/fourty_sp"
-        />
+
     <Button
         android:id="@+id/item_device_num_delete"
         android:layout_width="wrap_content"
@@ -38,11 +25,28 @@
         android:padding="@dimen/ten_dp"
         android:layout_marginBottom="@dimen/twenty_dp"
         android:layout_marginRight="@dimen/twenty_dp"
-        android:text="删除编号"
+        android:text="删除设备"
         android:textColor="@color/idc_f5e9e9"
         android:textSize="@dimen/twenty_sp" />
 
+    <TextView
+        android:id="@+id/item_device_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/item_device_num_image"
+        android:layout_toLeftOf="@id/item_device_num_delete"
+        android:paddingLeft="@dimen/twenty_dp"
+        android:paddingRight="@dimen/twenty_dp"
+        android:text="@string/she_bei_bian_hao_s"
+        android:textColor="@color/idc_3b3b3b"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:textSize="@dimen/fourty_sp"
+        />
+
     <View
+        android:id="@+id/item_device_spiles"
         android:layout_width="match_parent"
         android:layout_height="@dimen/zero_point_five_dp"
         android:layout_alignParentBottom="true"

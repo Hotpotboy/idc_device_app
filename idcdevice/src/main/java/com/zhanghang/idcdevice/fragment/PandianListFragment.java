@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.google.zxing.Intents;
 import com.zhanghang.idcdevice.Const;
 import com.zhanghang.idcdevice.DeviceApplication;
+import com.zhanghang.idcdevice.EditDialog;
 import com.zhanghang.idcdevice.PublicDialog;
 import com.zhanghang.idcdevice.R;
 import com.zhanghang.idcdevice.adapter.PandianAdapter;
@@ -24,6 +25,7 @@ import com.zhanghang.self.utils.PopupWindowUtils;
 import com.zhanghang.self.utils.camera.CameraUtils;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by hangzhang209526 on 2016/6/2.
@@ -59,6 +61,8 @@ public class PandianListFragment extends BaseListFragment<PandianResultData> imp
     private PublicDialog mDialog;
     private TextView mTitileRight;
     private int mExpandItemIndex = -1;
+    /**输入弹出框*/
+    private EditDialog mEditDialog;
 
     @Override
     protected void initDataFromArguments(Bundle arguments) {
@@ -117,7 +121,7 @@ public class PandianListFragment extends BaseListFragment<PandianResultData> imp
                 ArrayList deviceNumsInSpecailCupboard;//指定机柜下的资产信息列表
                 if ((index = cupboardNums.indexOf(item.getCupboardNum())) < 0) {
                     index = cupboardNums.size();
-                    cupboardNums.add(item.getBuildNum());
+                    cupboardNums.add(item.getCupboardNum());
                     deviceNumsInSpecailCupboard = new ArrayList();
                 } else {
                     deviceNumsInSpecailCupboard = deviceNums.get(index);
@@ -275,6 +279,9 @@ public class PandianListFragment extends BaseListFragment<PandianResultData> imp
             mDialog.setContent("要展开此机柜，需扫描二维码，确认扫描?").showCancelButton().showSureButton(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if(mExpandItemIndex>=0&&mExpandItemIndex<mPanListAdapter.getGroupCount()) {
+                        mPanListView.collapseGroup(mExpandItemIndex);
+                    }
                     mExpandCupboardCode = mPanListAdapter.getGroup(groupPosition).toString();
                     mExpandItemIndex = groupPosition;
                     CameraUtils.scannerQRCode((BaseFragmentActivity)mActivity,PandianListFragment.this);
@@ -302,7 +309,7 @@ public class PandianListFragment extends BaseListFragment<PandianResultData> imp
     }
 
     @Override
-    public void operation(int operationCode,Object ext) {
+    public void operation(int operationCode,final Object ext) {
         switch (operationCode){
             case PandianAdapter.OPERATION_CODE_ADD_DEVICE://添加设备
                 CameraUtils.scannerQRCode((BaseFragmentActivity) mActivity, PandianListFragment.this);
@@ -320,7 +327,64 @@ public class PandianListFragment extends BaseListFragment<PandianResultData> imp
                     if (needDeleted != null) mDatas.remove(needDeleted);
                 }
                 break;
+            case PandianAdapter.OPERATION_CODE_DELETE_CUPBOARD://删除机柜
+                mDialog.setContent("此操作会清空此机柜下所有的设备,\n是否删除此机柜?").showCancelButton().showSureButton(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        deleteCupBoard((int)ext);
+                        mDialog.dismiss();
+                    }
+                }).show();
+                break;
         }
+    }
+
+    /***
+     * 删除机柜
+     * @param ext
+     */
+    private void deleteCupBoard(final int ext) {
+        mNetLoadingWindow.showAtLocation();
+        ((TextView) mNetLoadingWindow.getViewById(R.id.net_loading_tip)).setText("正在删除机柜，请稍后......");
+        new AsyncTask<Void,Void,String>(){
+            @Override
+            protected String doInBackground(Void... params) {
+                try {
+                    String selection = PandianResultTable.getComlueInfos(PandianResultData.class).get(0).getName();
+                    selection += "=? and ";
+                    selection += PandianResultTable.getComlueInfos(PandianResultData.class).get(1).getName();
+                    selection += "=?";
+                    String[] args = new String[2];
+                    args[0] = mHouseCode;
+                    args[1] = (String) mPanListAdapter.getGroup(ext);
+                    PandianResultTable.getPandianTableInstance().deleteData(selection, args);
+                    return null;
+                }catch (Exception e){
+                    return e.toString();
+                }
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                mNetLoadingWindow.getPopupWindow().dismiss();
+                if (result!=null) {
+                   Toast.makeText(mActivity,"删除失败【"+result+"】",Toast.LENGTH_LONG).show();
+                }else{
+                    String cupBoard = (String) mPanListAdapter.getGroup(ext);
+                    Iterator<PandianResultData> iterator =  mDatas.iterator();
+                    while(iterator.hasNext()){
+                        PandianResultData data = iterator.next();
+                        if(TextUtils.equals(mHouseCode,data.getBuildNum())
+                                &&TextUtils.equals(cupBoard,data.getCupboardNum())){
+                            iterator.remove();
+                        }
+                    }
+                    mPanListAdapter.removeParentData(ext);
+                    Toast.makeText(mActivity,"删除成功!",Toast.LENGTH_LONG).show();
+                }
+            }
+        }.execute();
+
     }
 
     /**
@@ -335,18 +399,35 @@ public class PandianListFragment extends BaseListFragment<PandianResultData> imp
         @Override
         public void onPostExecute(String data) {
             mNetLoadingWindow.getPopupWindow().dismiss();
+            mDialog.dismiss();
             String tmp = "";
             if (TextUtils.isEmpty((tmp = isCupBoardCode(data)))) {
                 Toast.makeText(mActivity, "机柜的二维码不正确!", Toast.LENGTH_LONG).show();
+                if(mEditDialog==null){
+                    mEditDialog = new EditDialog(mActivity);
+                }
+                mEditDialog.dismiss();
+                mEditDialog.showCancelButton().showSureButton(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mEditDialog.dismiss();
+                        String code = mEditDialog.getEditValue();
+                        if(TextUtils.isEmpty(code)){
+                            Toast.makeText(mActivity, "填写的机柜编码为空!", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                        //添加机柜
+                        addCupBoardCode(code);
+                    }
+                }).show();
                 return;
             }
             if (mPanListAdapter.isInParent(tmp)) {
                 Toast.makeText(mActivity, "该机柜已添加，不能重复添加!", Toast.LENGTH_LONG).show();
                 return;
             }
-            mDialog.dismiss();
             final String cupboardCode = tmp;
-            mDialog.setContent("是否添加此机柜?").showCancelButton().showSureButton(new View.OnClickListener() {
+            mDialog.setContent("机柜二维码扫描成功,是否添加此机柜?").showCancelButton().showSureButton(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     addCupBoardCode(cupboardCode);
@@ -394,7 +475,7 @@ public class PandianListFragment extends BaseListFragment<PandianResultData> imp
             }
             mDialog.dismiss();
             final String deviceCode = data;
-            mDialog.setContent("是否添加此设备?").showCancelButton().showSureButton(new View.OnClickListener() {
+            mDialog.setContent("设备二维码扫描成功,是否添加此设备?").showCancelButton().showSureButton(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     addDeviceCode(deviceCode);
