@@ -112,6 +112,9 @@
                     android:layout_weight="1"
                     android:text="@string/she_bei_bian_hao_s"
                     android:textColor="@color/idc_999999"
+                    android:maxLength="25"
+                    android:ellipsize="end"
+                    android:singleLine="true"
                     android:textSize="@dimen/thirty_sp" />
 
                 <TextView
@@ -120,6 +123,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/ren_wu_ming_cheng_s"
+                    android:maxLength="25"
+                    android:ellipsize="end"
+                    android:singleLine="true"
                     android:textColor="@color/idc_999999"
                     android:textSize="@dimen/thirty_sp" />
             </LinearLayout>
@@ -145,6 +151,9 @@
                     android:layout_weight="1"
                     android:text="@string/shi_shi_yuan_gong_s"
                     android:textColor="@color/idc_999999"
+                    android:maxLength="25"
+                    android:ellipsize="end"
+                    android:singleLine="true"
                     android:textSize="@dimen/thirty_sp" />
 
                 <TextView
@@ -154,6 +163,9 @@
                     android:layout_weight="1"
                     android:text="@string/shi_shi_zu_bie_s"
                     android:textColor="@color/idc_999999"
+                    android:maxLength="25"
+                    android:ellipsize="end"
+                    android:singleLine="true"
                     android:textSize="@dimen/thirty_sp" />
             </LinearLayout>
 
@@ -178,6 +190,9 @@
                     android:layout_weight="1"
                     android:text="@string/chu_li_xin_xi_s"
                     android:textColor="@color/idc_999999"
+                    android:maxLength="25"
+                    android:ellipsize="end"
+                    android:singleLine="true"
                     android:textSize="@dimen/thirty_sp" />
 
                 <TextView
@@ -187,6 +202,9 @@
                     android:layout_weight="1"
                     android:text="@string/chu_li_jie_guo_s"
                     android:textColor="@color/idc_999999"
+                    android:maxLength="25"
+                    android:ellipsize="end"
+                    android:singleLine="true"
                     android:textSize="@dimen/thirty_sp" />
             </LinearLayout>
 
@@ -211,6 +229,9 @@
                     android:layout_weight="1"
                     android:text="@string/ji_hua_kai_shi_s"
                     android:textColor="@color/idc_999999"
+                    android:maxLength="25"
+                    android:ellipsize="end"
+                    android:singleLine="true"
                     android:textSize="@dimen/thirty_sp" />
 
                 <TextView
@@ -220,6 +241,9 @@
                     android:layout_weight="1"
                     android:text="@string/ji_hua_jie_su_s"
                     android:textColor="@color/idc_999999"
+                    android:maxLength="25"
+                    android:ellipsize="end"
+                    android:singleLine="true"
                     android:textSize="@dimen/thirty_sp" />
             </LinearLayout>
 
@@ -244,6 +268,9 @@
                     android:layout_weight="1"
                     android:text="@string/shi_ji_kai_shi_s"
                     android:textColor="@color/idc_999999"
+                    android:maxLength="25"
+                    android:ellipsize="end"
+                    android:singleLine="true"
                     android:textSize="@dimen/thirty_sp" />
                 <TextView
                     android:id="@+id/fragment_task_detail_endTime"
@@ -252,6 +279,9 @@
                     android:layout_weight="1"
                     android:text="@string/shi_ji_jie_su_s"
                     android:textColor="@color/idc_999999"
+                    android:maxLength="25"
+                    android:ellipsize="end"
+                    android:singleLine="true"
                     android:textSize="@dimen/thirty_sp" />
             </LinearLayout>
 
@@ -275,6 +305,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/fu_ze_ren_yuan_s"
+                    android:maxLength="25"
+                    android:ellipsize="end"
+                    android:singleLine="true"
                     android:textColor="@color/idc_999999"
                     android:textSize="@dimen/thirty_sp" />
 
@@ -284,6 +317,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/fu_ze_zu_bie_s"
+                    android:maxLength="25"
+                    android:ellipsize="end"
+                    android:singleLine="true"
                     android:textColor="@color/idc_999999"
                     android:textSize="@dimen/thirty_sp" />
             </LinearLayout>
@@ -308,6 +344,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/ren_wu_zhuang_tai_s"
+                    android:maxLength="25"
+                    android:ellipsize="end"
+                    android:singleLine="true"
                     android:textColor="@color/idc_999999"
                     android:textSize="@dimen/thirty_sp" />
 
@@ -317,6 +356,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/ren_wu_lei_bie_s"
+                    android:maxLength="25"
+                    android:ellipsize="end"
+                    android:singleLine="true"
                     android:textColor="@color/idc_999999"
                     android:textSize="@dimen/thirty_sp" />
             </LinearLayout>

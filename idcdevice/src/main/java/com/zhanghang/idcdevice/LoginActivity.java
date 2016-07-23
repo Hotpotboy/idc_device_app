@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zhanghang.idcdevice.adbsocket.Request;
 import com.zhanghang.idcdevice.mode.LoginResultData;
 import com.zhanghang.self.utils.PopupWindowUtils;
+import com.zhanghang.self.utils.PreferenceUtil;
 
 import java.io.IOException;
 
@@ -69,7 +70,7 @@ public class LoginActivity extends Activity implements View.OnClickListener,Text
                 break;
         }
     }
-    private void login(String userName,String password){
+    private void login(final String userName,String password){
         if(Const.isConnetionToPc()){
             String params = "{\"userName\":\""+userName+"\",\"password\":\""+password+"\"}";
             mNetLoadingWindow.showAtLocation();
@@ -82,6 +83,7 @@ public class LoginActivity extends Activity implements View.OnClickListener,Text
                     try {
                         LoginResultData loginResultData = objectMapper.readValue(result,LoginResultData.class);
                         if("true".equals(loginResultData.getIsSucc())) {
+                            Const.setUserName(LoginActivity.this,userName);
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
                         }else{

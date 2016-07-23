@@ -2,6 +2,7 @@ package com.zhanghang.idcdevice.mode.pandian;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.zhanghang.idcdevice.mode.BaseData;
+import com.zhanghang.idcdevice.mode.DeviceData;
 
 import java.io.Serializable;
 
@@ -18,6 +19,8 @@ public class PandianResultData extends BaseData implements Serializable {
     /**设备编码*/
     private String deviceNum;
     private long id;
+    /**时间戳*/
+    private long time;
 
     public String getBuildNum() {
         return buildNum;
@@ -49,5 +52,21 @@ public class PandianResultData extends BaseData implements Serializable {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public long getTime() {
+        return time;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
+    }
+
+    public DeviceData converToDeviceData(){
+        DeviceData deviceData = new DeviceData();
+        deviceData.setAssetNum(deviceNum);
+        deviceData.setCabinet(cupboardNum);
+        deviceData.setIdcRoom(buildNum);
+        return deviceData;
     }
 }

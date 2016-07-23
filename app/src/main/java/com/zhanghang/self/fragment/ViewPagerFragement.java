@@ -80,6 +80,11 @@ public abstract class ViewPagerFragement extends BaseFragment implements ViewPag
         mViewPager.removeOnPageChangeListener(this);
     }
 
+    /**
+     * 根据指定的索引位置，返回其对应的Fragment
+     * @param index
+     * @return   如果存在在返回Fragment，否则返回null
+     */
     protected BaseFragment getFragmentInList(int index){
         if(index>=0&&index<mBaseFragmentPagerAdapter.getCount()){
             return (BaseFragment) mBaseFragmentPagerAdapter.getItem(index);

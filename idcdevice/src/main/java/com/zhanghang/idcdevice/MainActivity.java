@@ -68,10 +68,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-//    public void gotoScannQRCode(TaskData data) {
-//        CameraUtils.scannerQRCode(this);
-//        mCacheTaskData = data;
-//    }
+    public void setSelectedPage(int index) {
+        if(mMainFragment.getCurrentItem()!=index){
+            mMainFragment.setCurrentFragment(index);
+        }
+    }
 
     @Override
     public void onResume() {
@@ -156,13 +157,13 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if (taskData != null) {
                     taskData.setRealStartTime(System.currentTimeMillis());
-                    taskData.setDealPeople(Const.CURRENT_USER_NAME);
+                    taskData.setDealPeople(Const.getUserName(MainActivity.this));
                     ArrayList<PatrolItemData> items = Const.getPatrolItemDataByTaskId(taskData.getTaskId() + "");
                     taskData.setPatrolItems(items);
                     //前往任务详情页
                     //保存数据到数据库
                     taskData.setRealStartTime(System.currentTimeMillis());
-                    taskData.setDealPeople(Const.CURRENT_USER_NAME);
+                    taskData.setDealPeople(Const.getUserName(MainActivity.this));
                     String selection = TaskTable.getTaskTableInstance().getComlueInfos()[14].getName() + "=?";
                     String[] args = new String[1];
                     args[0] = taskData.getTaskId() + "";

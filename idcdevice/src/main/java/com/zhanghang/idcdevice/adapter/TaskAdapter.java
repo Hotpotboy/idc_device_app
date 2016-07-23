@@ -2,11 +2,13 @@ package com.zhanghang.idcdevice.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
 import com.zhanghang.idcdevice.Const;
 import com.zhanghang.idcdevice.FragmentActivity;
+import com.zhanghang.idcdevice.MainActivity;
 import com.zhanghang.idcdevice.R;
 import com.zhanghang.idcdevice.mode.TaskData;
 import com.zhanghang.self.adpter.BaseViewHolderAdapter;
@@ -49,13 +51,26 @@ public class TaskAdapter extends BaseViewHolderAdapter {
 //            taskDealed.setVisibility(View.VISIBLE);
 //        }
         taskOperation.setVisibility(View.VISIBLE);
+        final String taskType = data.getTaskType();
+        if(TextUtils.equals(taskType,Const.TASK_TYPE_XUNJIAN)) {//巡检任务
+            taskOperation.setText("打开任务");
+        }else if(TextUtils.equals(taskType,Const.TASK_TYPE_PANDIAN)) {//盘点任务
+            taskOperation.setText("开始盘点");
+        }
         taskOperation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, FragmentActivity.class);
-                intent.putExtra(Const.INTENT_KEY_LOAD_FRAGMENT, FragmentActivity.XUNJIAN_TASK_DETAIL_FRAGMENT);
-                intent.putExtra(Const.INTENT_KEY_TASK_DATA, data);
-                mContext.startActivity(intent);
+                if(TextUtils.equals(taskType,Const.TASK_TYPE_XUNJIAN)) {//巡检任务
+                    Intent intent = new Intent(mContext, FragmentActivity.class);
+                    intent.putExtra(Const.INTENT_KEY_LOAD_FRAGMENT, FragmentActivity.XUNJIAN_TASK_DETAIL_FRAGMENT);
+                    intent.putExtra(Const.INTENT_KEY_TASK_DATA, data);
+                    mContext.startActivity(intent);
+                }else if(TextUtils.equals(taskType,Const.TASK_TYPE_PANDIAN)){//盘点任务
+                    if(mContext instanceof MainActivity){
+                        MainActivity mainActivity = (MainActivity)mContext;
+                        mainActivity.setSelectedPage(1);
+                    }
+                }
             }
         });
     }

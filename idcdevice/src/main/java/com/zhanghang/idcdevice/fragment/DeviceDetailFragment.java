@@ -1,5 +1,6 @@
 package com.zhanghang.idcdevice.fragment;
 
+import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.SparseBooleanArray;
@@ -20,6 +21,10 @@ import java.util.List;
  * Created by Administrator on 2016-04-11.
  */
 public class DeviceDetailFragment extends BaseFragment implements View.OnClickListener {
+    /**
+     * 标题
+     */
+    private TextView mCenterTitle;
     /**
      * 设备编号
      */
@@ -63,11 +68,11 @@ public class DeviceDetailFragment extends BaseFragment implements View.OnClickLi
     /**
      * 保存按钮
      */
-    private Button mSaveButton;
+//    private Button mSaveButton;
     /**
      * 删除按钮
      */
-    private Button mDeleteButton;
+//    private Button mDeleteButton;
     /**
      * 设备数据
      */
@@ -80,12 +85,22 @@ public class DeviceDetailFragment extends BaseFragment implements View.OnClickLi
      * 编辑对话框
      */
     private EditDeviceDialog mEditDialog;
-    /**提示对话框*/
+    /**
+     * 提示对话框
+     */
     private PublicDialog mTipDialog;
-    /**是否修改过*/
-    private SparseBooleanArray  mChanged;
-    /**是否新增*/
+    /**
+     * 是否修改过
+     */
+    private SparseBooleanArray mChanged;
+    /**
+     * 是否新增
+     */
     private boolean isAdd;
+    /**
+     * 标题栏左侧
+     */
+    private TextView mTitileLeft;
 
     @Override
     protected int specifyRootLayoutId() {
@@ -94,6 +109,9 @@ public class DeviceDetailFragment extends BaseFragment implements View.OnClickLi
 
     @Override
     protected void initView() {
+        mCenterTitle = (TextView) findViewById(R.id.fragment_title_center);
+        mTitileLeft = (TextView) findViewById(R.id.fragment_title_left);
+
         mDeviceNumView = (TextView) findViewById(R.id.fragment_device_deviceNum);
         mDeviceNameView = (TextView) findViewById(R.id.fragment_device_deviceName);
         mDeviceTypeView = (TextView) findViewById(R.id.fragment_device_deviceType);
@@ -104,8 +122,8 @@ public class DeviceDetailFragment extends BaseFragment implements View.OnClickLi
         mAssetType2View = (TextView) findViewById(R.id.fragment_device_assetType2);
         mAssetType3View = (TextView) findViewById(R.id.fragment_device_assetType3);
         mDeviceLocationView = (TextView) findViewById(R.id.fragment_device_deviceLocation);
-        mSaveButton = (Button) findViewById(R.id.fragment_device_saveButton);
-        mDeleteButton = (Button) findViewById(R.id.fragment_device_deleteButton);
+//        mSaveButton = (Button) findViewById(R.id.fragment_device_saveButton);
+//        mDeleteButton = (Button) findViewById(R.id.fragment_device_deleteButton);
         //编辑对话框
         mEditDialog = new EditDeviceDialog(mActivity);
         //设置监听器
@@ -119,46 +137,52 @@ public class DeviceDetailFragment extends BaseFragment implements View.OnClickLi
 //        mAssetType2View.setOnClickListener(this);
 //        mAssetType3View.setOnClickListener(this);
         mDeviceLocationView.setOnClickListener(this);
-        mSaveButton.setOnClickListener(this);
-        mDeleteButton.setOnClickListener(this);
+//        mSaveButton.setOnClickListener(this);
+//        mDeleteButton.setOnClickListener(this);
+        mCenterTitle.setText("上次盘点结果");
+        mTitileLeft.setText("返回");
+        mTitileLeft.setBackgroundColor(Color.TRANSPARENT);
+        mTitileLeft.setOnClickListener(this);
+        init();
     }
 
     /**
      * 添加数据
      */
-    public void addData(){
+    public void addData() {
         setData(null);
     }
 
     public void setData(DeviceData data) {
         mData = data;
-        if(mData!=null) {//查看数据
-            isAdd = false;
-            mDeleteButton.setVisibility(View.GONE);
-        }else{//新增数据
-            isAdd = true;
-            mData = new DeviceData();
-            mDeleteButton.setVisibility(View.GONE);
-        }
-        try {
-            mStudioData = (DeviceData) mData.clone();
-            init();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
+//        if(mData!=null) {//查看数据
+//            isAdd = false;
+//            mDeleteButton.setVisibility(View.GONE);
+//        }else{//新增数据
+//            isAdd = true;
+//            mData = new DeviceData();
+//            mDeleteButton.setVisibility(View.GONE);
+//        }
+//        try {
+//            mStudioData = (DeviceData) mData.clone();
+//            init();
+//        } catch (CloneNotSupportedException e) {
+//            e.printStackTrace();
+//        }
+        init();
     }
 
     private void init() {
         mChanged = new SparseBooleanArray();
-        mDeviceNumView.setText(mData.getDeviceNum());
-        mDeviceNameView.setText(mData.getDeviceName());
-        mDeviceTypeView.setText(mData.getDeviceModel());
-        mAssetNumView.setText(mData.getAssetNum());
-        mAssetSerialNumView.setText(mData.getAssetSerialNum());
-        mEntityAssetNumView.setText(mData.getEntityAssetNum());
-        mAssetType1View.setText(mData.getAssetType1());
-        mAssetType2View.setText(mData.getAssetType2());
-        mAssetType3View.setText(mData.getAssetType3());
+        if (mDeviceNumView != null) mDeviceNumView.setText(mData.getDeviceNum());
+        if (mDeviceNameView != null) mDeviceNameView.setText(mData.getDeviceName());
+        if (mDeviceTypeView != null) mDeviceTypeView.setText(mData.getDeviceModel());
+        if (mAssetNumView != null) mAssetNumView.setText(mData.getAssetNum());
+        if (mAssetSerialNumView != null) mAssetSerialNumView.setText(mData.getAssetSerialNum());
+        if (mEntityAssetNumView != null) mEntityAssetNumView.setText(mData.getEntityAssetNum());
+        if (mAssetType1View != null) mAssetType1View.setText(mData.getAssetType1());
+        if (mAssetType2View != null) mAssetType2View.setText(mData.getAssetType2());
+        if (mAssetType3View != null) mAssetType3View.setText(mData.getAssetType3());
     }
 
     @Override
@@ -167,6 +191,9 @@ public class DeviceDetailFragment extends BaseFragment implements View.OnClickLi
             mEditDialog.dismiss();
         }
         switch (v.getId()) {
+            case R.id.fragment_title_left:
+                mActivity.finish();
+                break;
 //            case R.id.fragment_device_deviceNum:
 //            case R.id.fragment_device_deviceName:
 //            case R.id.fragment_device_deviceType:
@@ -179,13 +206,13 @@ public class DeviceDetailFragment extends BaseFragment implements View.OnClickLi
             case R.id.fragment_device_deviceLocation:
                 if (v instanceof TextView) {
                     String content = "";
-                    if(v.getId()==R.id.fragment_device_deviceLocation){
+                    if (v.getId() == R.id.fragment_device_deviceLocation) {
                         content = getResources().getString(R.string.she_bei_wei_zhi_s);
-                        content = String.format(content,mData.getCity(),mData.getIdcRoom(),mData.getCabinet(),mData.getPosition());
-                    }else {
+                        content = String.format(content, mData.getCity(), mData.getIdcRoom(), mData.getCabinet(), mData.getPosition());
+                    } else {
                         content = (String) ((TextView) v).getText();
                     }
-                    mEditDialog.setContent(content).showCancelButton(View.GONE,null).showSureButton(new View.OnClickListener() {
+                    mEditDialog.setContent(content).showCancelButton(View.GONE, null).showSureButton(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
 //                            String newValue = mEditDialog.getEditValue();
@@ -196,17 +223,17 @@ public class DeviceDetailFragment extends BaseFragment implements View.OnClickLi
                 }
                 break;
             case R.id.fragment_device_saveButton://保存
-                if(!isChange()&&!isAdd){
-                    if(mTipDialog==null){
+                if (!isChange() && !isAdd) {
+                    if (mTipDialog == null) {
                         mTipDialog = new PublicDialog(mActivity);
                     }
                     mTipDialog.dismiss();
-                    mTipDialog.setContent("没有任何修改过……").showCancelButton(View.GONE,null).showSureButton(null).show();
+                    mTipDialog.setContent("没有任何修改过……").showCancelButton(View.GONE, null).showSureButton(null).show();
                     break;
                 }
-                if(!isAdd) {
+                if (!isAdd) {
                     deleteOrEditOrAddOperation(Const.DataOperation.UPDATE);
-                }else{
+                } else {
                     deleteOrEditOrAddOperation(Const.DataOperation.ADD);
                 }
                 break;
@@ -228,92 +255,92 @@ public class DeviceDetailFragment extends BaseFragment implements View.OnClickLi
         view.setText(editValue);
         switch (view.getId()) {
             case R.id.fragment_device_deviceNum:
-                if(!isSame){//如果不相同
+                if (!isSame) {//如果不相同
                     mStudioData.setDeviceNum(editValue);
-                }else{
+                } else {
                     String value = new String(mData.getDeviceNum());
                     mStudioData.setDeviceNum(value);
                 }
-                mChanged.put(0,!isSame);
+                mChanged.put(0, !isSame);
                 break;
             case R.id.fragment_device_deviceName:
-                if(!isSame){//如果不相同
+                if (!isSame) {//如果不相同
                     mStudioData.setDeviceName(editValue);
-                }else{
+                } else {
                     String value = new String(mData.getDeviceName());
                     mStudioData.setDeviceName(value);
                 }
-                mChanged.put(1,!isSame);
+                mChanged.put(1, !isSame);
                 break;
             case R.id.fragment_device_deviceType:
-                if(!isSame){//如果不相同
+                if (!isSame) {//如果不相同
                     mStudioData.setDeviceModel(editValue);
-                }else{
+                } else {
                     String value = new String(mData.getDeviceModel());
                     mStudioData.setDeviceModel(value);
                 }
-                mChanged.put(2,!isSame);
+                mChanged.put(2, !isSame);
                 break;
             case R.id.fragment_device_assetNum:
-                if(!isSame){//如果不相同
+                if (!isSame) {//如果不相同
                     mStudioData.setAssetNum(editValue);
-                }else{
+                } else {
                     String value = new String(mData.getAssetNum());
                     mStudioData.setAssetNum(value);
                 }
-                mChanged.put(3,!isSame);
+                mChanged.put(3, !isSame);
                 break;
             case R.id.fragment_device_assetSerialNum:
-                if(!isSame){//如果不相同
+                if (!isSame) {//如果不相同
                     mStudioData.setAssetSerialNum(editValue);
-                }else{
+                } else {
                     String value = new String(mData.getAssetSerialNum());
                     mStudioData.setAssetSerialNum(value);
                 }
-                mChanged.put(4,!isSame);
+                mChanged.put(4, !isSame);
                 break;
             case R.id.fragment_device_entityAssetNum:
-                if(!isSame){//如果不相同
+                if (!isSame) {//如果不相同
                     mStudioData.setEntityAssetNum(editValue);
-                }else{
+                } else {
                     String value = new String(mData.getEntityAssetNum());
                     mStudioData.setEntityAssetNum(value);
                 }
-                mChanged.put(5,!isSame);
+                mChanged.put(5, !isSame);
                 break;
             case R.id.fragment_device_assetType1:
-                if(!isSame){//如果不相同
+                if (!isSame) {//如果不相同
                     mStudioData.setAssetType1(editValue);
-                }else{
+                } else {
                     String value = new String(mData.getAssetType1());
                     mStudioData.setAssetType1(value);
                 }
-                mChanged.put(6,!isSame);
+                mChanged.put(6, !isSame);
                 break;
             case R.id.fragment_device_assetType2:
-                if(!isSame){//如果不相同
+                if (!isSame) {//如果不相同
                     mStudioData.setAssetType2(editValue);
-                }else{
+                } else {
                     String value = new String(mData.getAssetType2());
                     mStudioData.setAssetType2(value);
                 }
-                mChanged.put(7,!isSame);
+                mChanged.put(7, !isSame);
                 break;
             case R.id.fragment_device_assetType3:
-                if(!isSame){//如果不相同
+                if (!isSame) {//如果不相同
                     mStudioData.setAssetType3(editValue);
-                }else{
+                } else {
                     String value = new String(mData.getAssetType3());
                     mStudioData.setAssetType3(value);
                 }
-                mChanged.put(8,!isSame);
+                mChanged.put(8, !isSame);
                 break;
             case R.id.fragment_device_deviceLocation:
-                if(!isSame){//如果不相同
-                    String[] valuse = {"","","",""};
-                    if(!TextUtils.isEmpty(editValue)) {
+                if (!isSame) {//如果不相同
+                    String[] valuse = {"", "", "", ""};
+                    if (!TextUtils.isEmpty(editValue)) {
                         String[] tmp = editValue.split("\\/");
-                        for(int i=0;i<tmp.length;i++){
+                        for (int i = 0; i < tmp.length; i++) {
                             valuse[i] = tmp[i];
                         }
                     }
@@ -321,7 +348,7 @@ public class DeviceDetailFragment extends BaseFragment implements View.OnClickLi
                     mStudioData.setIdcRoom(valuse[1]);
                     mStudioData.setCabinet(valuse[2]);
                     mStudioData.setPosition(valuse[3]);
-                }else{
+                } else {
                     String city = new String(mData.getCity());
                     mStudioData.setCity(city);
                     String room = new String(mData.getIdcRoom());
@@ -331,19 +358,20 @@ public class DeviceDetailFragment extends BaseFragment implements View.OnClickLi
                     String position = new String(mData.getPosition());
                     mStudioData.setCity(position);
                 }
-                mChanged.put(9,!isSame);
+                mChanged.put(9, !isSame);
                 break;
         }
     }
 
     /**
      * 判断是否用户进行过修改
+     *
      * @return false表示从未修改过
      */
-    private boolean isChange(){
-        for(int i=0;i<mChanged.size();i++){
+    private boolean isChange() {
+        for (int i = 0; i < mChanged.size(); i++) {
             boolean item = mChanged.valueAt(i);
-            if(item){
+            if (item) {
                 return true;
             }
         }
@@ -352,22 +380,23 @@ public class DeviceDetailFragment extends BaseFragment implements View.OnClickLi
 
     /**
      * 删除或者编辑或者新增数据的操作方法
+     *
      * @param type
      */
-    private void deleteOrEditOrAddOperation(final Const.DataOperation type){
-        if(mTipDialog==null){
+    private void deleteOrEditOrAddOperation(final Const.DataOperation type) {
+        if (mTipDialog == null) {
             mTipDialog = new PublicDialog(mActivity);
         }
         mTipDialog.dismiss();
-        String tip = type==Const.DataOperation.UPDATE?"保存":(type==Const.DataOperation.DELETE?"删除":"新增");
-        mTipDialog.setContent("确定"+tip+"此设备?").showCancelButton()
+        String tip = type == Const.DataOperation.UPDATE ? "保存" : (type == Const.DataOperation.DELETE ? "删除" : "新增");
+        mTipDialog.setContent("确定" + tip + "此设备?").showCancelButton()
                 .showSureButton(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         List<Fragment> fragmentList = getFragmentManager().getFragments();
-                        for(Fragment item:fragmentList){
-                            if(item instanceof DeviceListFragment){
-                                ((DeviceListFragment)item).updateData(mStudioData,type);
+                        for (Fragment item : fragmentList) {
+                            if (item instanceof DeviceListFragment) {
+                                ((DeviceListFragment) item).updateData(mStudioData, type);
                                 break;
                             }
                         }

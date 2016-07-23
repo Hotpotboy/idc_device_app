@@ -219,7 +219,7 @@ public class PatrolItemsFragment extends BaseFragment implements View.OnClickLis
         mData.setDealResult("已处理");
         mData.setTaskState(Const.TASK_STATE_DEALED);
         mData.setRealEndTime(System.currentTimeMillis());
-        mData.setDealInfo("此任务已被"+Const.CURRENT_USER_NAME+"处理!");
+        mData.setDealInfo("此任务已被"+Const.getUserName(mActivity) +"处理!");
         String selection = TaskTable.getTaskTableInstance().getComlueInfos()[14].getName()+"=?";
         String[] args = new String[1];
         args[0] = mData.getTaskId()+"";

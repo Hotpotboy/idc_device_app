@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
 
+import com.zhanghang.idcdevice.Const;
 import com.zhanghang.idcdevice.R;
 import com.zhanghang.self.base.BaseFragment;
 
@@ -13,6 +14,8 @@ import com.zhanghang.self.base.BaseFragment;
 public class UserDetailFragment extends BaseFragment{
     private TextView mTitileCenter;
     private TextView mTitileLeft;
+    private TextView mNiceNameView;
+    private TextView mLoginNameView;
 
     @Override
     protected int specifyRootLayoutId() {
@@ -24,6 +27,11 @@ public class UserDetailFragment extends BaseFragment{
         //标题
         mTitileCenter = (TextView) findViewById(R.id.fragment_title_center);
         mTitileLeft = (TextView) findViewById(R.id.fragment_title_left);
+
+        mNiceNameView = (TextView)findViewById(R.id.my_info_niceName);
+        mLoginNameView = (TextView)findViewById(R.id.my_info_loginName);
+        mNiceNameView.setText(Const.getUserName(mActivity));
+        mLoginNameView.setText(Const.getUserName(mActivity));
     }
 
     @Override

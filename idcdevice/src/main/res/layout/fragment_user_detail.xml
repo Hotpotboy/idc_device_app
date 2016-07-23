@@ -65,7 +65,7 @@
                 android:background="@color/idc_9c9c9c" />
 
             <TextView
-                android:id="@+id/my_info_createTime_tip"
+                android:id="@+id/my_info_loginName_tip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/my_info_split1"
@@ -75,11 +75,11 @@
                 android:textSize="@dimen/thirty_dp" />
 
             <TextView
-                android:id="@+id/my_info_createTime"
+                android:id="@+id/my_info_loginName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/my_info_split1"
-                android:layout_toRightOf="@id/my_info_createTime_tip"
+                android:layout_toRightOf="@id/my_info_loginName_tip"
                 android:padding="@dimen/twenty_five_dp"
                 android:text="123"
                 android:textSize="@dimen/thirty_dp" />
@@ -88,7 +88,7 @@
                 android:id="@+id/my_info_split3"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/zero_point_five_dp"
-                android:layout_below="@id/my_info_createTime_tip"
+                android:layout_below="@id/my_info_loginName_tip"
                 android:background="@color/idc_9c9c9c" />
 
             <TextView

@@ -23,7 +23,7 @@
         android:id="@+id/item_cupboard_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/twenty_dp"
+        android:layout_marginRight="@dimen/fifteen_dp"
         android:layout_below="@id/item_cupboard_line"
         android:layout_toLeftOf="@id/item_cupboard_expand"
         android:padding="@dimen/ten_dp"
@@ -35,7 +35,7 @@
         android:id="@+id/item_cupboard_addDevice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/twenty_dp"
+        android:layout_marginRight="@dimen/fifteen_dp"
         android:layout_below="@id/item_cupboard_line"
         android:layout_toLeftOf="@id/item_cupboard_delete"
         android:padding="@dimen/ten_dp"
@@ -43,12 +43,27 @@
         android:textColor="@android:color/white"
         android:textSize="@dimen/twenty_sp"
         android:background="@drawable/white_stroke_trans_solid_ten_corner_button_bg"/>
+
+    <TextView
+        android:id="@+id/item_cupboard_showLastInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/fifteen_dp"
+        android:layout_below="@id/item_cupboard_line"
+        android:layout_toLeftOf="@id/item_cupboard_addDevice"
+        android:padding="@dimen/ten_dp"
+        android:text="@string/shang_ci_xin_xi"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/twenty_sp"
+        android:visibility="gone"
+        android:background="@drawable/white_stroke_trans_solid_ten_corner_button_bg"/>
+
     <TextView
         android:id="@+id/item_cupboard_num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_toLeftOf="@id/item_cupboard_addDevice"
+        android:layout_toLeftOf="@id/item_cupboard_showLastInfo"
         android:layout_alignTop="@id/item_cupboard_expand"
         android:layout_alignBottom="@id/item_cupboard_expand"
         android:gravity="center_vertical"

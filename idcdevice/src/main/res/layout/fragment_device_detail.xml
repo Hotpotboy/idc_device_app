@@ -1,423 +1,435 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:background="@color/idc_ffffff"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <include
+        android:id="@+id/fragment_task_detail_title"
+        layout="@layout/public_title" />
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/idc_ffffff"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/ninty_dp"
-            android:background="@color/idc_efeff4"
-            android:gravity="center_vertical"
-            android:paddingLeft="@dimen/thirty_two_dp"
-            android:text="设备信息"
-            android:textColor="@color/idc_af0012"
-            android:textSize="@dimen/thirty_sp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/zero_point_five_dp"
-            android:background="@color/idc_9c9c9c" />
-
+        android:layout_height="wrap_content">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/ninty_dp"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/thirty_two_dp"
-            android:paddingRight="@dimen/thirty_two_dp">
+            android:layout_height="match_parent"
+            android:background="@color/idc_ffffff"
+            android:orientation="vertical">
+
 
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:text="设备编号"
-                android:textColor="@color/idc_999999"
-                android:textSize="@dimen/thirty_sp" />
-
-            <TextView
-                android:id="@+id/fragment_device_deviceNum"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:gravity="center_vertical|right"
-                android:hint="@string/dian_ji_bian_ji_shu_ju"
-                android:textColor="@color/idc_000000"
-                android:textSize="@dimen/thirty_two_sp" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/zero_point_five_dp"
-            android:layout_marginLeft="@dimen/twenty_eight_dp"
-            android:background="@color/idc_9c9c9c" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/ninty_dp"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/thirty_two_dp"
-            android:paddingRight="@dimen/thirty_two_dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:text="设备名称"
-                android:textColor="@color/idc_999999"
-                android:textSize="@dimen/thirty_sp" />
-
-            <TextView
-                android:id="@+id/fragment_device_deviceName"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:gravity="center_vertical|right"
-                android:hint="@string/dian_ji_bian_ji_shu_ju"
-                android:textColor="@color/idc_000000"
-                android:textSize="@dimen/thirty_two_sp" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/zero_point_five_dp"
-            android:layout_marginLeft="@dimen/twenty_eight_dp"
-            android:background="@color/idc_9c9c9c" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/ninty_dp"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/thirty_two_dp"
-            android:paddingRight="@dimen/thirty_two_dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:text="设备类型"
-                android:textColor="@color/idc_999999"
-                android:textSize="@dimen/thirty_sp" />
-
-            <TextView
-                android:id="@+id/fragment_device_deviceType"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:gravity="center_vertical|right"
-                android:hint="@string/dian_ji_bian_ji_shu_ju"
-                android:textColor="@color/idc_000000"
-                android:textSize="@dimen/thirty_two_sp" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/zero_point_five_dp"
-            android:background="@color/idc_9c9c9c" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/ninty_dp"
-            android:background="@color/idc_efeff4"
-            android:gravity="center_vertical"
-            android:paddingLeft="@dimen/thirty_two_dp"
-            android:text="资产信息"
-            android:textColor="@color/idc_af0012"
-            android:textSize="@dimen/thirty_sp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/zero_point_five_dp"
-            android:background="@color/idc_9c9c9c" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/ninty_dp"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/thirty_two_dp"
-            android:paddingRight="@dimen/thirty_two_dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:text="资产编号"
-                android:textColor="@color/idc_999999"
-                android:textSize="@dimen/thirty_sp" />
-
-            <TextView
-                android:id="@+id/fragment_device_assetNum"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:gravity="center_vertical|right"
-                android:hint="@string/dian_ji_bian_ji_shu_ju"
-                android:textColor="@color/idc_000000"
-                android:textSize="@dimen/thirty_two_sp" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/zero_point_five_dp"
-            android:layout_marginLeft="@dimen/twenty_eight_dp"
-            android:background="@color/idc_9c9c9c" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/ninty_dp"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/thirty_two_dp"
-            android:paddingRight="@dimen/thirty_two_dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:text="资产序列号"
-                android:textColor="@color/idc_999999"
-                android:textSize="@dimen/thirty_sp" />
-
-            <TextView
-                android:id="@+id/fragment_device_assetSerialNum"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:gravity="center_vertical|right"
-                android:hint="@string/dian_ji_bian_ji_shu_ju"
-                android:textColor="@color/idc_000000"
-                android:textSize="@dimen/thirty_two_sp" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/zero_point_five_dp"
-            android:layout_marginLeft="@dimen/twenty_eight_dp"
-            android:background="@color/idc_9c9c9c" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/ninty_dp"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/thirty_two_dp"
-            android:paddingRight="@dimen/thirty_two_dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:text="实物资产编号"
-                android:textColor="@color/idc_999999"
-                android:textSize="@dimen/thirty_sp" />
-
-            <TextView
-                android:id="@+id/fragment_device_entityAssetNum"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:gravity="center_vertical|right"
-                android:hint="@string/dian_ji_bian_ji_shu_ju"
-                android:textColor="@color/idc_000000"
-                android:textSize="@dimen/thirty_two_sp" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/zero_point_five_dp"
-            android:layout_marginLeft="@dimen/twenty_eight_dp"
-            android:background="@color/idc_9c9c9c" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/ninty_dp"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/thirty_two_dp"
-            android:paddingRight="@dimen/thirty_two_dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:text="资产分类1"
-                android:textColor="@color/idc_999999"
-                android:textSize="@dimen/thirty_sp" />
-
-            <TextView
-                android:id="@+id/fragment_device_assetType1"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:gravity="center_vertical|right"
-                android:hint="@string/dian_ji_bian_ji_shu_ju"
-                android:textColor="@color/idc_000000"
-                android:textSize="@dimen/thirty_two_sp" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/zero_point_five_dp"
-            android:layout_marginLeft="@dimen/twenty_eight_dp"
-            android:background="@color/idc_9c9c9c" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/ninty_dp"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/thirty_two_dp"
-            android:paddingRight="@dimen/thirty_two_dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:text="资产分类2"
-                android:textColor="@color/idc_999999"
-                android:textSize="@dimen/thirty_sp" />
-
-            <TextView
-                android:id="@+id/fragment_device_assetType2"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:gravity="center_vertical|right"
-                android:hint="@string/dian_ji_bian_ji_shu_ju"
-                android:textColor="@color/idc_000000"
-                android:textSize="@dimen/thirty_two_sp" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/zero_point_five_dp"
-            android:layout_marginLeft="@dimen/twenty_eight_dp"
-            android:background="@color/idc_9c9c9c" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/ninty_dp"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/thirty_two_dp"
-            android:paddingRight="@dimen/thirty_two_dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:text="资产分类3"
-                android:textColor="@color/idc_999999"
-                android:textSize="@dimen/thirty_sp" />
-
-            <TextView
-                android:id="@+id/fragment_device_assetType3"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:gravity="center_vertical|right"
-                android:hint="@string/dian_ji_bian_ji_shu_ju"
-                android:textColor="@color/idc_000000"
-                android:textSize="@dimen/thirty_two_sp" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/zero_point_five_dp"
-            android:background="@color/idc_9c9c9c" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/ninty_dp"
-            android:background="@color/idc_efeff4"
-            android:gravity="center_vertical"
-            android:paddingLeft="@dimen/thirty_two_dp"
-            android:text="位置信息"
-            android:textColor="@color/idc_af0012"
-            android:textSize="@dimen/thirty_sp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/zero_point_five_dp"
-            android:background="@color/idc_9c9c9c" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/ninty_dp"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/thirty_two_dp"
-            android:paddingRight="@dimen/thirty_two_dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:text="设备位置"
-                android:textColor="@color/idc_999999"
-                android:textSize="@dimen/thirty_sp" />
-
-            <TextView
-                android:id="@+id/fragment_device_deviceLocation"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:gravity="center_vertical|right"
-                android:text="@string/cha_kan_xiang_qing"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/ninty_dp"
+                android:background="@color/idc_efeff4"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/thirty_two_dp"
+                android:text="设备信息"
                 android:textColor="@color/idc_af0012"
-                android:textSize="@dimen/thirty_two_sp" />
+                android:textSize="@dimen/thirty_sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/zero_point_five_dp"
+                android:background="@color/idc_9c9c9c" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/ninty_dp"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/thirty_two_dp"
+                android:paddingRight="@dimen/thirty_two_dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="设备编号"
+                    android:textColor="@color/idc_999999"
+                    android:textSize="@dimen/thirty_sp" />
+
+                <TextView
+                    android:id="@+id/fragment_device_deviceNum"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="center_vertical|right"
+                    android:hint="@string/kong_shu_ju"
+                    android:textColor="@color/idc_000000"
+                    android:textSize="@dimen/thirty_two_sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/zero_point_five_dp"
+                android:layout_marginLeft="@dimen/twenty_eight_dp"
+                android:background="@color/idc_9c9c9c" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/ninty_dp"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/thirty_two_dp"
+                android:paddingRight="@dimen/thirty_two_dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="设备名称"
+                    android:textColor="@color/idc_999999"
+                    android:textSize="@dimen/thirty_sp" />
+
+                <TextView
+                    android:id="@+id/fragment_device_deviceName"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="center_vertical|right"
+                    android:hint="@string/kong_shu_ju"
+                    android:textColor="@color/idc_000000"
+                    android:textSize="@dimen/thirty_two_sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/zero_point_five_dp"
+                android:layout_marginLeft="@dimen/twenty_eight_dp"
+                android:background="@color/idc_9c9c9c" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/ninty_dp"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/thirty_two_dp"
+                android:paddingRight="@dimen/thirty_two_dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="设备类型"
+                    android:textColor="@color/idc_999999"
+                    android:textSize="@dimen/thirty_sp" />
+
+                <TextView
+                    android:id="@+id/fragment_device_deviceType"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="center_vertical|right"
+                    android:hint="@string/kong_shu_ju"
+                    android:textColor="@color/idc_000000"
+                    android:textSize="@dimen/thirty_two_sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/zero_point_five_dp"
+                android:background="@color/idc_9c9c9c" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/ninty_dp"
+                android:background="@color/idc_efeff4"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/thirty_two_dp"
+                android:text="资产信息"
+                android:textColor="@color/idc_af0012"
+                android:textSize="@dimen/thirty_sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/zero_point_five_dp"
+                android:background="@color/idc_9c9c9c" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/ninty_dp"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/thirty_two_dp"
+                android:paddingRight="@dimen/thirty_two_dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="资产编号"
+                    android:textColor="@color/idc_999999"
+                    android:textSize="@dimen/thirty_sp" />
+
+                <TextView
+                    android:id="@+id/fragment_device_assetNum"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="center_vertical|right"
+                    android:hint="@string/kong_shu_ju"
+                    android:textColor="@color/idc_000000"
+                    android:textSize="@dimen/thirty_two_sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/zero_point_five_dp"
+                android:layout_marginLeft="@dimen/twenty_eight_dp"
+                android:background="@color/idc_9c9c9c" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/ninty_dp"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/thirty_two_dp"
+                android:paddingRight="@dimen/thirty_two_dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="资产序列号"
+                    android:textColor="@color/idc_999999"
+                    android:textSize="@dimen/thirty_sp" />
+
+                <TextView
+                    android:id="@+id/fragment_device_assetSerialNum"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="center_vertical|right"
+                    android:hint="@string/kong_shu_ju"
+                    android:textColor="@color/idc_000000"
+                    android:textSize="@dimen/thirty_two_sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/zero_point_five_dp"
+                android:layout_marginLeft="@dimen/twenty_eight_dp"
+                android:background="@color/idc_9c9c9c" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/ninty_dp"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/thirty_two_dp"
+                android:paddingRight="@dimen/thirty_two_dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="实物资产编号"
+                    android:textColor="@color/idc_999999"
+                    android:textSize="@dimen/thirty_sp" />
+
+                <TextView
+                    android:id="@+id/fragment_device_entityAssetNum"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="center_vertical|right"
+                    android:hint="@string/kong_shu_ju"
+                    android:textColor="@color/idc_000000"
+                    android:textSize="@dimen/thirty_two_sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/zero_point_five_dp"
+                android:layout_marginLeft="@dimen/twenty_eight_dp"
+                android:background="@color/idc_9c9c9c" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/ninty_dp"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/thirty_two_dp"
+                android:paddingRight="@dimen/thirty_two_dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="资产分类1"
+                    android:textColor="@color/idc_999999"
+                    android:textSize="@dimen/thirty_sp" />
+
+                <TextView
+                    android:id="@+id/fragment_device_assetType1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="center_vertical|right"
+                    android:hint="@string/kong_shu_ju"
+                    android:textColor="@color/idc_000000"
+                    android:textSize="@dimen/thirty_two_sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/zero_point_five_dp"
+                android:layout_marginLeft="@dimen/twenty_eight_dp"
+                android:background="@color/idc_9c9c9c" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/ninty_dp"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/thirty_two_dp"
+                android:paddingRight="@dimen/thirty_two_dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="资产分类2"
+                    android:textColor="@color/idc_999999"
+                    android:textSize="@dimen/thirty_sp" />
+
+                <TextView
+                    android:id="@+id/fragment_device_assetType2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="center_vertical|right"
+                    android:hint="@string/kong_shu_ju"
+                    android:textColor="@color/idc_000000"
+                    android:textSize="@dimen/thirty_two_sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/zero_point_five_dp"
+                android:layout_marginLeft="@dimen/twenty_eight_dp"
+                android:background="@color/idc_9c9c9c" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/ninty_dp"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/thirty_two_dp"
+                android:paddingRight="@dimen/thirty_two_dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="资产分类3"
+                    android:textColor="@color/idc_999999"
+                    android:textSize="@dimen/thirty_sp" />
+
+                <TextView
+                    android:id="@+id/fragment_device_assetType3"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="center_vertical|right"
+                    android:hint="@string/kong_shu_ju"
+                    android:textColor="@color/idc_000000"
+                    android:textSize="@dimen/thirty_two_sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/zero_point_five_dp"
+                android:background="@color/idc_9c9c9c" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/ninty_dp"
+                android:background="@color/idc_efeff4"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/thirty_two_dp"
+                android:text="位置信息"
+                android:textColor="@color/idc_af0012"
+                android:textSize="@dimen/thirty_sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/zero_point_five_dp"
+                android:background="@color/idc_9c9c9c" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/ninty_dp"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/thirty_two_dp"
+                android:paddingRight="@dimen/thirty_two_dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="设备位置"
+                    android:textColor="@color/idc_999999"
+                    android:textSize="@dimen/thirty_sp" />
+
+                <TextView
+                    android:id="@+id/fragment_device_deviceLocation"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="center_vertical|right"
+                    android:text="@string/cha_kan_xiang_qing"
+                    android:textColor="@color/idc_af0012"
+                    android:textSize="@dimen/thirty_two_sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/zero_point_five_dp"
+                android:background="@color/idc_9c9c9c" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/one_hundred_dp"
+                android:background="@color/idc_efeff4"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/thirty_two_dp"
+                android:paddingRight="@dimen/thirty_two_dp"
+                android:visibility="gone">
+
+                <Button
+                    android:id="@+id/fragment_device_saveButton"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/sixty_dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="@dimen/sixteen_dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_selector"
+                    android:paddingLeft="@dimen/twenty_dp"
+                    android:paddingRight="@dimen/twenty_dp"
+                    android:text="保      存"
+                    android:textColor="@color/idc_f5e9e9"
+                    android:textSize="@dimen/thirty_sp"
+                    android:visibility="gone" />
+
+                <Button
+                    android:id="@+id/fragment_device_deleteButton"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/sixty_dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/sixteen_dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_selector"
+                    android:paddingLeft="@dimen/twenty_dp"
+                    android:paddingRight="@dimen/twenty_dp"
+                    android:text="删      除"
+                    android:textColor="@color/idc_f5e9e9"
+                    android:textSize="@dimen/thirty_sp"
+                    android:visibility="gone" />
+            </LinearLayout>
         </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/zero_point_five_dp"
-            android:background="@color/idc_9c9c9c" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/one_hundred_dp"
-            android:background="@color/idc_efeff4"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/thirty_two_dp"
-            android:paddingRight="@dimen/thirty_two_dp">
-
-            <Button
-                android:id="@+id/fragment_device_saveButton"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/sixty_dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="@dimen/sixteen_dp"
-                android:layout_weight="1"
-                android:background="@drawable/button_selector"
-                android:paddingLeft="@dimen/twenty_dp"
-                android:paddingRight="@dimen/twenty_dp"
-                android:text="保      存"
-                android:textColor="@color/idc_f5e9e9"
-                android:textSize="@dimen/thirty_sp"
-                android:visibility="gone"/>
-
-            <Button
-                android:id="@+id/fragment_device_deleteButton"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/sixty_dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/sixteen_dp"
-                android:layout_weight="1"
-                android:background="@drawable/button_selector"
-                android:paddingLeft="@dimen/twenty_dp"
-                android:paddingRight="@dimen/twenty_dp"
-                android:text="删      除"
-                android:textColor="@color/idc_f5e9e9"
-                android:textSize="@dimen/thirty_sp"
-                android:visibility="gone"/>
-        </LinearLayout>
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
+</LinearLayout>

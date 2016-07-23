@@ -29,13 +29,29 @@
         android:textColor="@color/idc_f5e9e9"
         android:textSize="@dimen/twenty_sp" />
 
+    <Button
+        android:id="@+id/item_device_num_lastInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/item_device_num_delete"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/button_selector"
+        android:padding="@dimen/ten_dp"
+        android:layout_marginBottom="@dimen/twenty_dp"
+        android:layout_marginRight="@dimen/twenty_dp"
+        android:text="@string/shang_ci_xin_xi"
+        android:textColor="@color/idc_f5e9e9"
+        android:textSize="@dimen/twenty_sp"
+        android:visibility="gone" />
+
     <TextView
         android:id="@+id/item_device_num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@id/item_device_num_image"
-        android:layout_toLeftOf="@id/item_device_num_delete"
+        android:layout_toLeftOf="@id/item_device_num_lastInfo"
         android:paddingLeft="@dimen/twenty_dp"
         android:paddingRight="@dimen/twenty_dp"
         android:text="@string/she_bei_bian_hao_s"

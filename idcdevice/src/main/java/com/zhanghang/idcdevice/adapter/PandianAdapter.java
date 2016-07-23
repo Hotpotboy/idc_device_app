@@ -1,18 +1,23 @@
 package com.zhanghang.idcdevice.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.zhanghang.idcdevice.Const;
+import com.zhanghang.idcdevice.FragmentActivity;
+import com.zhanghang.idcdevice.PublicDialog;
 import com.zhanghang.idcdevice.R;
 import com.zhanghang.idcdevice.db.PandianResultTable;
+import com.zhanghang.idcdevice.mode.DBdata;
+import com.zhanghang.idcdevice.mode.DeviceData;
 import com.zhanghang.idcdevice.mode.pandian.PandianResultData;
 import com.zhanghang.self.adpter.BaseViewHolderExpandableAdapter;
 
@@ -40,9 +45,11 @@ public class PandianAdapter extends BaseViewHolderExpandableAdapter {
     private static final String KEY_CUPBOARD_EXPAND = "key_cupboard_expand";
     private static final String KEY_CUPBOARD_ADDDEVICE = "key_cupboard_addDevice";
     private static final String KEY_CUPBOARD_DELETE = "key_cupboard_delete";
+    private static final String KEY_CUPBOARD_LASTINFO = "key_cupboard_lastinfo";
     private static final String KEY_DEVICE_NUM = "key_device_num";
     private static final String KEY_DEVICE_DELETE = "key_device_delete";
     private static final String KEY_DEVICE_SPILES = "item_device_spiles";
+    private static final String KEY_DEVICE_LASTINFO = "key_device_lastinfo";
     /**
      * 操作接口
      */
@@ -73,6 +80,7 @@ public class PandianAdapter extends BaseViewHolderExpandableAdapter {
         ImageView cupboardExpand = (ImageView) getViewByTag(R.id.item_cupboard_expand, KEY_CUPBOARD_EXPAND, baseViewHolder, convertView);
         TextView addDevice = (TextView) getViewByTag(R.id.item_cupboard_addDevice, KEY_CUPBOARD_ADDDEVICE, baseViewHolder, convertView);
         TextView deleteCupBoard = (TextView) getViewByTag(R.id.item_cupboard_delete, KEY_CUPBOARD_DELETE, baseViewHolder, convertView);
+        TextView lastInfo = (TextView) getViewByTag(R.id.item_cupboard_showLastInfo, KEY_CUPBOARD_LASTINFO, baseViewHolder, convertView);
 
         String num = (String) getGroup(groupPosition);
         cupboardNum.setText(String.format(mContext.getResources().getString(R.string.ji_gui_bian_hao_s), num));
@@ -93,6 +101,19 @@ public class PandianAdapter extends BaseViewHolderExpandableAdapter {
             addDevice.setVisibility(View.GONE);//不能添加设备
         }
 
+        final DeviceData lastInfoData = DBdata.getDeviceDataFromCached(num,1);
+        if(lastInfoData==null){//没有上次盘点的信息
+            lastInfo.setVisibility(View.GONE);
+        }else{
+            lastInfo.setVisibility(View.VISIBLE);
+            lastInfo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showDetail(lastInfoData);
+                }
+            });
+        }
+
         deleteCupBoard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,6 +127,7 @@ public class PandianAdapter extends BaseViewHolderExpandableAdapter {
     @Override
     protected void reBindDataAndChildView(final int groupPosition, final int childPosition, boolean isLastChild, HashMap<String, View> baseViewHolder, View convertView) {
         TextView deviceNum = (TextView) getViewByTag(R.id.item_device_num, KEY_DEVICE_NUM, baseViewHolder, convertView);
+        TextView deviceLastInfo = (TextView) getViewByTag(R.id.item_device_num_lastInfo, KEY_DEVICE_LASTINFO, baseViewHolder, convertView);
         final Button deviceDelete = (Button) getViewByTag(R.id.item_device_num_delete, KEY_DEVICE_DELETE, baseViewHolder, convertView);
         View spiles = getViewByTag(R.id.item_device_spiles,KEY_DEVICE_SPILES,baseViewHolder,convertView);
         deviceDelete.setText("删除设备");
@@ -122,11 +144,33 @@ public class PandianAdapter extends BaseViewHolderExpandableAdapter {
             }
         });
 
+        final DeviceData deviceLastInfoData = DBdata.getDeviceDataFromCached(num,0);
+        if(deviceLastInfoData==null){//没有上次盘点的信息
+            deviceLastInfo.setVisibility(View.GONE);
+        }else{
+            deviceLastInfo.setVisibility(View.VISIBLE);
+            deviceLastInfo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showDetail(deviceLastInfoData);
+                }
+            });
+        }
+
         int childCount = getChildrenCount(groupPosition);
         if(childCount==childPosition+1){
             spiles.setVisibility(View.GONE);
         }else {
             spiles.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void showDetail(DeviceData deviceData){
+        if(deviceData!=null){
+            Intent intent = new Intent(mContext, FragmentActivity.class);
+            intent.putExtra(Const.INTENT_KEY_DEVICE_DATA,deviceData);
+            intent.putExtra(Const.INTENT_KEY_LOAD_FRAGMENT,FragmentActivity.DEVICE_DETAIL_FRAGMENT);
+            mContext.startActivity(intent);
         }
     }
 

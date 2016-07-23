@@ -148,7 +148,7 @@ public class TaskDetailFragment extends BaseFragment implements View.OnClickList
         initData(mPlanStartTimeView, R.string.ji_hua_kai_shi_s, Const.isNullForDBData(time) ? "无数据" : time, R.color.idc_000000);
         initData(mDealInfoView, R.string.chu_li_xin_xi_s, Const.isNullForDBData(mData.getDealInfo()) ? "无数据" : mData.getDealInfo(), R.color.idc_000000);
         initData(mDealResultView, R.string.chu_li_jie_guo_s, Const.isNullForDBData(mData.getDealResult()) ? "无数据" : mData.getDealResult(), R.color.idc_000000);
-        initData(mTaskTypeView, R.string.ren_wu_lei_bie_s, Const.isNullForDBData(mData.getTaskType()) ? "无数据" : mData.getTaskType(), R.color.idc_000000);
+        initData(mTaskTypeView, R.string.ren_wu_lei_bie_s, Const.isNullForDBData(mData.getTaskType()) ? "无数据" : Const.getTaskTypeNameByTaskTypNum(mData.getTaskType()), R.color.idc_000000);
         initData(mTaskStateView, R.string.ren_wu_zhuang_tai_s, Const.isNullForDBData(mData.getTaskState()) ? "无数据" : mData.getTaskState(), R.color.idc_000000);
         initData(mResponseGroupView, R.string.fu_ze_zu_bie_s, Const.isNullForDBData(mData.getResponseGroup()) ? "无数据" : mData.getResponseGroup(), R.color.idc_000000);
         initData(mResponsePeopleView, R.string.fu_ze_ren_yuan_s, Const.isNullForDBData(mData.getResponsePeople()) ? "无数据" : mData.getResponsePeople(), R.color.idc_000000);

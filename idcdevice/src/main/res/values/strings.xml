@@ -27,4 +27,6 @@
     <string name="dian_ji_bian_ji_shu_ju">点击编辑数据</string>
     <string name="fang_jian_wei_zhi_s">房间位置:%1$s</string>
     <string name="ji_gui_bian_hao_s">"机柜编号:%1$s"</string>
+    <string name="shang_ci_xin_xi">上次信息</string>
+    <string name="kong_shu_ju">空数据</string>
 </resources>

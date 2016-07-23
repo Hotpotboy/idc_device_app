@@ -22,15 +22,19 @@ import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.zhanghang.idcdevice.adbsocket.AdbSocketService;
 import com.zhanghang.idcdevice.adbsocket.Request;
 import com.zhanghang.idcdevice.db.DeviceTable;
+import com.zhanghang.idcdevice.db.PandianResultTable;
 import com.zhanghang.idcdevice.db.PatrolItemTable;
 import com.zhanghang.idcdevice.db.TaskTable;
 import com.zhanghang.idcdevice.mode.DBdata;
 import com.zhanghang.idcdevice.mode.DeviceData;
 import com.zhanghang.idcdevice.mode.PatrolItemData;
 import com.zhanghang.idcdevice.mode.TaskData;
+import com.zhanghang.idcdevice.mode.UploadDBData;
+import com.zhanghang.idcdevice.mode.pandian.PandianResultData;
 import com.zhanghang.self.base.BaseApplication;
 import com.zhanghang.self.db.BaseSQLiteHelper;
 import com.zhanghang.self.utils.PopupWindowUtils;
+import com.zhanghang.self.utils.PreferenceUtil;
 import com.zxing.util.GenerateQRCode;
 
 import java.io.IOException;
@@ -89,8 +93,8 @@ public class DeviceApplication extends BaseApplication {
     public void saveDatasFromPC(DBdata dBdata) {
         if (dBdata != null) {
             String tip = "";
-            //设备信息
-            ArrayList<DeviceData> devices = dBdata.getDevices();
+            //机房信息
+            ArrayList<DeviceData> devices = dBdata.getIdcRooms();
             if (devices != null && devices.size() > 0) {
                 for (DeviceData item : devices) {
                     try {
@@ -98,11 +102,11 @@ public class DeviceApplication extends BaseApplication {
                         DeviceTable.getDeviceTableInstance().insertData(item);
                     } catch (Exception e) {
                         e.printStackTrace();
-                        Toast.makeText(this, "设备信息【" + item.getDeviceId() + "," + item.getDeviceName() + "】插入数据库失败,原因：" + e.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, "机房信息【" + item.getDeviceId() + "," + item.getDeviceName() + "】插入数据库失败,原因：" + e.toString(), Toast.LENGTH_LONG).show();
                     }
                 }
             } else {
-                tip = "设备信息为空!";
+                tip = "机房信息为空!";
             }
             //任务信息
             ArrayList<TaskData> tasks = dBdata.getTasks();
@@ -168,12 +172,14 @@ public class DeviceApplication extends BaseApplication {
     public String sendDataToPc() {
         String result = null;
         try {
-            ArrayList<DeviceData> deviceDatas = DeviceTable.getDeviceTableInstance().selectAllDatas(DeviceData.class);
+            ArrayList<PandianResultData> pandianResultDatas = PandianResultTable.getPandianTableInstance().selectAllDatas(PandianResultData.class);
             ArrayList<TaskData> taskDatas = TaskTable.getTaskTableInstance().selectAllDatas(TaskData.class);
             ArrayList<PatrolItemData> patrolItemDatas = PatrolItemTable.getPatrolItemTableInstance().selectAllDatas(PatrolItemData.class);
-            DBdata dBdata = new DBdata();
-            dBdata.setDevices(deviceDatas);
+            UploadDBData dBdata = new UploadDBData();
+//            dBdata.setDevices(deviceDatas);
+            //上传巡检项信息
             dBdata.setPatrols(patrolItemDatas);
+            //上传任务信息
             if (taskDatas != null && taskDatas.size() > 0) {
                 for (TaskData taskData : taskDatas) {
                     taskData.setTaskState("2");
@@ -186,9 +192,17 @@ public class DeviceApplication extends BaseApplication {
                 }
             }
             dBdata.setTasks(taskDatas);
+            //上传盘点结果数据
+            if (pandianResultDatas != null && pandianResultDatas.size() > 0) {
+                ArrayList<DeviceData> pandianResults = new ArrayList<>();
+                for (PandianResultData item : pandianResultDatas) {
+                    DeviceData deviceData = item.converToDeviceData();
+                    pandianResults.add(deviceData);
+                }
+                dBdata.setDevices(pandianResults);
+            }
             //转换为字符串
             ObjectMapper objectMapper = new ObjectMapper();
-//            filterFileds(objectMapper);
             result = objectMapper.writeValueAsString(dBdata);
             Log.i(TAG, "上传数据长度【" + result.length() + "】");
             return result;
@@ -223,32 +237,38 @@ public class DeviceApplication extends BaseApplication {
         netLoadingWindow.showAtLocation();
         Request.addRequestForCode(AdbSocketUtils.GET_ALL_INFOS_COMMANDE, "", new Request.CallBack() {
             @Override
-            public void onSuccess(String result) {
-                try {
-                    ObjectMapper objectMapper = new ObjectMapper();
-                    final DBdata dBdata = objectMapper.readValue(result, DBdata.class);
-                    ((TextView) netLoadingWindow.getViewById(R.id.net_loading_tip)).setText("获取数据成功，正在本地化......");
-                    AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
-                        @Override
-                        protected Void doInBackground(Void... params) {
+            public void onSuccess(final String result) {
+                ((TextView) netLoadingWindow.getViewById(R.id.net_loading_tip)).setText("获取数据成功，正在本地化......");
+                AsyncTask<Void, Void, Boolean> task = new AsyncTask<Void, Void, Boolean>() {
+                    @Override
+                    protected Boolean doInBackground(Void... params) {
+                        try {
+                            ObjectMapper objectMapper = new ObjectMapper();
+                            final DBdata dBdata = objectMapper.readValue(result, DBdata.class);
                             saveDatasFromPC(dBdata);
-                            return null;
+                            PreferenceUtil.updateStringInPreferce(instance, Const.PREFERENCE_FILE_NAME, Const.PREFERENCE_KEY_ALL_DATA_INFOS, "");//清空
+                            PreferenceUtil.updateStringInPreferce(instance,Const.PREFERENCE_FILE_NAME,Const.PREFERENCE_KEY_ALL_DATA_INFOS,result);//更新
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            Toast.makeText(activity, "解析数据失败……", Toast.LENGTH_LONG).show();
+                            return false;
                         }
+                        return true;
+                    }
 
-                        @Override
-                        protected void onPostExecute(Void result) {
-                            netLoadingWindow.getPopupWindow().dismiss();
+                    @Override
+                    protected void onPostExecute(Boolean result) {
+                        netLoadingWindow.getPopupWindow().dismiss();
+                        if(result) {
                             if (mOnDataDownFinishedListeners.size() > 0) {
                                 for (OnDataDownFinishedListener item : mOnDataDownFinishedListeners)
                                     item.onDown();
                             }
                         }
-                    };
-                    task.execute();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Toast.makeText(activity, "解析数据失败……", Toast.LENGTH_LONG).show();
-                }
+                    }
+                };
+                task.execute();
+
             }
 
             @Override
@@ -262,10 +282,10 @@ public class DeviceApplication extends BaseApplication {
     /**
      * 解析从二维码扫描页面返回的数据
      *
-     * @param result 二维码扫描结果
+     * @param result    二维码扫描结果
      * @param asyncTask 此异步任务的执行参数为二维码扫描对应的值
      */
-    public <U,R> void resolveScannerResult(String result,AsyncTask<String,U,R> asyncTask) {
+    public <U, R> void resolveScannerResult(String result, AsyncTask<String, U, R> asyncTask) {
 
         if (!TextUtils.isEmpty(result) && result.indexOf("&") >= 0) {
             final String[] resultArray = result.split("&");

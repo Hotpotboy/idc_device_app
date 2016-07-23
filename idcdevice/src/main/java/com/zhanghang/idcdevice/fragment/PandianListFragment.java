@@ -60,6 +60,7 @@ public class PandianListFragment extends BaseListFragment<PandianResultData> imp
     private PopupWindowUtils mNetLoadingWindow;
     private PublicDialog mDialog;
     private TextView mTitileRight;
+    /**当前展开的机柜*/
     private int mExpandItemIndex = -1;
     /**输入弹出框*/
     private EditDialog mEditDialog;
@@ -156,7 +157,7 @@ public class PandianListFragment extends BaseListFragment<PandianResultData> imp
                 break;
             case R.id.fragment_title_right://标题栏右内容，新增机柜
                 if(mExpandItemIndex>=0) {
-                    mPanListView.collapseGroup(mExpandItemIndex);
+                    mPanListView.collapseGroup(mExpandItemIndex);//关闭展开项
                     collapseGroup();
                 }
             case R.id.public_noData_downLoad://扫描机柜
@@ -170,8 +171,7 @@ public class PandianListFragment extends BaseListFragment<PandianResultData> imp
      */
     private void collapseGroup(){
         mPanListAdapter.notifyDataSetChanged();
-        mExpandItemIndex = -1;
-        mExpandCupboardCode = null;
+        cleanExpandItem();
     }
 
     @Override
@@ -220,6 +220,7 @@ public class PandianListFragment extends BaseListFragment<PandianResultData> imp
             resultData.setBuildNum(mHouseCode);
         }
         resultData.setDeviceNum(deviceCode);
+        resultData.setTime(System.currentTimeMillis());
         try {
             if(deviceNum!=0) {
                 PandianResultTable.getPandianTableInstance().insertData(resultData);
@@ -248,6 +249,7 @@ public class PandianListFragment extends BaseListFragment<PandianResultData> imp
         resultData.setCupboardNum(cupBoardCode);
         resultData.setBuildNum(mHouseCode);
         resultData.setId(PandianResultTable.getId());
+        resultData.setTime(System.currentTimeMillis());
         try {
             PandianResultTable.getPandianTableInstance().insertData(resultData);
         } catch (Exception e) {
@@ -276,7 +278,7 @@ public class PandianListFragment extends BaseListFragment<PandianResultData> imp
             collapseGroup();
             return false;
         } else {
-            mDialog.setContent("要展开此机柜，需扫描二维码，确认扫描?").showCancelButton().showSureButton(new View.OnClickListener() {
+            mDialog.setContent("要展开此机柜，需扫描机柜二维码，\n确认扫描?").showCancelButton().showSureButton(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(mExpandItemIndex>=0&&mExpandItemIndex<mPanListAdapter.getGroupCount()) {
@@ -381,10 +383,24 @@ public class PandianListFragment extends BaseListFragment<PandianResultData> imp
                     }
                     mPanListAdapter.removeParentData(ext);
                     Toast.makeText(mActivity,"删除成功!",Toast.LENGTH_LONG).show();
+                    if(mExpandItemIndex==ext){//如果删除的就是当前展开的机柜，则无效化相关展开的属性
+                        cleanExpandItem();
+                    }
+                    if(mDatas.size()==0){
+                        showList(false);
+                    }
                 }
             }
         }.execute();
 
+    }
+
+    /**
+     * 效化相关展开的属性值
+     */
+    private void cleanExpandItem(){
+        mExpandItemIndex = -1;
+        mExpandCupboardCode = null;
     }
 
     /**

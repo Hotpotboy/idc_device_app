@@ -3,10 +3,12 @@ package com.zhanghang.idcdevice;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.zhanghang.idcdevice.fragment.DeviceDetailFragment;
 import com.zhanghang.idcdevice.fragment.PandianListFragment;
 import com.zhanghang.idcdevice.fragment.PatrolItemsFragment;
 import com.zhanghang.idcdevice.fragment.TaskDetailFragment;
 import com.zhanghang.idcdevice.fragment.UserDetailFragment;
+import com.zhanghang.idcdevice.mode.DeviceData;
 import com.zhanghang.idcdevice.mode.TaskData;
 import com.zhanghang.self.base.BaseFragment;
 import com.zhanghang.self.base.BaseFragmentActivity;
@@ -28,6 +30,8 @@ public class FragmentActivity extends BaseFragmentActivity {
      * 盘点任务详情页
      */
     public static final int PANDIAN_TASK_DETAIL_FRAGMENT = 4;
+    /**设备详情页*/
+    public static final int DEVICE_DETAIL_FRAGMENT = 5;
     private BaseFragment[] fragments;
 
     @Override
@@ -71,6 +75,14 @@ public class FragmentActivity extends BaseFragmentActivity {
                     pandianListFragment.setArguments(argments);
                     fragments = new BaseFragment[1];
                     fragments[0] = pandianListFragment;
+                    initFragments(fragments, R.id.fragments_container);
+                    break;
+                case DEVICE_DETAIL_FRAGMENT:
+                    DeviceData deviceData = (DeviceData) intent.getSerializableExtra(Const.INTENT_KEY_DEVICE_DATA);
+                    DeviceDetailFragment deviceDetailFragment = new DeviceDetailFragment();
+                    deviceDetailFragment.setData(deviceData);
+                    fragments = new BaseFragment[1];
+                    fragments[0] = deviceDetailFragment;
                     initFragments(fragments, R.id.fragments_container);
                     break;
             }

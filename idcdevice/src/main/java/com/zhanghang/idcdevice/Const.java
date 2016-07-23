@@ -1,5 +1,6 @@
 package com.zhanghang.idcdevice;
 
+import android.content.Context;
 import android.os.SystemClock;
 import android.support.annotation.ColorInt;
 import android.text.SpannableString;
@@ -16,6 +17,7 @@ import com.zhanghang.self.utils.SystemUtils;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.RecursiveTask;
 
 /**
  * Created by Administrator on 2016-04-03.
@@ -26,9 +28,11 @@ public class Const {
         UPDATE,
         DELETE
     }
-    public static final String CURRENT_USER_NAME = "书生";
+    private static String sCurrentUserName = "书生";
     /**数据库名字*/
     public static final String DB_FILE_NAME = "idc_device.db";
+    /**preference名字*/
+    public static final String PREFERENCE_FILE_NAME = "idc_preference";
     /**任务状态——已处理*/
     public static final String TASK_STATE_DEALED = "已完成";
     /**任务状态——未处理*/
@@ -38,8 +42,8 @@ public class Const {
     /**任务类型——盘点*/
     public static final String TASK_TYPE_PANDIAN = "2";
     /*************Intent之中的key***********************************************/
-    /**设备ID的key*/
-//    public static final String INTENT_KEY_DEVICE_ID = "intent_key_device_id";
+    /**设备数据的key*/
+    public static final String INTENT_KEY_DEVICE_DATA = "intent_key_device_data";
     /**机房二维码称在Intent中的key*/
     public static final String INTENT_KEY_HOUSE_CODE = "intent_key_house_code";
     /**机房名称在Intent中的key*/
@@ -52,6 +56,11 @@ public class Const {
     public static final String INTENT_KEY_LOAD_FRAGMENT = "intent_key_load_fragment";
     /**{@link DialogActivity}展示值的key*/
     public static final String INTENT_KEY_DIALOG_ACTIVITY_SHOW = "intent_key_dialog_activity_show";
+    /*************Preference之中的key***********************************************/
+    /**所有从电脑获取的数据信息在SharedPreference中的存在KEY*/
+    public static final String PREFERENCE_KEY_ALL_DATA_INFOS = "preference_key_all_date_infos";
+    /**当前用户名在SharedPreference中的存在KEY*/
+    private static final String PREFERENCE_KEY_USER_NAME = "preference_key_user_name";
     /*************相关的工具方法***********************************************/
     /**
      * 改变一个指定字符串中指定子集的颜色
@@ -95,6 +104,16 @@ public class Const {
         return items;
     }
 
+    public static String getTaskTypeNameByTaskTypNum(String typeNum){
+        if(TextUtils.equals(typeNum,TASK_TYPE_XUNJIAN)){
+            return "巡检任务";
+        }else if(TextUtils.equals(typeNum,TASK_TYPE_PANDIAN)){
+            return "盘点任务";
+        }else{
+            return "未识别类型任务";
+        }
+    }
+
     /**
      * 判断一个任务是否被处理了
      * @param data
@@ -115,11 +134,30 @@ public class Const {
     }
 
     public static String getDataString(long time){
-        String startTime;
         if(time<=0){
            return null;
         }else{
            return SystemUtils.getTimestampStringListView(SystemUtils.TIME_FORMAT_yyyy_MM_dd_HH_mm_ss,new Date(time));
+        }
+    }
+
+    /**
+     *获取当前登陆用户名
+     * @param context
+     * @return
+     */
+    public static String getUserName(Context context){
+        return PreferenceUtil.getStringInPreferce(context,PREFERENCE_FILE_NAME,PREFERENCE_KEY_USER_NAME,sCurrentUserName);
+    }
+
+    /**
+     * 保存当前登陆用户名
+     * @param context
+     * @param userName
+     */
+    public static void setUserName(Context context,String userName){
+        if(!TextUtils.equals(userName,getUserName(context))){
+            PreferenceUtil.updateStringInPreferce(context,PREFERENCE_FILE_NAME,PREFERENCE_KEY_USER_NAME,userName);
         }
     }
 }

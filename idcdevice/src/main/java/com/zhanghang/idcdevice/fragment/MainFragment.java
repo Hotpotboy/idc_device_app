@@ -117,6 +117,16 @@ public class MainFragment extends ViewPagerFragement implements View.OnClickList
 
     }
 
+    public void setCurrentFragment(int index){
+        int currentItem = getCurrentItem();
+        if(mButtonHolds!=null&&currentItem>=0&&currentItem<mButtonHolds.length) {
+            if(mButtonHolds[currentItem]!=null) {
+                mButtonHolds[currentItem].setSelected(false);
+            }
+        }
+        super.setCurrentFragment(index);
+    }
+
     @Override
     public void onPageSelected(int position) {
         mButtonHolds[getCurrentItem()].setSelected(false);
@@ -136,8 +146,8 @@ public class MainFragment extends ViewPagerFragement implements View.OnClickList
     }
 
     private void click(int position){
+        if(position==getCurrentItem()) return;
         if(position!=2) {
-            mButtonHolds[getCurrentItem()].setSelected(false);
             setCurrentFragment(position);
         }else{
             mButtonHolds[getCurrentItem()].setSelected(false);

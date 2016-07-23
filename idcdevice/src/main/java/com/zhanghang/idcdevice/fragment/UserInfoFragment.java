@@ -23,8 +23,6 @@ import com.zhanghang.idcdevice.db.TaskTable;
 import com.zhanghang.self.base.BaseFragment;
 import com.zhanghang.self.utils.PopupWindowUtils;
 
-import java.io.UnsupportedEncodingException;
-
 /**
  * Created by Administrator on 2016-03-29.
  */
@@ -36,6 +34,8 @@ public class UserInfoFragment extends BaseFragment implements View.OnClickListen
     private PopupWindowUtils mNetLoadingWindow;
     /**用户页面*/
     private LinearLayout mMyView;
+    /**用户名称*/
+    private TextView mUserNameView;
 
     @Override
     protected int specifyRootLayoutId() {
@@ -44,6 +44,7 @@ public class UserInfoFragment extends BaseFragment implements View.OnClickListen
 
     @Override
     public void initView(){
+        mUserNameView = (TextView) findViewById(R.id.user_name_show);
         mLoginOutButton = (Button) findViewById(R.id.user_login_out);
         mUploadButton = (Button) findViewById(R.id.user_upload_data);
         mMyView = (LinearLayout) findViewById(R.id.user_name);
@@ -51,6 +52,7 @@ public class UserInfoFragment extends BaseFragment implements View.OnClickListen
         mLoginOutButton.setOnClickListener(this);
         mUploadButton.setOnClickListener(this);
         mMyView.setOnClickListener(this);
+        mUserNameView.setText(Const.getUserName(mActivity));
     }
 
     @Override
@@ -101,6 +103,7 @@ public class UserInfoFragment extends BaseFragment implements View.OnClickListen
                 break;
             case R.id.user_login_out:
                 if (((DeviceApplication) DeviceApplication.getInstance()).isUploadData()) {
+                    Const.setUserName(mActivity,"");//清空用户
                     intent = new Intent(mActivity, LoginActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     startActivity(intent);
