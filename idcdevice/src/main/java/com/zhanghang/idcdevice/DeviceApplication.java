@@ -13,10 +13,8 @@ import android.widget.Toast;
 
 import com.adbsocket.AdbSocketUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.introspect.AnnotatedClass;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
-import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.zhanghang.idcdevice.adbsocket.AdbSocketService;
@@ -66,6 +64,7 @@ public class DeviceApplication extends BaseApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        instance = this;
         Intent intent = new Intent(this, AdbSocketService.class);
         startService(intent);
         mUsbBroadcastReceiver = new USBBroadcastReceiver();
@@ -247,7 +246,7 @@ public class DeviceApplication extends BaseApplication {
                             final DBdata dBdata = objectMapper.readValue(result, DBdata.class);
                             saveDatasFromPC(dBdata);
                             PreferenceUtil.updateStringInPreferce(instance, Const.PREFERENCE_FILE_NAME, Const.PREFERENCE_KEY_ALL_DATA_INFOS, "");//清空
-                            PreferenceUtil.updateStringInPreferce(instance,Const.PREFERENCE_FILE_NAME,Const.PREFERENCE_KEY_ALL_DATA_INFOS,result);//更新
+                            PreferenceUtil.updateStringInPreferce(instance, Const.PREFERENCE_FILE_NAME, Const.PREFERENCE_KEY_ALL_DATA_INFOS, result);//更新
                         } catch (IOException e) {
                             e.printStackTrace();
                             Toast.makeText(activity, "解析数据失败……", Toast.LENGTH_LONG).show();
@@ -259,10 +258,10 @@ public class DeviceApplication extends BaseApplication {
                     @Override
                     protected void onPostExecute(Boolean result) {
                         netLoadingWindow.getPopupWindow().dismiss();
-                        if(result) {
+                        if (result) {
                             if (mOnDataDownFinishedListeners.size() > 0) {
                                 for (OnDataDownFinishedListener item : mOnDataDownFinishedListeners)
-                                    item.onDown();
+                                    item.onDownorUploadFinish();
                             }
                         }
                     }
@@ -300,10 +299,56 @@ public class DeviceApplication extends BaseApplication {
         }
     }
 
+    public void uploadDataToPc(final Activity activity){
+        if(Const.isConnetionToPc()) {
+            final PublicDialog dialog = new PublicDialog(activity);
+            dialog.setContent("即将上传本地数据库!").showCancelButton(View.GONE, null).showSureButton(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                    final PopupWindowUtils netLoadingWindow = PopupWindowUtils.getInstance(R.layout.net_loading, activity, activity.getWindow().getDecorView(), ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                    ((TextView) netLoadingWindow.getViewById(R.id.net_loading_tip)).setText("正在上传数据库......");
+                    netLoadingWindow.showAtLocation();
+                    final String datas = ((DeviceApplication) DeviceApplication.getInstance()).sendDataToPc();
+                    if (TextUtils.isEmpty(datas)) {
+                        netLoadingWindow.getPopupWindow().dismiss();
+                        Toast.makeText(activity, "从数据库中获取的数据为空!", Toast.LENGTH_LONG).show();
+                    } else {
+                        Request.addRequestForCode(AdbSocketUtils.UPLOAD_DB_COMMAND, datas, new Request.CallBack() {
+                            @Override
+                            public void onSuccess(String result) {
+                                netLoadingWindow.getPopupWindow().dismiss();
+                                /**删除相关表*/
+                                DeviceTable.getDeviceTableInstance().deleteTable();
+                                TaskTable.getTaskTableInstance().deleteTable();
+                                PatrolItemTable.getPatrolItemTableInstance().deleteTable();
+                                PandianResultTable.getPandianTableInstance().deleteTable();
+                                DBdata.cleanAllCached();//清空缓存
+                                if (mOnDataDownFinishedListeners.size() > 0) {
+                                    for (OnDataDownFinishedListener item : mOnDataDownFinishedListeners)
+                                        item.onDownorUploadFinish();
+                                }
+                                Toast.makeText(activity, "成功上传数据库!", Toast.LENGTH_LONG).show();
+                            }
+
+                            @Override
+                            public void onFail(String erroInfo) {
+                                netLoadingWindow.getPopupWindow().dismiss();
+                                Toast.makeText(activity, "上传数据库失败!原因【"+erroInfo+"】"+erroInfo, Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                }
+            }).show();
+        }else{
+            Toast.makeText(activity, "上传数据之前，请用USB连接线与PC端相连接……", Toast.LENGTH_LONG).show();
+        }
+    }
+
     /**
      * 数据下载完成后回调接口
      */
     public interface OnDataDownFinishedListener {
-        public void onDown();
+        void onDownorUploadFinish();
     }
 }

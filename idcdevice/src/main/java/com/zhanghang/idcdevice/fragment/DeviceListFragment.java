@@ -119,7 +119,7 @@ public class DeviceListFragment extends BaseListFragment<DeviceData> implements 
     }
 
     @Override
-    public void onDown() {
+    public void onDownorUploadFinish() {
         loadData();
     }
 }

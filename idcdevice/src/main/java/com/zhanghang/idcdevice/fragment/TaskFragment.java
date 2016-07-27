@@ -57,7 +57,7 @@ public class TaskFragment extends BaseListFragment<TaskData> implements DeviceAp
     }
 
     @Override
-    public void onDown() {
+    public void onDownorUploadFinish() {
         loadData();
     }
 }
