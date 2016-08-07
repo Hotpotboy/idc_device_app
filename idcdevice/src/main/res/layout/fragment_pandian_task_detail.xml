@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/fragment_pandian_task_detail_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/idc_af0012"
+        android:paddingBottom="@dimen/twenty_dp"
+        android:paddingTop="@dimen/twenty_dp">
+
+        <TextView
+            android:id="@+id/fragment_pandian_task_detail_title_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/thirty_dp"
+            android:text="返回"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/thirty_sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="@dimen/thirty_dp"
+            android:text="盘点机柜"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/fourty_sp" />
+
+        <TextView
+            android:id="@+id/fragment_pandian_task_detail_addCabinet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/fifteen_dp"
+            android:background="@drawable/white_stroke_trans_solid_ten_corner_button_bg"
+            android:padding="@dimen/ten_dp"
+            android:text="添加机柜"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/twenty_sp" />
+
+        <TextView
+            android:id="@+id/fragment_pandian_task_detail_finish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/fifteen_dp"
+            android:layout_toLeftOf="@id/fragment_pandian_task_detail_addCabinet"
+            android:background="@drawable/white_stroke_trans_solid_ten_corner_button_bg"
+            android:padding="@dimen/ten_dp"
+            android:text="完成任务"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/twenty_sp" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fragment_pandian_task_detail_title"
+        android:background="@android:color/white"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:id="@+id/fragment_task_detail_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/public_task_detail" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/zero_point_five_dp"
+                android:background="@color/idc_e2e2e2" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/seventy_dp"
+                android:background="@color/idc_f5f5f5"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/twenty_dp"
+                android:text="已盘点机柜"
+                android:textColor="@color/idc_af0012"
+                android:textSize="@dimen/thirty_sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/zero_point_five_dp"
+                android:background="@color/idc_e2e2e2" />
+
+
+            <ListView
+                android:id="@+id/fragment_pandian_task_detail_cabinets"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/five_hundred_dp"
+                android:divider="@color/idc_e2e2e2"
+                android:dividerHeight="@dimen/zero_point_five_dp" />
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

@@ -21,6 +21,8 @@ public class PandianResultData extends BaseData implements Serializable {
     private long id;
     /**时间戳*/
     private long time;
+    /**任务ID*/
+    private long tkId;
 
     public String getBuildNum() {
         return buildNum;
@@ -66,7 +68,16 @@ public class PandianResultData extends BaseData implements Serializable {
         DeviceData deviceData = new DeviceData();
         deviceData.setAssetNum(deviceNum);
         deviceData.setCabinet(cupboardNum);
-        deviceData.setIdcRoom(buildNum);
+        deviceData.setTaskId(tkId+"");
+        deviceData.setCheckTime(time);
         return deviceData;
+    }
+
+    public long getTkId() {
+        return tkId;
+    }
+
+    public void setTkId(long tkId) {
+        this.tkId = tkId;
     }
 }

@@ -34,6 +34,7 @@
         android:layout_gravity="center_horizontal"
         android:background="@drawable/button_selector"
         android:padding="@dimen/twenty_dp"
+        android:layout_marginBottom="@dimen/one_hundred_dp"
         android:text="下载数据"
         android:textColor="@color/idc_ffffff"
         android:textSize="@dimen/thirty_sp" />

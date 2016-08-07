@@ -37,19 +37,23 @@ public class Const {
     public static final String TASK_STATE_DEALED = "已完成";
     /**任务状态——未处理*/
     public static final String TASK_STATE_UNDEAL = "未开始";
+    /**任务状态——进行中*/
+    public static final String TASK_STATE_DEALING = "进行中";
     /**任务类型——巡检*/
     public static final String TASK_TYPE_XUNJIAN = "1";
     /**任务类型——盘点*/
     public static final String TASK_TYPE_PANDIAN = "2";
     /*************Intent之中的key***********************************************/
-    /**设备数据的key*/
-    public static final String INTENT_KEY_DEVICE_DATA = "intent_key_device_data";
+    /**机柜扫描码的key*/
+    public static final String INTENT_KEY_CABINET_NUM = "intent_key_cabinet_num";
     /**机房二维码称在Intent中的key*/
     public static final String INTENT_KEY_HOUSE_CODE = "intent_key_house_code";
     /**机房名称在Intent中的key*/
     public static final String INTENT_KEY_HOUSE_NAME = "intent_key_house_name";
     /**巡检任务数据key*/
     public static final String INTENT_KEY_TASK_DATA = "intent_key_task_data";
+    /**任务类型在Intent中的key*/
+    public static final String INTENT_KEY_TASK_TYPE = "intent_key_task_type";
     /**盘点任务数据列表在intent中的key*/
     public static final String INTENT_KEY_PANDIAN_TASK_DATA_LIST = "intent_key_pandian_task_data_list";
     /**加载Fragmentd的key*/

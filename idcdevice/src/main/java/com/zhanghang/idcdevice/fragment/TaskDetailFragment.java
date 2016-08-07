@@ -83,11 +83,11 @@ public class TaskDetailFragment extends BaseFragment implements View.OnClickList
     /**
      * 巡检项详情布局
      */
-    private LinearLayout mPatrolInfosView;
+    LinearLayout mPatrolInfosView;
     /**
      * 任务数据
      */
-    private TaskData mData;
+    TaskData mData;
     private TextView mTitileLeft;
     private TextView mTitileCenter;
 
@@ -101,12 +101,14 @@ public class TaskDetailFragment extends BaseFragment implements View.OnClickList
         mData = (TaskData) arguments.getSerializable(Const.INTENT_KEY_TASK_DATA);
     }
 
-    @Override
-    protected void initView() {
-        //标题
+    void initTitle(){//标题
         mTitileLeft = (TextView) findViewById(R.id.fragment_title_left);
         mTitileCenter = (TextView) findViewById(R.id.fragment_title_center);
+    }
 
+    @Override
+    protected void initView() {
+        initTitle();
         //任务信息
         mDeviceIdView = (TextView) findViewById(R.id.fragment_task_detail_deviceID);
         mTaskNameView = (TextView) findViewById(R.id.fragment_task_detail_taskName);
@@ -126,34 +128,40 @@ public class TaskDetailFragment extends BaseFragment implements View.OnClickList
         mTaskDetailView = (TextView) findViewById(R.id.fragment_task_detail_taskDetail);
     }
 
-    @Override
-    protected void initData() {
+    /**
+     * 初始化标题数据
+     */
+    void initTitleData(){
         //相关标题
         mTitileCenter.setText("任务详情");
         mTitileLeft.setText("返回");
         mTitileLeft.setBackgroundColor(Color.TRANSPARENT);
         mTitileLeft.setOnClickListener(this);
+    }
 
+    @Override
+    protected void initData() {
+        initTitleData();
         //具体数据
-        initData(mDeviceIdView, R.string.she_bei_bian_hao_s, mData.getAssetNum(), R.color.idc_000000);
+        initData(mDeviceIdView, R.string.she_bei_bian_hao_s,  Const.isNullForDBData(mData.getAssetNum()) ? getString(R.string.kong_shu_ju) : mData.getAssetNum(), R.color.idc_000000);
         initData(mTaskNameView, R.string.ren_wu_ming_cheng_s, mData.getTaskName(), R.color.idc_000000);
-        initData(mDealPeopleView, R.string.shi_shi_yuan_gong_s, Const.isNullForDBData(mData.getDealPeople()) ? "无数据" : mData.getDealPeople(), R.color.idc_000000);
+        initData(mDealPeopleView, R.string.shi_shi_yuan_gong_s, Const.isNullForDBData(mData.getDealPeople()) ? getString(R.string.kong_shu_ju) : mData.getDealPeople(), R.color.idc_000000);
         String time = Const.getDataString(mData.getRealStartTime());
-        initData(mRealStartTimeView, R.string.shi_ji_kai_shi_s, Const.isNullForDBData(time) ? "无数据" : time, R.color.idc_000000);
+        initData(mRealStartTimeView, R.string.shi_ji_kai_shi_s, Const.isNullForDBData(time) ? getString(R.string.kong_shu_ju) : time, R.color.idc_000000);
         time = Const.getDataString(mData.getRealEndTime());
-        initData(mRealEndTimeView, R.string.shi_ji_jie_su_s, Const.isNullForDBData(time) ? "无数据" : time, R.color.idc_000000);
+        initData(mRealEndTimeView, R.string.shi_ji_jie_su_s, Const.isNullForDBData(time) ? getString(R.string.kong_shu_ju) : time, R.color.idc_000000);
         time = Const.getDataString(mData.getPlanedEndTime());
-        initData(mPlanEndTimeView, R.string.ji_hua_jie_su_s, Const.isNullForDBData(time) ? "无数据" : time, R.color.idc_000000);
+        initData(mPlanEndTimeView, R.string.ji_hua_jie_su_s, Const.isNullForDBData(time) ? getString(R.string.kong_shu_ju) : time, R.color.idc_000000);
         time = Const.getDataString(mData.getPlanedStartTime());
-        initData(mPlanStartTimeView, R.string.ji_hua_kai_shi_s, Const.isNullForDBData(time) ? "无数据" : time, R.color.idc_000000);
-        initData(mDealInfoView, R.string.chu_li_xin_xi_s, Const.isNullForDBData(mData.getDealInfo()) ? "无数据" : mData.getDealInfo(), R.color.idc_000000);
-        initData(mDealResultView, R.string.chu_li_jie_guo_s, Const.isNullForDBData(mData.getDealResult()) ? "无数据" : mData.getDealResult(), R.color.idc_000000);
-        initData(mTaskTypeView, R.string.ren_wu_lei_bie_s, Const.isNullForDBData(mData.getTaskType()) ? "无数据" : Const.getTaskTypeNameByTaskTypNum(mData.getTaskType()), R.color.idc_000000);
-        initData(mTaskStateView, R.string.ren_wu_zhuang_tai_s, Const.isNullForDBData(mData.getTaskState()) ? "无数据" : mData.getTaskState(), R.color.idc_000000);
-        initData(mResponseGroupView, R.string.fu_ze_zu_bie_s, Const.isNullForDBData(mData.getResponseGroup()) ? "无数据" : mData.getResponseGroup(), R.color.idc_000000);
-        initData(mResponsePeopleView, R.string.fu_ze_ren_yuan_s, Const.isNullForDBData(mData.getResponsePeople()) ? "无数据" : mData.getResponsePeople(), R.color.idc_000000);
-        initData(mDealGroupView, R.string.shi_shi_zu_bie_s, Const.isNullForDBData(mData.getDealGroup()) ? "无数据" : mData.getDealInfo(), R.color.idc_000000);
-        mTaskDetailView.setText(Const.isNullForDBData(mData.getDetails()) ? "无数据" : mData.getDetails());
+        initData(mPlanStartTimeView, R.string.ji_hua_kai_shi_s, Const.isNullForDBData(time) ? getString(R.string.kong_shu_ju) : time, R.color.idc_000000);
+        initData(mDealInfoView, R.string.chu_li_xin_xi_s, Const.isNullForDBData(mData.getDealInfo()) ? getString(R.string.kong_shu_ju) : mData.getDealInfo(), R.color.idc_000000);
+        initData(mDealResultView, R.string.chu_li_jie_guo_s, Const.isNullForDBData(mData.getDealResult()) ? getString(R.string.kong_shu_ju) : mData.getDealResult(), R.color.idc_000000);
+        initData(mTaskTypeView, R.string.ren_wu_lei_bie_s, Const.isNullForDBData(mData.getTaskType()) ? getString(R.string.kong_shu_ju) : Const.getTaskTypeNameByTaskTypNum(mData.getTaskType()), R.color.idc_000000);
+        initData(mTaskStateView, R.string.ren_wu_zhuang_tai_s, Const.isNullForDBData(mData.getTaskState()) ? getString(R.string.kong_shu_ju) : mData.getTaskState(), R.color.idc_000000);
+        initData(mResponseGroupView, R.string.fu_ze_zu_bie_s, Const.isNullForDBData(mData.getResponseGroup()) ? getString(R.string.kong_shu_ju) : mData.getResponseGroup(), R.color.idc_000000);
+        initData(mResponsePeopleView, R.string.fu_ze_ren_yuan_s, Const.isNullForDBData(mData.getResponsePeople()) ? getString(R.string.kong_shu_ju) : mData.getResponsePeople(), R.color.idc_000000);
+        initData(mDealGroupView, R.string.shi_shi_zu_bie_s, Const.isNullForDBData(mData.getDealGroup()) ? getString(R.string.kong_shu_ju) : mData.getDealInfo(), R.color.idc_000000);
+        mTaskDetailView.setText(Const.isNullForDBData(mData.getDetails()) ? getString(R.string.kong_shu_ju) : mData.getDetails());
         initPatrolInfos();
     }
 
@@ -166,7 +174,7 @@ public class TaskDetailFragment extends BaseFragment implements View.OnClickList
     /**
      * 加载此任务的巡检项
      */
-    private void initPatrolInfos() {
+    void initPatrolInfos() {
         mPatrolInfosView.removeAllViews();
         ArrayList<PatrolItemData> patrolItemDatas = mData.getPatrolItems();
         if (patrolItemDatas != null && patrolItemDatas.size() > 0) {

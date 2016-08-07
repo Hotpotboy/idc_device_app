@@ -2,7 +2,6 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
     android:scrollbars="vertical">
 
     <LinearLayout
@@ -11,7 +10,7 @@
         android:orientation="vertical">
 
         <RelativeLayout
-            android:id="@+id/fragment_devices_title"
+            android:id="@+id/fragment_add_device_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/idc_af0012"
@@ -19,27 +18,42 @@
             android:paddingTop="@dimen/twenty_dp">
 
             <TextView
-                android:id="@+id/fragment_devices_title_left"
+                android:id="@+id/fragment_add_device_return"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/thirty_dp"
-                android:text="返回"
+                android:layout_marginLeft="@dimen/fifteen_dp"
+                android:background="@drawable/white_stroke_trans_solid_ten_corner_button_bg"
+                android:padding="@dimen/ten_dp"
+                android:text="取      消"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/thirty_sp" />
+                android:textSize="@dimen/twenty_sp" />
 
             <TextView
-                android:id="@+id/fragment_devices_cabinetName"
+                android:id="@+id/fragment_add_device_return_and_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/fifteen_dp"
+                android:layout_toRightOf="@id/fragment_add_device_return"
+                android:background="@drawable/white_stroke_trans_solid_ten_corner_button_bg"
+                android:padding="@dimen/ten_dp"
+                android:text="保存并返回"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/twenty_sp" />
+
+            <TextView
+                android:id="@+id/fragment_add_device_cabinetName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="@dimen/thirty_dp"
-                android:text="盘点设备"
+                android:text="添加设备"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/fourty_sp" />
 
             <TextView
-                android:id="@+id/fragment_devices_addDevice"
+                android:id="@+id/fragment_add_device_rescanner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -47,20 +61,20 @@
                 android:layout_marginRight="@dimen/fifteen_dp"
                 android:background="@drawable/white_stroke_trans_solid_ten_corner_button_bg"
                 android:padding="@dimen/ten_dp"
-                android:text="开始扫描"
+                android:text="重新扫描"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/twenty_sp" />
 
             <TextView
-                android:id="@+id/fragment_devices_finish"
+                android:id="@+id/fragment_add_device_save_and_continue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/fifteen_dp"
-                android:layout_toLeftOf="@id/fragment_devices_addDevice"
+                android:layout_toLeftOf="@id/fragment_add_device_rescanner"
                 android:background="@drawable/white_stroke_trans_solid_ten_corner_button_bg"
                 android:padding="@dimen/ten_dp"
-                android:text="完成扫描"
+                android:text="保存并继续"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/twenty_sp" />
         </RelativeLayout>
@@ -77,7 +91,7 @@
             android:background="@color/idc_efeff4"
             android:gravity="center_vertical"
             android:paddingLeft="@dimen/thirty_two_dp"
-            android:text="设备列表"
+            android:text="设备扫描码"
             android:textColor="@color/idc_af0012"
             android:textSize="@dimen/thirty_sp" />
 
@@ -86,12 +100,15 @@
             android:layout_height="@dimen/zero_point_five_dp"
             android:background="@color/idc_9c9c9c" />
 
-        <ListView
-            android:id="@+id/fragment_devices_list"
+        <TextView
+            android:id="@+id/fragment_add_device_num"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/four_hundred_dp"
-            android:divider="@color/idc_e2e2e2"
-            android:dividerHeight="@dimen/zero_point_five_dp" />
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/thirty_two_dp"
+            android:text="5F5F4R41V7TR14G7E"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/thirty_sp" />
 
         <View
             android:layout_width="match_parent"
@@ -105,7 +122,7 @@
             android:background="@color/idc_efeff4"
             android:gravity="center_vertical"
             android:paddingLeft="@dimen/thirty_two_dp"
-            android:text="选中设备信息"
+            android:text="设备信息"
             android:textColor="@color/idc_af0012"
             android:textSize="@dimen/thirty_sp" />
 

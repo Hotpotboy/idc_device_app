@@ -2,6 +2,7 @@
     <string name="app_name">移动运维</string>
     <string name="action_settings">Settings</string>
     <string name="she_bei_bian_hao_s">"设备编号:%1$s"</string>
+    <string name="she_bei_sao_miao_ma_s">"设备扫描码:%1$s"</string>
     <string name="ren_wu_ming_cheng_s">"任务名称:%1$s"</string>
     <string name="ren_wu_zhuang_tai_s">"任务状态:%1$s"</string>
     <string name="ren_wu_lei_bie_s">"任务类别:%1$s"</string>
@@ -21,7 +22,7 @@
     <string name="chu_li_jie_guo_s">"处理结果:%1$s"</string>
     <string name="ji_hua_kai_shi_s">"计划开始:%1$s"</string>
     <string name="ji_hua_jie_su_s">"计划结束:%1$s"</string>
-    <string name="she_bei_wei_zhi_s">"/%1$s/%2$s/%3$s/%4$s"</string>
+    <string name="she_bei_wei_zhi_s">"/%1$s/%2$s/%3$s"</string>
     <string name="yuan_shi_zhi_s">"原始值:%1$s"</string>
     <string name="cha_kan_xiang_qing">查看详情</string>
     <string name="dian_ji_bian_ji_shu_ju">点击编辑数据</string>

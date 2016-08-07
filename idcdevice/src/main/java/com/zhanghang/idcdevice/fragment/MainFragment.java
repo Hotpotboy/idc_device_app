@@ -2,6 +2,7 @@ package com.zhanghang.idcdevice.fragment;
 
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
@@ -14,7 +15,6 @@ import com.zhanghang.idcdevice.Const;
 import com.zhanghang.idcdevice.DeviceApplication;
 import com.zhanghang.idcdevice.MainActivity;
 import com.zhanghang.idcdevice.R;
-import com.zhanghang.idcdevice.db.TaskTable;
 import com.zhanghang.self.base.BaseFragment;
 import com.zhanghang.self.fragment.ViewPagerFragement;
 import com.zhanghang.self.utils.camera.CameraUtils;
@@ -30,7 +30,7 @@ public class MainFragment extends ViewPagerFragement implements View.OnClickList
     /**左上角菜单按钮*/
     private TextView menuView;
     /**设备(机房列表)Fragment*/
-    private DeviceListFragment mDeviceFragment;
+//    private DeviceListFragment mDeviceFragment;
     /**下方三个按钮*/
     private ButtonHold[] mButtonHolds = new ButtonHold[BUTTON_NUM];
     private TextView mTitileCenter;
@@ -39,10 +39,20 @@ public class MainFragment extends ViewPagerFragement implements View.OnClickList
     @Override
     protected ArrayList<BaseFragment> specifyFragmentList() {
         ArrayList<BaseFragment> fragments = new ArrayList<>();
-        fragments.add(new TaskFragment());
-        mDeviceFragment = new DeviceListFragment();
-        fragments.add(mDeviceFragment);
+        TaskFragment patrolTaskFragment = getTaskFragment(Const.TASK_TYPE_XUNJIAN);
+        fragments.add(patrolTaskFragment);
+
+        TaskFragment pandianTaskFragment = getTaskFragment(Const.TASK_TYPE_PANDIAN);
+        fragments.add(pandianTaskFragment);
         return fragments;
+    }
+
+    private TaskFragment getTaskFragment(String type){
+        TaskFragment taskFragment = new TaskFragment();
+        Bundle patrolBundle = new Bundle();
+        patrolBundle.putString(Const.INTENT_KEY_TASK_TYPE, type);
+        taskFragment.setArguments(patrolBundle);
+        return taskFragment;
     }
 
     @Override

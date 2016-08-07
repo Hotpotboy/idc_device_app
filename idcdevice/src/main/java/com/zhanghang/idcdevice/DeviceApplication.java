@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -42,12 +43,14 @@ import java.util.ArrayList;
  * Created by Administrator on 2016-03-27.
  */
 public class DeviceApplication extends BaseApplication {
-    private ArrayList<OnDataDownFinishedListener> mOnDataDownFinishedListeners = new ArrayList<>();
+    private static ArrayList<OnDataDownFinishedListener> mOnDataDownFinishedListeners = new ArrayList<>();
     private static String TAG = "DeviceApplication.class";
     /**
      * 监听USB插入广播
      */
     private USBBroadcastReceiver mUsbBroadcastReceiver;
+
+    private Handler mHandler = new Handler();
 
     public void addDataDownFinishedListener(OnDataDownFinishedListener listener) {
         if (!mOnDataDownFinishedListeners.contains(listener)) {
@@ -105,13 +108,17 @@ public class DeviceApplication extends BaseApplication {
                     }
                 }
             } else {
-                tip = "机房信息为空!";
+//                tip = "机房信息为空!";
             }
             //任务信息
             ArrayList<TaskData> tasks = dBdata.getTasks();
             if (tasks != null && tasks.size() > 0) {
                 for (TaskData item : tasks) {
                     try {
+                        String selection = TaskTable.getTaskTableInstance().getComlueInfos()[14].getName() + " = ?";
+                        String[] args = {item.getTaskId()+""};
+                        int count = TaskTable.getTaskTableInstance().selectDatas(selection,args,null,null,null,TaskData.class).size();
+                        if(count>0) continue;
                         item.setId(BaseSQLiteHelper.getId());
                         TaskTable.getTaskTableInstance().insertData(item);
                     } catch (Exception e) {
@@ -141,7 +148,13 @@ public class DeviceApplication extends BaseApplication {
                 tip += "巡检项信息为空!";
             }
             if (!TextUtils.isEmpty(tip)) {
-                Toast.makeText(this, tip, Toast.LENGTH_LONG).show();
+                final String finalTip = tip;
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(instance, finalTip, Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         }
     }
@@ -259,10 +272,7 @@ public class DeviceApplication extends BaseApplication {
                     protected void onPostExecute(Boolean result) {
                         netLoadingWindow.getPopupWindow().dismiss();
                         if (result) {
-                            if (mOnDataDownFinishedListeners.size() > 0) {
-                                for (OnDataDownFinishedListener item : mOnDataDownFinishedListeners)
-                                    item.onDownorUploadFinish();
-                            }
+                            invokeDataDownFinishedListener();
                         }
                     }
                 };
@@ -278,6 +288,13 @@ public class DeviceApplication extends BaseApplication {
         });
     }
 
+    public static void invokeDataDownFinishedListener(){
+        if (mOnDataDownFinishedListeners.size() > 0) {
+            for (OnDataDownFinishedListener item : mOnDataDownFinishedListeners)
+                item.onDownorUploadFinish();
+        }
+    }
+
     /**
      * 解析从二维码扫描页面返回的数据
      *
@@ -290,7 +307,9 @@ public class DeviceApplication extends BaseApplication {
             final String[] resultArray = result.split("&");
             String md5Result = GenerateQRCode.getMD5(resultArray[1]);
             if (resultArray[0].equals(md5Result)) {//签名正确
-                asyncTask.execute(resultArray[1]);
+                if(asyncTask!=null) {
+                    asyncTask.execute(resultArray[1]);
+                }
             } else {
                 Toast.makeText(this, "二维码格式有误!", Toast.LENGTH_LONG).show();
             }
@@ -324,10 +343,7 @@ public class DeviceApplication extends BaseApplication {
                                 PatrolItemTable.getPatrolItemTableInstance().deleteTable();
                                 PandianResultTable.getPandianTableInstance().deleteTable();
                                 DBdata.cleanAllCached();//清空缓存
-                                if (mOnDataDownFinishedListeners.size() > 0) {
-                                    for (OnDataDownFinishedListener item : mOnDataDownFinishedListeners)
-                                        item.onDownorUploadFinish();
-                                }
+                                invokeDataDownFinishedListener();
                                 Toast.makeText(activity, "成功上传数据库!", Toast.LENGTH_LONG).show();
                             }
 

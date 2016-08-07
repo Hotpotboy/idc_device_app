@@ -2,76 +2,80 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/idc_c4c4c4"
+    android:paddingTop="@dimen/twenty_dp"
     android:paddingBottom="@dimen/twenty_dp">
-    <View
-        android:id="@+id/item_cupboard_line"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/one_dp"
-        android:background="@android:color/white"
-        android:layout_marginBottom="@dimen/twenty_dp"/>
-    <ImageView
-        android:id="@+id/item_cupboard_expand"
-        android:layout_below="@id/item_cupboard_line"
-        android:layout_width="@dimen/fifty_dp"
-        android:layout_height="@dimen/fifty_dp"
-        android:layout_alignParentRight="true"
-        android:paddingRight="@dimen/twenty_dp"
-        android:scaleType="fitStart"
-        android:src="@drawable/white_down_arrow"/>
-    <TextView
+
+    <Button
         android:id="@+id/item_cupboard_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/fifteen_dp"
-        android:layout_below="@id/item_cupboard_line"
-        android:layout_toLeftOf="@id/item_cupboard_expand"
-        android:padding="@dimen/ten_dp"
+        android:layout_marginRight="@dimen/twenty_dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/button_selector"
+        android:paddingLeft="@dimen/twenty_dp"
+        android:paddingRight="@dimen/twenty_dp"
         android:text="删除机柜"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/twenty_sp"
-        android:background="@drawable/white_stroke_trans_solid_ten_corner_button_bg"/>
-    <TextView
-        android:id="@+id/item_cupboard_addDevice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/fifteen_dp"
-        android:layout_below="@id/item_cupboard_line"
-        android:layout_toLeftOf="@id/item_cupboard_delete"
-        android:padding="@dimen/ten_dp"
-        android:text="添加设备"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/twenty_sp"
-        android:background="@drawable/white_stroke_trans_solid_ten_corner_button_bg"/>
+        android:textColor="@color/idc_f5e9e9"
+        android:textSize="@dimen/twenty_sp"/>
 
-    <TextView
-        android:id="@+id/item_cupboard_showLastInfo"
+    <Button
+        android:id="@+id/item_cupboard_expand"
+        android:layout_toLeftOf="@id/item_cupboard_delete"
+        android:layout_centerVertical="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/fifteen_dp"
-        android:layout_below="@id/item_cupboard_line"
-        android:layout_toLeftOf="@id/item_cupboard_addDevice"
+        android:layout_marginRight="@dimen/twenty_dp"
         android:padding="@dimen/ten_dp"
-        android:text="@string/shang_ci_xin_xi"
+        android:text="进入盘点"
         android:textColor="@android:color/white"
         android:textSize="@dimen/twenty_sp"
-        android:visibility="gone"
-        android:background="@drawable/white_stroke_trans_solid_ten_corner_button_bg"/>
+        android:background="@drawable/button_selector"/>
 
     <TextView
         android:id="@+id/item_cupboard_num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_toLeftOf="@id/item_cupboard_showLastInfo"
-        android:layout_alignTop="@id/item_cupboard_expand"
-        android:layout_alignBottom="@id/item_cupboard_expand"
+        android:layout_toLeftOf="@id/item_cupboard_expand"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/twenty_dp"
         android:paddingRight="@dimen/twenty_dp"
         android:singleLine="true"
         android:ellipsize="end"
         android:text="@string/ji_gui_bian_hao_s"
-        android:textColor="@android:color/white"
+        android:textColor="@color/idc_3b3b3b"
         android:textSize="@dimen/thirty_sp" />
+    <TextView
+        android:id="@+id/item_cupboard_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/item_cupboard_num"
+        android:gravity="center_vertical"
+        android:paddingTop="@dimen/ten_dp"
+        android:paddingLeft="@dimen/twenty_dp"
+        android:paddingRight="@dimen/twenty_dp"
+        android:layout_marginRight="@dimen/twenty_dp"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:text="@string/she_bei_ming_cheng_s"
+        android:textColor="@color/idc_a3a3a3"
+        android:textSize="@dimen/twenty_two_sp" />
+    <TextView
+        android:id="@+id/item_cupboard_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/item_cupboard_name"
+        android:layout_alignParentLeft="true"
+        android:gravity="center_vertical"
+        android:paddingTop="@dimen/ten_dp"
+        android:paddingLeft="@dimen/twenty_dp"
+        android:paddingRight="@dimen/twenty_dp"
+        android:layout_marginRight="@dimen/twenty_dp"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:text="@string/she_bei_lei_bie_s"
+        android:textColor="@color/idc_a3a3a3"
+        android:textSize="@dimen/twenty_two_sp" />
 </RelativeLayout>

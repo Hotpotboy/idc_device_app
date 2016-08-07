@@ -7,21 +7,16 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing.Intents;
-import com.zhanghang.idcdevice.db.PandianResultTable;
 import com.zhanghang.idcdevice.db.TaskTable;
-import com.zhanghang.idcdevice.fragment.DeviceListFragment;
-import com.zhanghang.idcdevice.fragment.MainFragment;
 import com.zhanghang.idcdevice.fragment.TaskFragment;
 import com.zhanghang.idcdevice.mode.PatrolItemData;
 import com.zhanghang.idcdevice.mode.TaskData;
-import com.zhanghang.idcdevice.mode.pandian.PandianResultData;
 import com.zhanghang.self.utils.PopupWindowUtils;
 import com.zhanghang.self.utils.camera.CameraUtils;
 
@@ -34,17 +29,10 @@ public class MainActivity extends AppCompatActivity {
      */
     private DrawerLayout mDrawerLayout;
     private PopupWindowUtils mNetLoadingWindow;
-    private MainFragment mMainFragment;
-
-    /**
-     * 从扫描二维码页面返回回来时，缓存的任务数据
-     */
-//    private TaskData mCacheTaskData;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mMainFragment = (MainFragment) getSupportFragmentManager().findFragmentById(R.id.main_mainFragement);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.main_drawerlayout);
         mNetLoadingWindow = PopupWindowUtils.getInstance(R.layout.net_loading, this, getWindow().getDecorView(), ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
     }
@@ -65,12 +53,6 @@ public class MainActivity extends AppCompatActivity {
                     setDrawerListener(listener);
                 }
             });
-        }
-    }
-
-    public void setSelectedPage(int index) {
-        if(mMainFragment.getCurrentItem()!=index){
-            mMainFragment.setCurrentFragment(index);
         }
     }
 
@@ -95,8 +77,7 @@ public class MainActivity extends AppCompatActivity {
                     String result = data.getStringExtra(Intents.Scan.RESULT);
                     mNetLoadingWindow.showAtLocation();
                     ((TextView) mNetLoadingWindow.getViewById(R.id.net_loading_tip)).setText("解析二维码成功，正在查询符合条件的任务......");
-                    int current = mMainFragment.getCurrentItem();
-                    ((DeviceApplication)DeviceApplication.getInstance()).resolveScannerResult(result, current == 0 ? new XunJianTask() : new PandianTask());//解析结果
+                    ((DeviceApplication)DeviceApplication.getInstance()).resolveScannerResult(result, new XunJianTask());//解析结果
                     break;
             }
         }
@@ -184,48 +165,6 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
                 Toast.makeText(MainActivity.this, "此设备无相应的任务，请扫描下一个设备!", Toast.LENGTH_LONG).show();
             }
-        }
-    }
-    /**
-     * 为盘点任务解析二维码
-     */
-    private class PandianTask extends AsyncTask<String, Void, ArrayList> {
-
-        @Override
-        protected ArrayList doInBackground(String... params) {
-            DeviceListFragment deviceListFragment = (DeviceListFragment) mMainFragment.getCurrentFragment();
-            String houseCode = deviceListFragment.getCurrentData().getAssetNum();
-            if(!TextUtils.equals(houseCode,params[0])){//不相等
-                return null;
-            }
-            String colums = (PandianResultTable.getComlueInfos(PandianResultData.class).get(0)).getName();
-            String select = colums+" = ?";
-            try {
-                //查询指定机房信息的所有盘点结果
-                ArrayList<PandianResultData> pandianResultDatas = PandianResultTable.getPandianTableInstance().selectDatas(select,params,null,null,null,PandianResultData.class);
-                return pandianResultDatas;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return new ArrayList();
-        }
-
-        @Override
-        public void onPostExecute(ArrayList datas) {
-            mNetLoadingWindow.getPopupWindow().dismiss();
-            if(datas==null){
-                Toast.makeText(MainActivity.this, "扫描的二维码与所选机房的二维码不符合，请重新扫描!", Toast.LENGTH_LONG).show();
-                return;
-            }
-            DeviceListFragment deviceListFragment = (DeviceListFragment) mMainFragment.getCurrentFragment();
-            String houseName = deviceListFragment.getCurrentData().getDeviceName();
-            String houseCode = deviceListFragment.getCurrentData().getAssetNum();
-            Intent intent = new Intent(MainActivity.this,FragmentActivity.class);
-            intent.putExtra(Const.INTENT_KEY_LOAD_FRAGMENT, FragmentActivity.PANDIAN_TASK_DETAIL_FRAGMENT);
-            intent.putExtra(Const.INTENT_KEY_PANDIAN_TASK_DATA_LIST, datas);
-            intent.putExtra(Const.INTENT_KEY_HOUSE_NAME, houseName);
-            intent.putExtra(Const.INTENT_KEY_HOUSE_CODE, houseCode);
-            startActivity(intent);
         }
     }
 }

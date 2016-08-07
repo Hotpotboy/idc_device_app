@@ -27,6 +27,8 @@ public class DeviceData extends BaseData implements Serializable,Cloneable {
     private String cabinet;
     /**城市*/
     private String city;
+    /**盘点结果的时间--盘点结果专属*/
+    private long checkTime;
     /**设备ID*/
     private long deviceId;
     /**设备类型*/
@@ -42,6 +44,8 @@ public class DeviceData extends BaseData implements Serializable,Cloneable {
     private String idcRoom;
     /**位置*/
     private String position;
+    /**任务ID--盘点结果专属*/
+    private String taskId;
 
     public long getDeviceId() {
         return deviceId;
@@ -180,5 +184,21 @@ public class DeviceData extends BaseData implements Serializable,Cloneable {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public long getCheckTime() {
+        return checkTime;
+    }
+
+    public void setCheckTime(long checkTime) {
+        this.checkTime = checkTime;
+    }
+
+    public String getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(String taskId) {
+        this.taskId = taskId;
     }
 }

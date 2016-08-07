@@ -1,0 +1,356 @@
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_task_detail_layout"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/fragment_task_detail_split0"
+        android:background="@color/idc_e2e2e2"
+        android:layout_height="@dimen/zero_point_five_dp"
+        android:layout_width="match_parent" />
+
+    <TextView
+        android:id="@+id/fragment_task_detail_patrolsInfos_tip"
+        android:background="@color/idc_f5f5f5"
+        android:gravity="center_vertical"
+        android:layout_height="@dimen/seventy_dp"
+        android:layout_width="match_parent"
+        android:paddingLeft="@dimen/twenty_dp"
+        android:text="巡检详情信息"
+        android:textColor="@color/idc_af0012"
+        android:textSize="@dimen/thirty_sp" />
+
+    <View
+        android:id="@+id/fragment_task_detail_split1"
+        android:background="@color/idc_e2e2e2"
+        android:layout_height="@dimen/zero_point_five_dp"
+        android:layout_width="match_parent" />
+
+    <LinearLayout
+        android:id="@+id/fragment_task_detail_patrolsInfos"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/fifty_dp"
+        android:layout_marginRight="@dimen/fifty_dp"
+        android:layout_width="match_parent"
+        android:orientation="vertical" />
+
+    <View
+        android:background="@color/idc_e2e2e2"
+        android:layout_height="@dimen/zero_point_five_dp"
+        android:layout_width="match_parent" />
+
+    <TextView
+        android:background="@color/idc_f5f5f5"
+        android:gravity="center_vertical"
+        android:layout_height="@dimen/seventy_dp"
+        android:layout_width="match_parent"
+        android:paddingLeft="@dimen/twenty_dp"
+        android:text="任务详述"
+        android:textColor="@color/idc_af0012"
+        android:textSize="@dimen/thirty_sp" />
+
+    <View
+        android:background="@color/idc_e2e2e2"
+        android:layout_height="@dimen/zero_point_five_dp"
+        android:layout_width="match_parent" />
+
+    <TextView
+        android:id="@+id/fragment_task_detail_taskDetail"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:paddingBottom="@dimen/fifteen_dp"
+        android:paddingLeft="@dimen/fifty_dp"
+        android:paddingRight="@dimen/fifty_dp"
+        android:paddingTop="@dimen/fifteen_dp"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/thirty_sp" />
+
+    <View
+        android:background="@color/idc_e2e2e2"
+        android:layout_height="@dimen/zero_point_five_dp"
+        android:layout_width="match_parent" />
+
+    <TextView
+        android:background="@color/idc_f5f5f5"
+        android:gravity="center_vertical"
+        android:layout_height="@dimen/seventy_dp"
+        android:layout_width="match_parent"
+        android:paddingLeft="@dimen/twenty_dp"
+        android:text="任务基本信息"
+        android:textColor="@color/idc_af0012"
+        android:textSize="@dimen/thirty_sp" />
+
+    <View
+        android:background="@color/idc_e2e2e2"
+        android:layout_height="@dimen/zero_point_five_dp"
+        android:layout_width="match_parent" />
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/fifteen_dp"
+        android:paddingLeft="@dimen/fifty_dp"
+        android:paddingRight="@dimen/fifty_dp"
+        android:paddingTop="@dimen/fifteen_dp">
+
+        <TextView
+            android:ellipsize="end"
+            android:id="@+id/fragment_task_detail_deviceID"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:maxLength="25"
+            android:singleLine="true"
+            android:text="@string/she_bei_bian_hao_s"
+            android:textColor="@color/idc_999999"
+            android:textSize="@dimen/thirty_sp" />
+
+        <TextView
+            android:ellipsize="end"
+            android:id="@+id/fragment_task_detail_taskName"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:maxLength="25"
+            android:singleLine="true"
+            android:text="@string/ren_wu_ming_cheng_s"
+            android:textColor="@color/idc_999999"
+            android:textSize="@dimen/thirty_sp" />
+    </LinearLayout>
+
+    <View
+        android:background="@color/idc_e2e2e2"
+        android:layout_height="@dimen/zero_point_five_dp"
+        android:layout_width="match_parent" />
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/fifteen_dp"
+        android:paddingLeft="@dimen/fifty_dp"
+        android:paddingRight="@dimen/fifty_dp"
+        android:paddingTop="@dimen/fifteen_dp">
+
+        <TextView
+            android:ellipsize="end"
+            android:id="@+id/fragment_task_detail_dealPeople"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:maxLength="25"
+            android:singleLine="true"
+            android:text="@string/shi_shi_yuan_gong_s"
+            android:textColor="@color/idc_999999"
+            android:textSize="@dimen/thirty_sp" />
+
+        <TextView
+            android:ellipsize="end"
+            android:id="@+id/fragment_task_detail_dealGroup"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:maxLength="25"
+            android:singleLine="true"
+            android:text="@string/shi_shi_zu_bie_s"
+            android:textColor="@color/idc_999999"
+            android:textSize="@dimen/thirty_sp" />
+    </LinearLayout>
+
+    <View
+        android:background="@color/idc_e2e2e2"
+        android:layout_height="@dimen/zero_point_five_dp"
+        android:layout_width="match_parent" />
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/fifteen_dp"
+        android:paddingLeft="@dimen/fifty_dp"
+        android:paddingRight="@dimen/fifty_dp"
+        android:paddingTop="@dimen/fifteen_dp">
+
+        <TextView
+            android:ellipsize="end"
+            android:id="@+id/fragment_task_detail_dealInfo"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:maxLength="25"
+            android:singleLine="true"
+            android:text="@string/chu_li_xin_xi_s"
+            android:textColor="@color/idc_999999"
+            android:textSize="@dimen/thirty_sp" />
+
+        <TextView
+            android:ellipsize="end"
+            android:id="@+id/fragment_task_detail_dealResult"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:maxLength="25"
+            android:singleLine="true"
+            android:text="@string/chu_li_jie_guo_s"
+            android:textColor="@color/idc_999999"
+            android:textSize="@dimen/thirty_sp" />
+    </LinearLayout>
+
+    <View
+        android:background="@color/idc_e2e2e2"
+        android:layout_height="@dimen/zero_point_five_dp"
+        android:layout_width="match_parent" />
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/fifteen_dp"
+        android:paddingLeft="@dimen/fifty_dp"
+        android:paddingRight="@dimen/fifty_dp"
+        android:paddingTop="@dimen/fifteen_dp">
+
+        <TextView
+            android:ellipsize="end"
+            android:id="@+id/fragment_task_detail_planStart"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:maxLength="25"
+            android:singleLine="true"
+            android:text="@string/ji_hua_kai_shi_s"
+            android:textColor="@color/idc_999999"
+            android:textSize="@dimen/thirty_sp" />
+
+        <TextView
+            android:ellipsize="end"
+            android:id="@+id/fragment_task_detail_planEnd"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:maxLength="25"
+            android:singleLine="true"
+            android:text="@string/ji_hua_jie_su_s"
+            android:textColor="@color/idc_999999"
+            android:textSize="@dimen/thirty_sp" />
+    </LinearLayout>
+
+    <View
+        android:background="@color/idc_e2e2e2"
+        android:layout_height="@dimen/zero_point_five_dp"
+        android:layout_width="match_parent" />
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/fifteen_dp"
+        android:paddingLeft="@dimen/fifty_dp"
+        android:paddingRight="@dimen/fifty_dp"
+        android:paddingTop="@dimen/fifteen_dp">
+
+        <TextView
+            android:ellipsize="end"
+            android:id="@+id/fragment_task_detail_startTime"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:maxLength="25"
+            android:singleLine="true"
+            android:text="@string/shi_ji_kai_shi_s"
+            android:textColor="@color/idc_999999"
+            android:textSize="@dimen/thirty_sp" />
+
+        <TextView
+            android:ellipsize="end"
+            android:id="@+id/fragment_task_detail_endTime"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:maxLength="25"
+            android:singleLine="true"
+            android:text="@string/shi_ji_jie_su_s"
+            android:textColor="@color/idc_999999"
+            android:textSize="@dimen/thirty_sp" />
+    </LinearLayout>
+
+    <View
+        android:background="@color/idc_e2e2e2"
+        android:layout_height="@dimen/zero_point_five_dp"
+        android:layout_width="match_parent" />
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/fifteen_dp"
+        android:paddingLeft="@dimen/fifty_dp"
+        android:paddingRight="@dimen/fifty_dp"
+        android:paddingTop="@dimen/fifteen_dp">
+
+        <TextView
+            android:ellipsize="end"
+            android:id="@+id/fragment_task_detail_responsePeople"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:maxLength="25"
+            android:singleLine="true"
+            android:text="@string/fu_ze_ren_yuan_s"
+            android:textColor="@color/idc_999999"
+            android:textSize="@dimen/thirty_sp" />
+
+        <TextView
+            android:ellipsize="end"
+            android:id="@+id/fragment_task_detail_responseGroup"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:maxLength="25"
+            android:singleLine="true"
+            android:text="@string/fu_ze_zu_bie_s"
+            android:textColor="@color/idc_999999"
+            android:textSize="@dimen/thirty_sp" />
+    </LinearLayout>
+
+    <View
+        android:background="@color/idc_e2e2e2"
+        android:layout_height="@dimen/zero_point_five_dp"
+        android:layout_width="match_parent" />
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/fifteen_dp"
+        android:paddingLeft="@dimen/fifty_dp"
+        android:paddingRight="@dimen/fifty_dp"
+        android:paddingTop="@dimen/fifteen_dp">
+
+        <TextView
+            android:ellipsize="end"
+            android:id="@+id/fragment_task_detail_taskState"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:maxLength="25"
+            android:singleLine="true"
+            android:text="@string/ren_wu_zhuang_tai_s"
+            android:textColor="@color/idc_999999"
+            android:textSize="@dimen/thirty_sp" />
+
+        <TextView
+            android:ellipsize="end"
+            android:id="@+id/fragment_task_detail_taskType"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:maxLength="25"
+            android:singleLine="true"
+            android:text="@string/ren_wu_lei_bie_s"
+            android:textColor="@color/idc_999999"
+            android:textSize="@dimen/thirty_sp" />
+    </LinearLayout>
+</LinearLayout>

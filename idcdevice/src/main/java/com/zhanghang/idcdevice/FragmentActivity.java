@@ -4,11 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.zhanghang.idcdevice.fragment.DeviceDetailFragment;
-import com.zhanghang.idcdevice.fragment.PandianListFragment;
+import com.zhanghang.idcdevice.fragment.PandianTaskDetailFragment;
 import com.zhanghang.idcdevice.fragment.PatrolItemsFragment;
 import com.zhanghang.idcdevice.fragment.TaskDetailFragment;
 import com.zhanghang.idcdevice.fragment.UserDetailFragment;
-import com.zhanghang.idcdevice.mode.DeviceData;
 import com.zhanghang.idcdevice.mode.TaskData;
 import com.zhanghang.self.base.BaseFragment;
 import com.zhanghang.self.base.BaseFragmentActivity;
@@ -68,19 +67,19 @@ public class FragmentActivity extends BaseFragmentActivity {
                     break;
                 case PANDIAN_TASK_DETAIL_FRAGMENT://盘点任务详情页
                     argments = new Bundle();
-                    argments.putSerializable(Const.INTENT_KEY_PANDIAN_TASK_DATA_LIST, intent.getSerializableExtra(Const.INTENT_KEY_PANDIAN_TASK_DATA_LIST));
-                    argments.putString(Const.INTENT_KEY_HOUSE_NAME, intent.getStringExtra(Const.INTENT_KEY_HOUSE_NAME));
-                    argments.putString(Const.INTENT_KEY_HOUSE_CODE, intent.getStringExtra(Const.INTENT_KEY_HOUSE_CODE));
-                    PandianListFragment pandianListFragment = new PandianListFragment();
-                    pandianListFragment.setArguments(argments);
+                    argments.putSerializable(Const.INTENT_KEY_TASK_DATA, intent.getSerializableExtra(Const.INTENT_KEY_TASK_DATA));
+                    PandianTaskDetailFragment pandianTaskDetailFragment = new PandianTaskDetailFragment();
+                    pandianTaskDetailFragment.setArguments(argments);
                     fragments = new BaseFragment[1];
-                    fragments[0] = pandianListFragment;
+                    fragments[0] = pandianTaskDetailFragment;
                     initFragments(fragments, R.id.fragments_container);
                     break;
                 case DEVICE_DETAIL_FRAGMENT:
-                    DeviceData deviceData = (DeviceData) intent.getSerializableExtra(Const.INTENT_KEY_DEVICE_DATA);
+                    String cabinetNum = intent.getStringExtra(Const.INTENT_KEY_CABINET_NUM);
+                    Bundle bundle = new Bundle();
+                    bundle.putString(Const.INTENT_KEY_CABINET_NUM,cabinetNum);
                     DeviceDetailFragment deviceDetailFragment = new DeviceDetailFragment();
-                    deviceDetailFragment.setData(deviceData);
+                    deviceDetailFragment.setArguments(bundle);
                     fragments = new BaseFragment[1];
                     fragments[0] = deviceDetailFragment;
                     initFragments(fragments, R.id.fragments_container);

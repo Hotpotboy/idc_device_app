@@ -2,14 +2,17 @@ package com.zhanghang.idcdevice.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.zhanghang.idcdevice.Const;
 import com.zhanghang.idcdevice.FragmentActivity;
 import com.zhanghang.idcdevice.MainActivity;
 import com.zhanghang.idcdevice.R;
+import com.zhanghang.idcdevice.db.TaskTable;
 import com.zhanghang.idcdevice.mode.TaskData;
 import com.zhanghang.self.adpter.BaseViewHolderAdapter;
 
@@ -43,13 +46,8 @@ public class TaskAdapter extends BaseViewHolderAdapter {
 
         final TaskData data = (TaskData) getItem(position);
         taskNameView.setText(data.getTaskName());
-        taskDetail.setText(data.getDetails());
+        taskDetail.setText(Const.isNullForDBData(data.getDetails())?mContext.getResources().getString(R.string.kong_shu_ju):data.getDetails());
         taskDealed.setText(data.getTaskState());
-//        if(!Const.isDealed(data)){//未处理
-//            taskDealed.setVisibility(View.INVISIBLE);
-//        }else{//已处理
-//            taskDealed.setVisibility(View.VISIBLE);
-//        }
         taskOperation.setVisibility(View.VISIBLE);
         final String taskType = data.getTaskType();
         if(TextUtils.equals(taskType,Const.TASK_TYPE_XUNJIAN)) {//巡检任务
@@ -57,21 +55,47 @@ public class TaskAdapter extends BaseViewHolderAdapter {
         }else if(TextUtils.equals(taskType,Const.TASK_TYPE_PANDIAN)) {//盘点任务
             taskOperation.setText("开始盘点");
         }
-        taskOperation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(TextUtils.equals(taskType,Const.TASK_TYPE_XUNJIAN)) {//巡检任务
-                    Intent intent = new Intent(mContext, FragmentActivity.class);
-                    intent.putExtra(Const.INTENT_KEY_LOAD_FRAGMENT, FragmentActivity.XUNJIAN_TASK_DETAIL_FRAGMENT);
+        if(TextUtils.equals(Const.TASK_STATE_DEALED,data.getTaskState())
+                &&TextUtils.equals(Const.TASK_TYPE_PANDIAN,taskType)){
+            taskOperation.setVisibility(View.INVISIBLE);
+        }else {
+            taskOperation.setVisibility(View.VISIBLE);
+            taskOperation.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final Intent intent = new Intent(mContext, FragmentActivity.class);
                     intent.putExtra(Const.INTENT_KEY_TASK_DATA, data);
-                    mContext.startActivity(intent);
-                }else if(TextUtils.equals(taskType,Const.TASK_TYPE_PANDIAN)){//盘点任务
-                    if(mContext instanceof MainActivity){
-                        MainActivity mainActivity = (MainActivity)mContext;
-                        mainActivity.setSelectedPage(1);
+                    if (TextUtils.equals(taskType, Const.TASK_TYPE_XUNJIAN)) {//巡检任务
+                        intent.putExtra(Const.INTENT_KEY_LOAD_FRAGMENT, FragmentActivity.XUNJIAN_TASK_DETAIL_FRAGMENT);
+                        mContext.startActivity(intent);
+                    } else if (TextUtils.equals(taskType, Const.TASK_TYPE_PANDIAN)) {//盘点任务
+                        intent.putExtra(Const.INTENT_KEY_LOAD_FRAGMENT, FragmentActivity.PANDIAN_TASK_DETAIL_FRAGMENT);
+                        new AsyncTask<Void, Void, Boolean>() {
+                            @Override
+                            protected Boolean doInBackground(Void... params) {
+                                data.setTaskState(Const.TASK_STATE_DEALING);
+                                data.setDealPeople(Const.getUserName(mContext));
+                                try {
+                                    TaskTable.getTaskTableInstance().updateData(data, null, null);
+                                } catch (Exception e) {
+                                    return false;
+                                }
+                                return true;
+                            }
+
+                            @Override
+                            protected void onPostExecute(Boolean result) {
+                                if (result) {
+                                    notifyDataSetChanged();
+                                    mContext.startActivity(intent);
+                                } else {
+                                    Toast.makeText(mContext, "打开任务失败!", Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        }.execute();
                     }
                 }
-            }
-        });
+            });
+        }
     }
 }

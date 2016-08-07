@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.text.SpannableString;
 import android.view.LayoutInflater;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
