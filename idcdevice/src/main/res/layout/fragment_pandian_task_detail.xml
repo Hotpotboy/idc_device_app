@@ -16,10 +16,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:background="@drawable/white_stroke_trans_solid_ten_corner_button_bg"
+            android:padding="@dimen/ten_dp"
             android:layout_marginLeft="@dimen/thirty_dp"
-            android:text="返回"
+            android:text="返      回"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/thirty_sp" />
+            android:textSize="@dimen/twenty_sp" />
+        <TextView
+            android:id="@+id/fragment_pandian_task_detail_upload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/fifteen_dp"
+            android:layout_toRightOf="@id/fragment_pandian_task_detail_title_left"
+            android:background="@drawable/white_stroke_trans_solid_ten_corner_button_bg"
+            android:padding="@dimen/ten_dp"
+            android:text="立即上传"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/twenty_sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -28,7 +42,7 @@
             android:layout_marginLeft="@dimen/thirty_dp"
             android:text="盘点机柜"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/fourty_sp" />
+            android:textSize="@dimen/thirty_sp" />
 
         <TextView
             android:id="@+id/fragment_pandian_task_detail_addCabinet"

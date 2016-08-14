@@ -33,6 +33,5 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/thirty_dp"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/thirty_sp"
-        android:visibility="gone"/>
+        android:textSize="@dimen/twenty_sp"/>
 </RelativeLayout>

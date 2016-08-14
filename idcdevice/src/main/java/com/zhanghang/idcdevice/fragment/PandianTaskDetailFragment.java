@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.adbsocket.AdbSocketUtils;
 import com.google.zxing.Intents;
 import com.zhanghang.idcdevice.Const;
 import com.zhanghang.idcdevice.DeviceApplication;
@@ -19,9 +20,13 @@ import com.zhanghang.idcdevice.FragmentActivity;
 import com.zhanghang.idcdevice.PublicDialog;
 import com.zhanghang.idcdevice.R;
 import com.zhanghang.idcdevice.adapter.CabinetAdapter;
+import com.zhanghang.idcdevice.adbsocket.Request;
+import com.zhanghang.idcdevice.db.DeviceTable;
 import com.zhanghang.idcdevice.db.PandianResultTable;
+import com.zhanghang.idcdevice.db.PatrolItemTable;
 import com.zhanghang.idcdevice.db.TaskTable;
 import com.zhanghang.idcdevice.interfaces.PandianOperationListener;
+import com.zhanghang.idcdevice.mode.DBdata;
 import com.zhanghang.idcdevice.mode.pandian.PandianResultData;
 import com.zhanghang.self.base.BaseFragmentActivity;
 import com.zhanghang.self.utils.PopupWindowUtils;
@@ -29,6 +34,7 @@ import com.zhanghang.self.utils.camera.CameraUtils;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by Administrator on 2016-03-29.
@@ -70,6 +76,11 @@ public class PandianTaskDetailFragment extends TaskDetailFragment implements Pan
 
     private View mEmptyListView;
 
+    /**
+     * 上传当前按钮
+     */
+    private TextView mUploadTaskView;
+
     @Override
     protected int specifyRootLayoutId() {
         return R.layout.fragment_pandian_task_detail;
@@ -80,9 +91,11 @@ public class PandianTaskDetailFragment extends TaskDetailFragment implements Pan
         mTitleLeft = (TextView) findViewById(R.id.fragment_pandian_task_detail_title_left);
         mAddCabinet = (TextView) findViewById(R.id.fragment_pandian_task_detail_addCabinet);
         mFinishTask = (TextView) findViewById(R.id.fragment_pandian_task_detail_finish);
+        mUploadTaskView = (TextView) findViewById(R.id.fragment_pandian_task_detail_upload);
         mTitleLeft.setOnClickListener(this);
         mAddCabinet.setOnClickListener(this);
         mFinishTask.setOnClickListener(this);
+        mUploadTaskView.setOnClickListener(this);
     }
 
     @Override
@@ -109,9 +122,9 @@ public class PandianTaskDetailFragment extends TaskDetailFragment implements Pan
         mDialog = new PublicDialog(mActivity);
     }
 
-    private void initEmptyListView(){
-        mEmptyListView = LayoutInflater.from(mActivity).inflate(R.layout.public_no_data,null);
-        ((ViewGroup)mCabinetListView.getParent()).addView(mEmptyListView);
+    private void initEmptyListView() {
+        mEmptyListView = LayoutInflater.from(mActivity).inflate(R.layout.public_no_data, null);
+        ((ViewGroup) mCabinetListView.getParent()).addView(mEmptyListView);
         mCabinetListView.setEmptyView(mEmptyListView);
         TextView downButton = (TextView) mEmptyListView.findViewById(R.id.public_noData_downLoad);
         downButton.setText("扫描机柜");
@@ -149,7 +162,7 @@ public class PandianTaskDetailFragment extends TaskDetailFragment implements Pan
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(mActivity,"查询当前任务下已盘点的机柜失败!",Toast.LENGTH_LONG).show();
+            Toast.makeText(mActivity, "查询当前任务下已盘点的机柜失败!", Toast.LENGTH_LONG).show();
         }
         if (mCabinetAdapter == null) {
             mCabinetAdapter = new CabinetAdapter(mActivity, mCabinetNumList);
@@ -166,6 +179,17 @@ public class PandianTaskDetailFragment extends TaskDetailFragment implements Pan
             case R.id.fragment_pandian_task_detail_title_left://返回
                 mActivity.finish();
                 break;
+            case R.id.fragment_pandian_task_detail_upload://上传当前盘点任务
+                mNetLoadingWindow.showAtLocation();
+                ((TextView) mNetLoadingWindow.getViewById(R.id.net_loading_tip)).setText("正在上传当前任务......");
+                mDialog.setContent("一旦上传任务，则会删除当前盘点任务！确定？").showCancelButton().showSureButton(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mDialog.dismiss();
+                        new UploadTask().execute();
+                    }
+                }).show();
+                break;
             case R.id.public_noData_downLoad:
             case R.id.fragment_pandian_task_detail_addCabinet://添加机柜
                 CameraUtils.scannerQRCode((BaseFragmentActivity) mActivity, this);
@@ -175,24 +199,25 @@ public class PandianTaskDetailFragment extends TaskDetailFragment implements Pan
                     @Override
                     public void onClick(View v) {
                         mDialog.dismiss();
-                        new AsyncTask<Void,Void,Boolean>(){
+                        new AsyncTask<Void, Void, Boolean>() {
                             @Override
                             protected Boolean doInBackground(Void... params) {
                                 mData.setTaskState(Const.TASK_STATE_DEALED);
                                 try {
-                                    TaskTable.getTaskTableInstance().updateData(mData,null,null);
+                                    TaskTable.getTaskTableInstance().updateData(mData, null, null);
                                 } catch (Exception e) {
                                     return false;
                                 }
                                 return true;
                             }
+
                             @Override
                             protected void onPostExecute(Boolean result) {
-                                if(result){
+                                if (result) {
                                     DeviceApplication.invokeDataDownFinishedListener();
                                     mActivity.finish();
-                                }else{
-                                    Toast.makeText(mActivity,"结束任务失败!",Toast.LENGTH_LONG).show();
+                                } else {
+                                    Toast.makeText(mActivity, "结束任务失败!", Toast.LENGTH_LONG).show();
                                 }
                             }
                         }.execute();
@@ -230,20 +255,40 @@ public class PandianTaskDetailFragment extends TaskDetailFragment implements Pan
      * @param cupBoardCode 机柜二维码
      */
     private void addCupBoardCode(String cupBoardCode) {
-        PandianResultData resultData = new PandianResultData();
-        resultData.setCupboardNum(cupBoardCode);
-        resultData.setId(PandianResultTable.getId());
-        resultData.setTime(System.currentTimeMillis());
-        resultData.setTkId(mData.getTaskId());
-        try {
-            PandianResultTable.getPandianTableInstance().insertData(resultData);
-        } catch (Exception e) {
-            Toast.makeText(mActivity, "添加机柜至数据库失败!", Toast.LENGTH_LONG).show();
-            return;
+        if (!TextUtils.isEmpty(cupBoardCode)) {
+            try {
+                //判断添加的机柜是否被其他盘点任务所盘点
+                String select = PandianResultTable.getPandianTableInstance().getComlueInfos()[1].getName() + "=?";
+                String[] args = {cupBoardCode};
+                List<PandianResultData> pandianResultDatas = PandianResultTable.getPandianTableInstance().selectDatas(select, args, null, null, null, PandianResultData.class);
+                if (pandianResultDatas != null && !pandianResultDatas.isEmpty()) {
+                    long taskId = mData.getTaskId();
+                    for (PandianResultData item : pandianResultDatas) {
+                        if (taskId != item.getTkId()) {
+                            mDialog.setContent("此机柜已被其他盘点任务所盘点，流程不能继续!").showCancelButton(View.GONE,null).showSureButton(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    mDialog.dismiss();
+                                }
+                            }).show();
+                            return;
+                        }
+                    }
+                }
+                PandianResultData resultData = new PandianResultData();
+                resultData.setCupboardNum(cupBoardCode);
+                resultData.setId(PandianResultTable.getId());
+                resultData.setTime(System.currentTimeMillis());
+                resultData.setTkId(mData.getTaskId());
+                PandianResultTable.getPandianTableInstance().insertData(resultData);
+                //更新视图
+                mCabinetNumList.add(cupBoardCode);
+                mCabinetAdapter.notifyDataSetChanged();
+            } catch (Exception e) {
+                Toast.makeText(mActivity, "添加机柜至数据库失败!", Toast.LENGTH_LONG).show();
+                return;
+            }
         }
-        //更新视图
-        mCabinetNumList.add(cupBoardCode);
-        mCabinetAdapter.notifyDataSetChanged();
     }
 
     /***
@@ -354,6 +399,53 @@ public class PandianTaskDetailFragment extends TaskDetailFragment implements Pan
                     mDialog.dismiss();
                 }
             }).show();
+        }
+    }
+
+    private class UploadTask extends AsyncTask<Void, Void, String> {
+
+        @Override
+        protected String doInBackground(Void... params) {
+            if (Const.isConnetionToPc()) {
+                mData.setTaskState(Const.TASK_STATE_DEALED);
+                mData.setDealPeople(Const.getUserName(mActivity));
+                final long taskId = mData.getTaskId();
+                String needUploadData = ((DeviceApplication) DeviceApplication.getInstance()).sendDataToPc(taskId + "");
+                if (TextUtils.isEmpty(needUploadData)) {
+                    return "从数据库中获取的数据为空!";
+                } else {
+                    Request.addRequestForCode(AdbSocketUtils.UPLOAD_DB_COMMAND, needUploadData, new Request.CallBack() {
+                        @Override
+                        public void onSuccess(String result) {
+                            ((TextView) mNetLoadingWindow.getViewById(R.id.net_loading_tip)).setText("成功上传当前任务，正在删除......");
+                            /**删除当前任务*/
+                            String selection = TaskTable.getTaskTableInstance().getComlueInfos()[14].getName() + "=?";
+                            String[] args = {taskId + ""};
+                            TaskTable.getTaskTableInstance().deleteData(selection, args);
+                            mNetLoadingWindow.getPopupWindow().dismiss();
+                            Toast.makeText(mActivity, "成功上传任务!", Toast.LENGTH_LONG).show();
+                            DeviceApplication.invokeDataDownFinishedListener();//刷新
+                            mActivity.finish();//关闭当前页面
+                        }
+
+                        @Override
+                        public void onFail(String erroInfo) {
+                            mNetLoadingWindow.getPopupWindow().dismiss();
+                            Toast.makeText(mActivity, "上传数据库失败!原因【" + erroInfo + "】" + erroInfo, Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+            } else {
+                return "还未与电脑连接，不能上传！请连接USB后重试!";
+            }
+            return null;
+        }
+
+        @Override
+        public void onPostExecute(final String data) {
+            if (!TextUtils.isEmpty(data)) {
+                Toast.makeText(mActivity, data, Toast.LENGTH_LONG).show();
+            }
         }
     }
 }

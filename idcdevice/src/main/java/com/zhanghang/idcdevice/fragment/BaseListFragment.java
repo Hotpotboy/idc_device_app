@@ -56,7 +56,7 @@ public abstract class BaseListFragment<T> extends BaseFragment {
             mNoDataOperationButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((DeviceApplication) DeviceApplication.getInstance()).getDataFromPC(mActivity);
+                    ((DeviceApplication) DeviceApplication.getInstance()).getDataFromPC(mActivity,null);
                 }
             });
         }

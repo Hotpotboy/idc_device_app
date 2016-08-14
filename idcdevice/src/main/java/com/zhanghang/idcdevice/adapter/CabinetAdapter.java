@@ -5,14 +5,17 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
+import com.zhanghang.idcdevice.Const;
 import com.zhanghang.idcdevice.R;
 import com.zhanghang.idcdevice.interfaces.PandianOperationListener;
 import com.zhanghang.idcdevice.mode.DBdata;
 import com.zhanghang.idcdevice.mode.DeviceData;
 import com.zhanghang.self.adpter.BaseViewHolderAdapter;
+import com.zhanghang.self.utils.PreferenceUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 
 /**
  * Created by Administrator on 2016-04-03.
@@ -23,6 +26,7 @@ public class CabinetAdapter extends BaseViewHolderAdapter {
     private static final String KEY_CUPBOARD_DELETE = "key_cupboard_delete";
     private static final String KEY_CUPBOARD_NAME = "key_cupboard_name";
     private static final String KEY_CUPBOARD_TYPE = "key_cupboard_type";
+    private static final String KEY_CUPBOARD_DEALED = "key_cupboard_dealed";
     private PandianOperationListener mPandianOperationListener;
 
     public CabinetAdapter(Context context, ArrayList<String> list) {
@@ -45,6 +49,7 @@ public class CabinetAdapter extends BaseViewHolderAdapter {
         TextView deleteCabinetView = (TextView) getViewByTag(R.id.item_cupboard_delete, KEY_CUPBOARD_DELETE, baseViewHolder, convertView);
         TextView cabinetNameView = (TextView) getViewByTag(R.id.item_cupboard_name, KEY_CUPBOARD_NAME, baseViewHolder, convertView);
         TextView cabinetTypeView = (TextView) getViewByTag(R.id.item_cupboard_type, KEY_CUPBOARD_TYPE, baseViewHolder, convertView);
+        View cabinetDealedView = getViewByTag(R.id.item_cuboard_dealed,KEY_CUPBOARD_DEALED,baseViewHolder,convertView);
 
         final String cabinetNum = (String) mDatas.get(position);//机柜扫描编号
         cabinetNumView.setText(String.format(mContext.getResources().getString(R.string.ji_gui_bian_hao_s), cabinetNum));
@@ -52,15 +57,25 @@ public class CabinetAdapter extends BaseViewHolderAdapter {
         if(data==null) data = new DeviceData();
         cabinetNameView.setText(String.format(mContext.getResources().getString(R.string.she_bei_ming_cheng_s), TextUtils.isEmpty(data.getDeviceName())?"无数据":data.getDeviceName()));
         cabinetTypeView.setText(String.format(mContext.getResources().getString(R.string.she_bei_lei_bie_s), TextUtils.isEmpty(data.getDeviceModel()) ? "无数据" : data.getDeviceModel()));
-        //扫描按钮点击
-        cabinetExpandView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mPandianOperationListener != null) {
-                    mPandianOperationListener.operation(PandianOperationListener.OPERATION_CODE_OPEN_CABINET,cabinetNum);
+
+        //获取已完成的机柜扫描码列表
+        Set<String> completedCabinets = PreferenceUtil.getStringSetInPreferce(mContext, Const.PREFERENCE_FILE_NAME,Const.PREFERENCE_KEY_COMPLETED_CABINET);
+        if(completedCabinets==null||!completedCabinets.contains(cabinetNum)) {//此机柜还未完成扫描
+            cabinetExpandView.setVisibility(View.VISIBLE);
+            cabinetDealedView.setVisibility(View.GONE);
+            //扫描按钮点击
+            cabinetExpandView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mPandianOperationListener != null) {
+                        mPandianOperationListener.operation(PandianOperationListener.OPERATION_CODE_OPEN_CABINET, cabinetNum);
+                    }
                 }
-            }
-        });
+            });
+        }else{//此机柜已经完成扫描
+            cabinetDealedView.setVisibility(View.VISIBLE);
+            cabinetExpandView.setVisibility(View.GONE);
+        }
         //删除按钮点击
         deleteCabinetView.setOnClickListener(new View.OnClickListener() {
             @Override

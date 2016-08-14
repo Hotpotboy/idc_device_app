@@ -31,6 +31,15 @@
         android:textColor="@android:color/white"
         android:textSize="@dimen/twenty_sp"
         android:background="@drawable/button_selector"/>
+    <View
+        android:id="@+id/item_cuboard_dealed"
+        android:layout_width="@dimen/ninty_dp"
+        android:layout_height="@dimen/ninty_dp"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/twenty_dp"
+        android:layout_toLeftOf="@id/item_cupboard_delete"
+        android:background="@drawable/cabinet_dealed"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/item_cupboard_num"

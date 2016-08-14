@@ -100,6 +100,10 @@ public class DeviceApplication extends BaseApplication {
             if (devices != null && devices.size() > 0) {
                 for (DeviceData item : devices) {
                     try {
+                        String selection = DeviceTable.getDeviceTableInstance().getComlueInfos()[8].getName() + " = ?";
+                        String[] args = {item.getDeviceId()+""};
+                        int count = DeviceTable.getDeviceTableInstance().selectDatas(selection,args,null,null,null,DeviceData.class).size();
+                        if(count>0) continue;
                         item.setId(BaseSQLiteHelper.getId());
                         DeviceTable.getDeviceTableInstance().insertData(item);
                     } catch (Exception e) {
@@ -134,6 +138,10 @@ public class DeviceApplication extends BaseApplication {
             if (patrolItemDatas != null && patrolItemDatas.size() > 0) {
                 for (PatrolItemData item : patrolItemDatas) {
                     try {
+                        String selection = PatrolItemTable.getPatrolItemTableInstance().getComlueInfos()[6].getName() + " = ?";
+                        String[] args = {item.getPatrolId()+""};
+                        int count = PatrolItemTable.getPatrolItemTableInstance().selectDatas(selection,args,null,null,null,PatrolItemData.class).size();
+                        if(count>0) continue;
                         item.setId(BaseSQLiteHelper.getId());
                         if (item.getEnable() == -1) {
                             item.setEnable(1);//默认为启用
@@ -181,38 +189,52 @@ public class DeviceApplication extends BaseApplication {
      *
      * @return
      */
-    public String sendDataToPc() {
+    public String sendDataToPc(String taskId) {
         String result = null;
         try {
-            ArrayList<PandianResultData> pandianResultDatas = PandianResultTable.getPandianTableInstance().selectAllDatas(PandianResultData.class);
-            ArrayList<TaskData> taskDatas = TaskTable.getTaskTableInstance().selectAllDatas(TaskData.class);
-            ArrayList<PatrolItemData> patrolItemDatas = PatrolItemTable.getPatrolItemTableInstance().selectAllDatas(PatrolItemData.class);
             UploadDBData dBdata = new UploadDBData();
-//            dBdata.setDevices(deviceDatas);
-            //上传巡检项信息
-            dBdata.setPatrols(patrolItemDatas);
             //上传任务信息
+            ArrayList<TaskData> taskDatas = null;
+            if(TextUtils.isEmpty(taskId)){
+                taskDatas = TaskTable.getTaskTableInstance().selectAllDatas(TaskData.class);
+            }else{
+                String selection = TaskTable.getTaskTableInstance().getComlueInfos()[14].getName() +" = ?";
+                String[] args = {taskId};
+                taskDatas = TaskTable.getTaskTableInstance().selectDatas(selection,args,null,null,null,TaskData.class);
+            }
             if (taskDatas != null && taskDatas.size() > 0) {
                 for (TaskData taskData : taskDatas) {
                     taskData.setTaskState("2");
-//                    String status = taskData.getTaskState();
-//                    if(Const.TASK_STATE_DEALED.equals(status)){
-//                        taskData.setTaskState("2");
-//                    }else{
-//                        taskData.setTaskState("1");
-//                    }
                 }
             }
-            dBdata.setTasks(taskDatas);
+            dBdata.setTasks(taskDatas==null?new ArrayList<TaskData>():taskDatas);
+            //上传巡检项信息
+            ArrayList<PatrolItemData> patrolItemDatas = null;
+            if(TextUtils.isEmpty(taskId)){
+                patrolItemDatas = PatrolItemTable.getPatrolItemTableInstance().selectAllDatas(PatrolItemData.class);
+            }else{
+                String selection = PatrolItemTable.getPatrolItemTableInstance().getComlueInfos()[11].getName() +" = ?";
+                String[] args = {taskId};
+                patrolItemDatas = PatrolItemTable.getPatrolItemTableInstance().selectDatas(selection,args,null,null,null,PatrolItemData.class);
+            }
+            dBdata.setPatrols(patrolItemDatas==null?new ArrayList<PatrolItemData>():null);
             //上传盘点结果数据
+            ArrayList<PandianResultData> pandianResultDatas = null;
+            if(TextUtils.isEmpty(taskId)){
+                pandianResultDatas = PandianResultTable.getPandianTableInstance().selectAllDatas(PandianResultData.class);
+            }else{
+                String selection = PandianResultTable.getPandianTableInstance().getComlueInfos()[5].getName() +" = ?";
+                String[] args = {taskId};
+                pandianResultDatas = PandianResultTable.getPandianTableInstance().selectDatas(selection,args,null,null,null,PandianResultData.class);
+            }
+            ArrayList<DeviceData> pandianResults = new ArrayList<>();
             if (pandianResultDatas != null && pandianResultDatas.size() > 0) {
-                ArrayList<DeviceData> pandianResults = new ArrayList<>();
                 for (PandianResultData item : pandianResultDatas) {
                     DeviceData deviceData = item.converToDeviceData();
                     pandianResults.add(deviceData);
                 }
-                dBdata.setDevices(pandianResults);
             }
+            dBdata.setDevices(pandianResults);
             //转换为字符串
             ObjectMapper objectMapper = new ObjectMapper();
             result = objectMapper.writeValueAsString(dBdata);
@@ -226,28 +248,17 @@ public class DeviceApplication extends BaseApplication {
         }
     }
 
-    private void filterFileds(ObjectMapper mapper) {
-        SimpleFilterProvider filters = new SimpleFilterProvider();
-        String[] fields = {"id", "dealInfo", "dealResult", "patrolItems", "realEndTime", "realStartTime", "taskState"};
-        filters.addFilter(TaskData.class.getName(), SimpleBeanPropertyFilter.serializeAllExcept(fields));
-        mapper.setFilters(filters);
-        mapper.setAnnotationIntrospector(new JacksonAnnotationIntrospector() {
-            @Override
-            public Object findFilterId(AnnotatedClass ac) {
-                return ac.getName();
-            }
-        });
-    }
-
-
     /**
      * 从PC端获取数据
+     * @param  type 获取任务的类型；空表示获取所有任务
      */
-    public void getDataFromPC(final Activity activity) {
+    public void getDataFromPC(final Activity activity,String type) {
         final PopupWindowUtils netLoadingWindow = PopupWindowUtils.getInstance(R.layout.net_loading, activity, activity.getWindow().getDecorView(), ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         ((TextView) netLoadingWindow.getViewById(R.id.net_loading_tip)).setText("正在获取数据中......");
         netLoadingWindow.showAtLocation();
-        Request.addRequestForCode(AdbSocketUtils.GET_ALL_INFOS_COMMANDE, "", new Request.CallBack() {
+        String userName = Const.getUserName(this);
+        String param = TextUtils.isEmpty(type)?"{\"userName\":\""+userName+"\"}":"{\"userName\":\""+userName+"\",\"taskType\":\""+type+"\"}";
+        Request.addRequestForCode(AdbSocketUtils.GET_ALL_INFOS_COMMANDE, param, new Request.CallBack() {
             @Override
             public void onSuccess(final String result) {
                 ((TextView) netLoadingWindow.getViewById(R.id.net_loading_tip)).setText("获取数据成功，正在本地化......");
@@ -328,7 +339,7 @@ public class DeviceApplication extends BaseApplication {
                     final PopupWindowUtils netLoadingWindow = PopupWindowUtils.getInstance(R.layout.net_loading, activity, activity.getWindow().getDecorView(), ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                     ((TextView) netLoadingWindow.getViewById(R.id.net_loading_tip)).setText("正在上传数据库......");
                     netLoadingWindow.showAtLocation();
-                    final String datas = ((DeviceApplication) DeviceApplication.getInstance()).sendDataToPc();
+                    final String datas = sendDataToPc(null);
                     if (TextUtils.isEmpty(datas)) {
                         netLoadingWindow.getPopupWindow().dismiss();
                         Toast.makeText(activity, "从数据库中获取的数据为空!", Toast.LENGTH_LONG).show();

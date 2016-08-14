@@ -30,9 +30,12 @@ import com.zhanghang.idcdevice.mode.pandian.PandianResultData;
 import com.zhanghang.self.base.BaseFragment;
 import com.zhanghang.self.base.BaseFragmentActivity;
 import com.zhanghang.self.utils.PopupWindowUtils;
+import com.zhanghang.self.utils.PreferenceUtil;
 import com.zhanghang.self.utils.camera.CameraUtils;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Administrator on 2016-04-11.
@@ -251,6 +254,22 @@ public class DeviceDetailFragment extends BaseFragment implements View.OnClickLi
                 CameraUtils.scannerQRCode((BaseFragmentActivity) mActivity, this);
                 break;
             case R.id.fragment_devices_finish://完成扫描
+                mDialog.setContent("一旦完成此机柜的扫描，则不能再次进入此机柜！确定？").showCancelButton().showSureButton(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mDialog.dismiss();
+                        Set<String> completedCabinets = PreferenceUtil.getStringSetInPreferce(mActivity,Const.PREFERENCE_FILE_NAME,Const.PREFERENCE_KEY_COMPLETED_CABINET);
+                        if(completedCabinets==null){
+                            completedCabinets = new HashSet<String>();
+                        }
+                        if(completedCabinets.add(mCabinetNum)){
+                            PreferenceUtil.updateStringSetInPreferce(mActivity,Const.PREFERENCE_FILE_NAME,Const.PREFERENCE_KEY_COMPLETED_CABINET,completedCabinets);
+                            Toast.makeText(mActivity,"完成扫描!",Toast.LENGTH_LONG).show();
+                        }else{
+                            Toast.makeText(mActivity,"此机柜已经完成!",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }).show();
                 break;
         }
     }
@@ -392,12 +411,12 @@ public class DeviceDetailFragment extends BaseFragment implements View.OnClickLi
             if (!TextUtils.isEmpty(result)) {
                 int index = mDevices.indexOf(result);
                 if (index >= 0 && index < mDevices.size()) {
-                    mDevices.remove(index);
-                    mDeviceAdapter.notifyDataSetChanged();
                     if (index == mDeviceAdapter.getSelected()) {
                         mDeviceAdapter.setSelected(0);
                         fillDeviceData(DeviceDetailFragment.this, mDevices.get(0));
                     }
+                    mDevices.remove(index);
+                    mDeviceAdapter.notifyDataSetChanged();
                 }
             }
         }

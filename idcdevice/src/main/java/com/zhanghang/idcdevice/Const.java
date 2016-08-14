@@ -65,6 +65,8 @@ public class Const {
     public static final String PREFERENCE_KEY_ALL_DATA_INFOS = "preference_key_all_date_infos";
     /**当前用户名在SharedPreference中的存在KEY*/
     private static final String PREFERENCE_KEY_USER_NAME = "preference_key_user_name";
+    /**已完成扫描的机柜扫描码在SharedPreference中的存在KEY*/
+    public static final String PREFERENCE_KEY_COMPLETED_CABINET = "preference_key_completed_cabinet";
     /*************相关的工具方法***********************************************/
     /**
      * 改变一个指定字符串中指定子集的颜色

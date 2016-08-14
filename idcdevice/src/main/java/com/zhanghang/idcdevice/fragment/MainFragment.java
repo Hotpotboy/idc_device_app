@@ -25,13 +25,19 @@ import java.util.ArrayList;
  * Created by Administrator on 2016-03-29.
  */
 public class MainFragment extends ViewPagerFragement implements View.OnClickListener {
-    /**下方操作按钮的个数*/
+    /**
+     * 下方操作按钮的个数
+     */
     private static final int BUTTON_NUM = 3;
-    /**左上角菜单按钮*/
+    /**
+     * 左上角菜单按钮
+     */
     private TextView menuView;
     /**设备(机房列表)Fragment*/
 //    private DeviceListFragment mDeviceFragment;
-    /**下方三个按钮*/
+    /**
+     * 下方三个按钮
+     */
     private ButtonHold[] mButtonHolds = new ButtonHold[BUTTON_NUM];
     private TextView mTitileCenter;
     private TextView mTitileRight;
@@ -47,7 +53,7 @@ public class MainFragment extends ViewPagerFragement implements View.OnClickList
         return fragments;
     }
 
-    private TaskFragment getTaskFragment(String type){
+    private TaskFragment getTaskFragment(String type) {
         TaskFragment taskFragment = new TaskFragment();
         Bundle patrolBundle = new Bundle();
         patrolBundle.putString(Const.INTENT_KEY_TASK_TYPE, type);
@@ -66,7 +72,7 @@ public class MainFragment extends ViewPagerFragement implements View.OnClickList
     }
 
     @Override
-    protected void initView(){
+    protected void initView() {
         super.initView();
         //标题
         mTitileCenter = (TextView) findViewById(R.id.fragment_title_center);
@@ -79,15 +85,15 @@ public class MainFragment extends ViewPagerFragement implements View.OnClickList
     @Override
     protected void initData() {
         super.initData(); //初始化下方三个按钮
-        mButtonHolds[0] = new ButtonHold(0,R.id.fragment_main_task_button_line,R.id.fragment_main_task_button_image,R.id.fragment_main_task_button_value);
+        mButtonHolds[0] = new ButtonHold(0, R.id.fragment_main_task_button_line, R.id.fragment_main_task_button_image, R.id.fragment_main_task_button_value);
         //设备按钮
-        mButtonHolds[1] = new ButtonHold(1,R.id.fragment_main_device_count_button_line,R.id.fragment_main_device_count_button_image,R.id.fragment_main_device_count_button_value);
+        mButtonHolds[1] = new ButtonHold(1, R.id.fragment_main_device_count_button_line, R.id.fragment_main_device_count_button_image, R.id.fragment_main_device_count_button_value);
         //"我的"按钮
-        mButtonHolds[2] = new ButtonHold(2,R.id.fragment_main_my_button_line,R.id.fragment_main_my_button_image,R.id.fragment_main_my_button_value);
+        mButtonHolds[2] = new ButtonHold(2, R.id.fragment_main_my_button_line, R.id.fragment_main_my_button_image, R.id.fragment_main_my_button_value);
         //默认第一个被选中
         mButtonHolds[getCurrentItem()].setSelected(true);
 
-        ((MainActivity)mActivity).setDrawerListener(new DrawerLayout.DrawerListener() {
+        ((MainActivity) mActivity).setDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
 
@@ -127,10 +133,10 @@ public class MainFragment extends ViewPagerFragement implements View.OnClickList
 
     }
 
-    public void setCurrentFragment(int index){
+    public void setCurrentFragment(int index) {
         int currentItem = getCurrentItem();
-        if(mButtonHolds!=null&&currentItem>=0&&currentItem<mButtonHolds.length) {
-            if(mButtonHolds[currentItem]!=null) {
+        if (mButtonHolds != null && currentItem >= 0 && currentItem < mButtonHolds.length) {
+            if (mButtonHolds[currentItem] != null) {
                 mButtonHolds[currentItem].setSelected(false);
             }
         }
@@ -142,40 +148,41 @@ public class MainFragment extends ViewPagerFragement implements View.OnClickList
         mButtonHolds[getCurrentItem()].setSelected(false);
         super.onPageSelected(position);
         mButtonHolds[getCurrentItem()].setSelected(true);
-        if(position==0){
+        if (position == 0) {
             mTitileCenter.setText("机房巡检");
-            mTitileRight.setVisibility(View.VISIBLE);
-            if(mTitileRight.getBackground()==null||!(mTitileRight.getBackground() instanceof BitmapDrawable)){
-                mTitileRight.setBackgroundResource(R.drawable.scanner);
-            }
-        }else if(position==1){
+            mTitileRight.setBackgroundResource(R.drawable.scanner);
+            mTitileRight.setText("");
+            mTitileRight.setPadding(0, 0, 0, 0);
+        } else if (position == 1) {
             mTitileCenter.setText("资产盘点");
-//            mTitileRight.setText("新增");
-            mTitileRight.setVisibility(View.GONE);
+            mTitileRight.setBackgroundResource(R.drawable.white_stroke_trans_solid_ten_corner_button_bg);
+            mTitileRight.setText("更新任务");
+            int size = (int) mActivity.getResources().getDimension(R.dimen.ten_dp);
+            mTitileRight.setPadding(size,size,size,size);
         }
     }
 
-    private void click(int position){
-        if(position==getCurrentItem()) return;
-        if(position!=2) {
+    private void click(int position) {
+        if (position == getCurrentItem()) return;
+        if (position != 2) {
             setCurrentFragment(position);
-        }else{
+        } else {
             mButtonHolds[getCurrentItem()].setSelected(false);
-            ((MainActivity)mActivity).openDrawer();
+            ((MainActivity) mActivity).openDrawer();
             mButtonHolds[position].setSelected(true);
         }
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.fragment_title_left:
-                ((MainActivity)mActivity).openDrawer();
+                ((MainActivity) mActivity).openDrawer();
                 break;
             case R.id.fragment_title_right:
-                if(getCurrentItem()==1){//新增设备
-                    clickAdd();
-                }else if(getCurrentItem()==0){//扫描二维码
+                if (getCurrentItem() == 1) {//更新任务
+                    clickAddTask();
+                } else if (getCurrentItem() == 0) {//扫描二维码
                     if (((DeviceApplication) DeviceApplication.getInstance()).isUploadData()) {
                         Toast.makeText(mActivity, "数据已上传,无法扫描!", Toast.LENGTH_LONG).show();
                         return;
@@ -186,31 +193,32 @@ public class MainFragment extends ViewPagerFragement implements View.OnClickList
         }
     }
 
-    public void clickAdd(){
-        String content = (String) mTitileRight.getText();
-        if(TextUtils.equals(content,"新增")){
-            mTitileRight.setText("取消");
-        }else{
-            mTitileRight.setText("新增");
-        }
+    private void clickAddTask() {
+        ((DeviceApplication)DeviceApplication.getInstance()).getDataFromPC(mActivity,Const.TASK_TYPE_PANDIAN);
     }
 
     private class ButtonHold {
-        /**按钮线*/
+        /**
+         * 按钮线
+         */
         private View line;
-        /**按钮图片*/
+        /**
+         * 按钮图片
+         */
         private ImageView imageView;
-        /**按钮文字*/
+        /**
+         * 按钮文字
+         */
         private TextView textView;
         private int index;
 
-        public ButtonHold(int _index,int lineViewId,int imageViewId,int textViewId){
+        public ButtonHold(int _index, int lineViewId, int imageViewId, int textViewId) {
             index = _index;
             line = findViewById(lineViewId);
             imageView = (ImageView) findViewById(imageViewId);
             textView = (TextView) findViewById(textViewId);
             setSelected(false);
-            ((View)line.getParent()).setOnClickListener(new View.OnClickListener() {
+            ((View) line.getParent()).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     click(index);
@@ -218,10 +226,10 @@ public class MainFragment extends ViewPagerFragement implements View.OnClickList
             });
         }
 
-        public void setSelected(boolean isSelected){
+        public void setSelected(boolean isSelected) {
             int color = Color.TRANSPARENT;
             int textColor = Color.BLACK;
-            if(isSelected){
+            if (isSelected) {
                 color = getResources().getColor(R.color.idc_af0012);
                 textColor = color;
             }
