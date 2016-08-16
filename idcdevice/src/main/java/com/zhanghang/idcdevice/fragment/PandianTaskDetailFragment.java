@@ -182,7 +182,7 @@ public class PandianTaskDetailFragment extends TaskDetailFragment implements Pan
             case R.id.fragment_pandian_task_detail_upload://上传当前盘点任务
                 mNetLoadingWindow.showAtLocation();
                 ((TextView) mNetLoadingWindow.getViewById(R.id.net_loading_tip)).setText("正在上传当前任务......");
-                mDialog.setContent("一旦上传任务，则会删除当前盘点任务！确定？").showCancelButton().showSureButton(new View.OnClickListener() {
+                mDialog.setContent("一旦上传任务，则会删除当前盘点任务\n确定？").showCancelButton().showSureButton(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         mDialog.dismiss();

@@ -254,7 +254,7 @@ public class DeviceDetailFragment extends BaseFragment implements View.OnClickLi
                 CameraUtils.scannerQRCode((BaseFragmentActivity) mActivity, this);
                 break;
             case R.id.fragment_devices_finish://完成扫描
-                mDialog.setContent("一旦完成此机柜的扫描，则不能再次进入此机柜！确定？").showCancelButton().showSureButton(new View.OnClickListener() {
+                mDialog.setContent("一旦完成此机柜的扫描，则不能再次进入此机柜!\n确定？").showCancelButton().showSureButton(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         mDialog.dismiss();

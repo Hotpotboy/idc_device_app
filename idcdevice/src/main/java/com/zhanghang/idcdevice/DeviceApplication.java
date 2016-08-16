@@ -273,7 +273,6 @@ public class DeviceApplication extends BaseApplication {
                             PreferenceUtil.updateStringInPreferce(instance, Const.PREFERENCE_FILE_NAME, Const.PREFERENCE_KEY_ALL_DATA_INFOS, result);//更新
                         } catch (IOException e) {
                             e.printStackTrace();
-                            Toast.makeText(activity, "解析数据失败……", Toast.LENGTH_LONG).show();
                             return false;
                         }
                         return true;
@@ -284,6 +283,8 @@ public class DeviceApplication extends BaseApplication {
                         netLoadingWindow.getPopupWindow().dismiss();
                         if (result) {
                             invokeDataDownFinishedListener();
+                        }else{
+                            Toast.makeText(activity, "解析数据失败……", Toast.LENGTH_LONG).show();
                         }
                     }
                 };
