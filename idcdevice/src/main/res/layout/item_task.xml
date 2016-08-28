@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:paddingLeft="@dimen/twenty_dp"
-        android:src="@drawable/task_inco" />
+        android:src="@drawable/task_inco"
+        android:visibility="gone"/>
 
     <Button
         android:id="@+id/item_task_dealing"
@@ -45,7 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@id/item_task_image"
+        android:layout_alignParentLeft="true"
         android:layout_toLeftOf="@id/item_task_dealed"
         android:paddingLeft="@dimen/twenty_dp"
         android:orientation="vertical">
@@ -56,17 +57,19 @@
             android:layout_height="wrap_content"
             android:text="日常巡检（处理人:书生）"
             android:textColor="@color/idc_3b3b3b"
-            android:textSize="@dimen/thirty_sp" />
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textSize="@dimen/twenty_six_sp" />
 
         <TextView
-            android:id="@+id/item_task_details"
+            android:id="@+id/item_task_planedTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/twenty_dp"
-            android:text="详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情"
+            android:text="2016-8-26 02:00:00 至 2016-8-26 04:00:00"
             android:singleLine="true"
             android:ellipsize="end"
             android:textColor="@color/idc_a3a3a3"
-            android:textSize="@dimen/twenty_six_sp" />
+            android:textSize="@dimen/twenty_sp" />
     </LinearLayout>
 </RelativeLayout>

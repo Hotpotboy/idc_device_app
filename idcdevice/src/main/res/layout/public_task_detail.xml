@@ -105,7 +105,8 @@
             android:singleLine="true"
             android:text="@string/she_bei_bian_hao_s"
             android:textColor="@color/idc_999999"
-            android:textSize="@dimen/thirty_sp" />
+            android:textSize="@dimen/thirty_sp"
+            android:visibility="gone"/>
 
         <TextView
             android:ellipsize="end"
@@ -210,7 +211,8 @@
         android:paddingBottom="@dimen/fifteen_dp"
         android:paddingLeft="@dimen/fifty_dp"
         android:paddingRight="@dimen/fifty_dp"
-        android:paddingTop="@dimen/fifteen_dp">
+        android:paddingTop="@dimen/fifteen_dp"
+        android:visibility="gone">
 
         <TextView
             android:ellipsize="end"

@@ -1,9 +1,7 @@
 package com.adbsocket;
 
-import java.beans.Statement;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
@@ -13,6 +11,7 @@ import java.util.logging.Logger;
  * Created by Administrator on 2016-03-27.
  */
 public class AdbSocketUtils {
+    private static int sUrlType = 0;
     static final Object sLock = new Object();
     static final int SERVER_PORT = 8080;
     static final String SERVER_IP = "127.0.0.1";
@@ -87,10 +86,6 @@ public class AdbSocketUtils {
      * 登出命令
      */
     public static final int LOGIN_OUT_COMMANDE = PC_RETURN_COMMAND + 5;
-//    /**预传输长度命令1*/
-//    public static final int PRE_ONE_COMMANDE = PC_RETURN_COMMAND+6;
-//    /**预传输长度命令2*/
-//    public static final int PRE_TWO_COMMANDE = PC_RETURN_COMMAND+7;
     /**
      * 与网络服务端连接，参数为空错误
      */
@@ -128,10 +123,6 @@ public class AdbSocketUtils {
      */
     static final String[] NET_ERRO_INFOS = {"请求参数为空!", "与网络接口所在的服务端连接失败!", "发送请求失败!",
             "连接超时，请检查网络!", "不能从HTTP连接中获取响应!", "读取响应数据错误!", ""};
-//    /**预传输的长度*/
-//    public static int sPreLen;
-//    /**预传输的内容*/
-//    static String sPreStr;
 
     /**
      * 根据错误码获取对应的错误描述
@@ -148,6 +139,19 @@ public class AdbSocketUtils {
     }
 
     /**
+     * 默认为0，即http://115.28.15.123:8080/
+     * 如果为1，则地址为http://21.5.18.90:8088/
+     * 如果为2，则地址为http://21.2.6.239:8088/
+     * @param type
+     */
+    public static void setUrlType(int type){
+        if(type<0) type=0;
+        if(type>2) type=0;
+        sUrlType = type;
+        AdbSocketUtils.printLog(true, "设置网络环境为:"+sUrlType);
+    }
+
+    /**
      * 获取网络接口的连接
      *
      * @param method  访问接口的方式（POST、GET方式）
@@ -157,6 +161,11 @@ public class AdbSocketUtils {
      */
     public static HttpURLConnection getNetUrl(HttpMethod method, String urlName, String param) throws IOException {
         String path = "http://115.28.15.123:8080/";//"http://21.5.18.90:8088/";//"http://115.28.15.123:8080/";//"http://21.2.6.239:8088/"
+        if(sUrlType==1){
+            path = "http://21.5.18.90:8088/";
+        }else if(sUrlType==2){
+            path = "http://21.2.6.239:8088/";
+        }
         if (method == HttpMethod.GET) path += (urlName + "?" + param);
         else if (method == HttpMethod.POST) path += urlName;
         URL url = new URL(path);

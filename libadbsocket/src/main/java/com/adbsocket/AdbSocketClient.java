@@ -50,6 +50,11 @@ public class AdbSocketClient extends AdbSocketConnectionThread {
     }
 
     public static void main(String[] args) {
+        try{
+            int type = Integer.valueOf(args[0]);
+            AdbSocketUtils.setUrlType(type);
+        }catch (Exception e){
+        }
         startWork();
     }
 

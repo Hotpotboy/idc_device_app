@@ -204,7 +204,9 @@ public class DeviceApplication extends BaseApplication {
             }
             if (taskDatas != null && taskDatas.size() > 0) {
                 for (TaskData taskData : taskDatas) {
-                    taskData.setTaskState("2");
+                    String stateStr = taskData.getTaskState();
+                    String value = Const.TASK_STATE_DEALED.equals(stateStr)?"2":"1";
+                    taskData.setTaskState(value);
                 }
             }
             dBdata.setTasks(taskDatas==null?new ArrayList<TaskData>():taskDatas);
@@ -371,6 +373,21 @@ public class DeviceApplication extends BaseApplication {
         }else{
             Toast.makeText(activity, "上传数据之前，请用USB连接线与PC端相连接……", Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void loginOut(final Activity activity){
+        final PublicDialog publicDialog = new PublicDialog(activity);
+        publicDialog.setContent("是否退出App？").showCancelButton().showSureButton(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Const.setUserName(activity,"");//清空用户
+                Intent intent = new Intent(activity, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                activity.finish();
+                publicDialog.dismiss();
+            }
+        }).show();
     }
 
     /**

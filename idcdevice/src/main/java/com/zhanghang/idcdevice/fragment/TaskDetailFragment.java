@@ -160,7 +160,7 @@ public class TaskDetailFragment extends BaseFragment implements View.OnClickList
         initData(mTaskStateView, R.string.ren_wu_zhuang_tai_s, Const.isNullForDBData(mData.getTaskState()) ? getString(R.string.kong_shu_ju) : mData.getTaskState(), R.color.idc_000000);
         initData(mResponseGroupView, R.string.fu_ze_zu_bie_s, Const.isNullForDBData(mData.getResponseGroup()) ? getString(R.string.kong_shu_ju) : mData.getResponseGroup(), R.color.idc_000000);
         initData(mResponsePeopleView, R.string.fu_ze_ren_yuan_s, Const.isNullForDBData(mData.getResponsePeople()) ? getString(R.string.kong_shu_ju) : mData.getResponsePeople(), R.color.idc_000000);
-        initData(mDealGroupView, R.string.shi_shi_zu_bie_s, Const.isNullForDBData(mData.getDealGroup()) ? getString(R.string.kong_shu_ju) : mData.getDealInfo(), R.color.idc_000000);
+        initData(mDealGroupView, R.string.shi_shi_zu_bie_s, Const.isNullForDBData(mData.getDealGroup()) ? getString(R.string.kong_shu_ju) : mData.getDealGroup(), R.color.idc_000000);
         mTaskDetailView.setText(Const.isNullForDBData(mData.getDetails()) ? getString(R.string.kong_shu_ju) : mData.getDetails());
         initPatrolInfos();
     }

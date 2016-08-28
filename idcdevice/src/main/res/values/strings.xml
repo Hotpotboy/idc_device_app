@@ -30,4 +30,5 @@
     <string name="ji_gui_bian_hao_s">"机柜编号:%1$s"</string>
     <string name="shang_ci_xin_xi">上次信息</string>
     <string name="kong_shu_ju">空数据</string>
+    <string name="task_planed_string_format">"%1$s至%2$s"</string>
 </resources>

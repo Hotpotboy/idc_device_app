@@ -57,11 +57,7 @@ public class UserInfoFragment extends BaseFragment implements View.OnClickListen
                 break;
             case R.id.user_login_out:
                 if (((DeviceApplication) DeviceApplication.getInstance()).isUploadData()) {
-                    Const.setUserName(mActivity,"");//清空用户
-                    intent = new Intent(mActivity, LoginActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    startActivity(intent);
-                    mActivity.finish();
+                    ((DeviceApplication)DeviceApplication.getInstance()).loginOut(mActivity);
                 }else{
                     Toast.makeText(mActivity, "还未上传数据，退出之前，请点击【上传当前数据】按钮进行数据上传!", Toast.LENGTH_LONG).show();
                 }

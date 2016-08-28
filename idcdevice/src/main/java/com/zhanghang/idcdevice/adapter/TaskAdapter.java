@@ -2,7 +2,9 @@ package com.zhanghang.idcdevice.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
+import android.text.SpannableString;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -10,7 +12,6 @@ import android.widget.Toast;
 
 import com.zhanghang.idcdevice.Const;
 import com.zhanghang.idcdevice.FragmentActivity;
-import com.zhanghang.idcdevice.MainActivity;
 import com.zhanghang.idcdevice.R;
 import com.zhanghang.idcdevice.db.TaskTable;
 import com.zhanghang.idcdevice.mode.TaskData;
@@ -24,7 +25,7 @@ import java.util.HashMap;
  */
 public class TaskAdapter extends BaseViewHolderAdapter {
     private static final String TASK_NAME_KEY = "task_name_key";
-    private static final String TASK_DETAIL_KEY = "task_detail_key";
+    private static final String TASK_PLANED_KEY = "task_planed_key";
     private static final String TASK_OPERATION_KEY = "task_operation_key";
     private static final String TASK_DEALED_KEY = "task_dealed_key";
 
@@ -40,23 +41,32 @@ public class TaskAdapter extends BaseViewHolderAdapter {
     @Override
     protected void reBindDataAndView(int position, HashMap<String, View> baseViewHolder, View convertView) {
         TextView taskNameView = (TextView) getViewByTag(R.id.item_task_name, TASK_NAME_KEY, baseViewHolder, convertView);
-        TextView taskDetail = (TextView) getViewByTag(R.id.item_task_details, TASK_DETAIL_KEY, baseViewHolder, convertView);
+        TextView taskPlanedTime = (TextView) getViewByTag(R.id.item_task_planedTime, TASK_PLANED_KEY, baseViewHolder, convertView);
         TextView taskOperation = (TextView) getViewByTag(R.id.item_task_dealing, TASK_OPERATION_KEY, baseViewHolder, convertView);
         TextView taskDealed = (TextView) getViewByTag(R.id.item_task_dealed, TASK_DEALED_KEY, baseViewHolder, convertView);
 
         final TaskData data = (TaskData) getItem(position);
-        taskNameView.setText(data.getTaskName());
-        taskDetail.setText(Const.isNullForDBData(data.getDetails())?mContext.getResources().getString(R.string.kong_shu_ju):data.getDetails());
+        taskNameView.setText("["+data.getTaskId()+"]"+data.getTaskName());
+        //计划时间
+        String planedStart = Const.getDataString(data.getPlanedStartTime());
+        String planedEnd = Const.getDataString(data.getPlanedEndTime());
+        String planedTimeStrings = String.format(mContext.getResources().getString(R.string.task_planed_string_format), planedStart, planedEnd);
+        String subStr = planedTimeStrings.substring(TextUtils.isEmpty(planedStart)?0:planedStart.length(), planedTimeStrings.indexOf(planedEnd));
+        SpannableString showStr = Const.changeSubColor(planedTimeStrings, subStr, mContext.getResources().getColor(R.color.idc_af0012));
+        taskPlanedTime.setText(showStr);
+        //状态
         taskDealed.setText(data.getTaskState());
+        //操作按钮显示逻辑
         taskOperation.setVisibility(View.VISIBLE);
         final String taskType = data.getTaskType();
         if(TextUtils.equals(taskType,Const.TASK_TYPE_XUNJIAN)) {//巡检任务
-            taskOperation.setText("打开任务");
+            taskOperation.setText("查    看");
         }else if(TextUtils.equals(taskType,Const.TASK_TYPE_PANDIAN)) {//盘点任务
             taskOperation.setText("开始盘点");
         }
+        //操作按钮点击逻辑
         if(TextUtils.equals(Const.TASK_STATE_DEALED,data.getTaskState())
-                &&TextUtils.equals(Const.TASK_TYPE_PANDIAN,taskType)){
+                &&TextUtils.equals(Const.TASK_TYPE_PANDIAN,taskType)){//如果是盘点任务且已完成状态则不显示操作按钮
             taskOperation.setVisibility(View.INVISIBLE);
         }else {
             taskOperation.setVisibility(View.VISIBLE);

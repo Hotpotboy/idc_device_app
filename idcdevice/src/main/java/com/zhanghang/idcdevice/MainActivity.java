@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private DrawerLayout mDrawerLayout;
     private PopupWindowUtils mNetLoadingWindow;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +71,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onKeyUp(int keyCode, KeyEvent keyEvent) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && keyEvent.isTracking()
+                && !keyEvent.isCanceled()) {
+            ((DeviceApplication) DeviceApplication.getInstance()).loginOut(this);
+            return true;
+        } else {
+            return super.onKeyUp(keyCode, keyEvent);
+        }
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
@@ -77,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                     String result = data.getStringExtra(Intents.Scan.RESULT);
                     mNetLoadingWindow.showAtLocation();
                     ((TextView) mNetLoadingWindow.getViewById(R.id.net_loading_tip)).setText("解析二维码成功，正在查询符合条件的任务......");
-                    ((DeviceApplication)DeviceApplication.getInstance()).resolveScannerResult(result, new XunJianTask());//解析结果
+                    ((DeviceApplication) DeviceApplication.getInstance()).resolveScannerResult(result, new XunJianTask());//解析结果
                     break;
             }
         }
@@ -86,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
     /***
      * 用以解析巡检任务的二维码任务
      */
-    private class XunJianTask extends AsyncTask<String, Void, ArrayList<TaskData>>{
+    private class XunJianTask extends AsyncTask<String, Void, ArrayList<TaskData>> {
 
         @Override
         protected ArrayList<TaskData> doInBackground(String... params) {
@@ -97,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
                     + TaskTable.getTaskTableInstance().getComlueInfos()[8].getName() + ">= ?";
             String[] args = new String[3];
             long currentTime = System.currentTimeMillis();
-            args[0] = params[1];
+            args[0] = params[0];
             args[1] = currentTime + "";
             args[2] = currentTime + "";
             try {
@@ -143,8 +156,6 @@ public class MainActivity extends AppCompatActivity {
                     taskData.setPatrolItems(items);
                     //前往任务详情页
                     //保存数据到数据库
-                    taskData.setRealStartTime(System.currentTimeMillis());
-                    taskData.setDealPeople(Const.getUserName(MainActivity.this));
                     String selection = TaskTable.getTaskTableInstance().getComlueInfos()[14].getName() + "=?";
                     String[] args = new String[1];
                     args[0] = taskData.getTaskId() + "";
