@@ -14,7 +14,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/thirty_dp"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/thirty_sp"
+        android:textSize="@dimen/twenty_sp"
         android:background="@drawable/main_menu" />
 
     <TextView

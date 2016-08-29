@@ -34,7 +34,6 @@ import com.zhanghang.self.base.BaseApplication;
 import com.zhanghang.self.db.BaseSQLiteHelper;
 import com.zhanghang.self.utils.PopupWindowUtils;
 import com.zhanghang.self.utils.PreferenceUtil;
-import com.zxing.util.GenerateQRCode;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -101,9 +100,9 @@ public class DeviceApplication extends BaseApplication {
                 for (DeviceData item : devices) {
                     try {
                         String selection = DeviceTable.getDeviceTableInstance().getComlueInfos()[8].getName() + " = ?";
-                        String[] args = {item.getDeviceId()+""};
-                        int count = DeviceTable.getDeviceTableInstance().selectDatas(selection,args,null,null,null,DeviceData.class).size();
-                        if(count>0) continue;
+                        String[] args = {item.getDeviceId() + ""};
+                        int count = DeviceTable.getDeviceTableInstance().selectDatas(selection, args, null, null, null, DeviceData.class).size();
+                        if (count > 0) continue;
                         item.setId(BaseSQLiteHelper.getId());
                         DeviceTable.getDeviceTableInstance().insertData(item);
                     } catch (Exception e) {
@@ -120,9 +119,9 @@ public class DeviceApplication extends BaseApplication {
                 for (TaskData item : tasks) {
                     try {
                         String selection = TaskTable.getTaskTableInstance().getComlueInfos()[14].getName() + " = ?";
-                        String[] args = {item.getTaskId()+""};
-                        int count = TaskTable.getTaskTableInstance().selectDatas(selection,args,null,null,null,TaskData.class).size();
-                        if(count>0) continue;
+                        String[] args = {item.getTaskId() + ""};
+                        int count = TaskTable.getTaskTableInstance().selectDatas(selection, args, null, null, null, TaskData.class).size();
+                        if (count > 0) continue;
                         item.setId(BaseSQLiteHelper.getId());
                         TaskTable.getTaskTableInstance().insertData(item);
                     } catch (Exception e) {
@@ -139,9 +138,9 @@ public class DeviceApplication extends BaseApplication {
                 for (PatrolItemData item : patrolItemDatas) {
                     try {
                         String selection = PatrolItemTable.getPatrolItemTableInstance().getComlueInfos()[6].getName() + " = ?";
-                        String[] args = {item.getPatrolId()+""};
-                        int count = PatrolItemTable.getPatrolItemTableInstance().selectDatas(selection,args,null,null,null,PatrolItemData.class).size();
-                        if(count>0) continue;
+                        String[] args = {item.getPatrolId() + ""};
+                        int count = PatrolItemTable.getPatrolItemTableInstance().selectDatas(selection, args, null, null, null, PatrolItemData.class).size();
+                        if (count > 0) continue;
                         item.setId(BaseSQLiteHelper.getId());
                         if (item.getEnable() == -1) {
                             item.setEnable(1);//默认为启用
@@ -195,39 +194,39 @@ public class DeviceApplication extends BaseApplication {
             UploadDBData dBdata = new UploadDBData();
             //上传任务信息
             ArrayList<TaskData> taskDatas = null;
-            if(TextUtils.isEmpty(taskId)){
+            if (TextUtils.isEmpty(taskId)) {
                 taskDatas = TaskTable.getTaskTableInstance().selectAllDatas(TaskData.class);
-            }else{
-                String selection = TaskTable.getTaskTableInstance().getComlueInfos()[14].getName() +" = ?";
+            } else {
+                String selection = TaskTable.getTaskTableInstance().getComlueInfos()[14].getName() + " = ?";
                 String[] args = {taskId};
-                taskDatas = TaskTable.getTaskTableInstance().selectDatas(selection,args,null,null,null,TaskData.class);
+                taskDatas = TaskTable.getTaskTableInstance().selectDatas(selection, args, null, null, null, TaskData.class);
             }
             if (taskDatas != null && taskDatas.size() > 0) {
                 for (TaskData taskData : taskDatas) {
                     String stateStr = taskData.getTaskState();
-                    String value = Const.TASK_STATE_DEALED.equals(stateStr)?"2":"1";
+                    String value = Const.TASK_STATE_DEALED.equals(stateStr) ? "2" : "1";
                     taskData.setTaskState(value);
                 }
             }
-            dBdata.setTasks(taskDatas==null?new ArrayList<TaskData>():taskDatas);
+            dBdata.setTasks(taskDatas == null ? new ArrayList<TaskData>() : taskDatas);
             //上传巡检项信息
             ArrayList<PatrolItemData> patrolItemDatas = null;
-            if(TextUtils.isEmpty(taskId)){
+            if (TextUtils.isEmpty(taskId)) {
                 patrolItemDatas = PatrolItemTable.getPatrolItemTableInstance().selectAllDatas(PatrolItemData.class);
-            }else{
-                String selection = PatrolItemTable.getPatrolItemTableInstance().getComlueInfos()[11].getName() +" = ?";
+            } else {
+                String selection = PatrolItemTable.getPatrolItemTableInstance().getComlueInfos()[11].getName() + " = ?";
                 String[] args = {taskId};
-                patrolItemDatas = PatrolItemTable.getPatrolItemTableInstance().selectDatas(selection,args,null,null,null,PatrolItemData.class);
+                patrolItemDatas = PatrolItemTable.getPatrolItemTableInstance().selectDatas(selection, args, null, null, null, PatrolItemData.class);
             }
-            dBdata.setPatrols(patrolItemDatas==null?new ArrayList<PatrolItemData>():null);
+            dBdata.setPatrols(patrolItemDatas == null ? new ArrayList<PatrolItemData>() : null);
             //上传盘点结果数据
             ArrayList<PandianResultData> pandianResultDatas = null;
-            if(TextUtils.isEmpty(taskId)){
+            if (TextUtils.isEmpty(taskId)) {
                 pandianResultDatas = PandianResultTable.getPandianTableInstance().selectAllDatas(PandianResultData.class);
-            }else{
-                String selection = PandianResultTable.getPandianTableInstance().getComlueInfos()[5].getName() +" = ?";
+            } else {
+                String selection = PandianResultTable.getPandianTableInstance().getComlueInfos()[5].getName() + " = ?";
                 String[] args = {taskId};
-                pandianResultDatas = PandianResultTable.getPandianTableInstance().selectDatas(selection,args,null,null,null,PandianResultData.class);
+                pandianResultDatas = PandianResultTable.getPandianTableInstance().selectDatas(selection, args, null, null, null, PandianResultData.class);
             }
             ArrayList<DeviceData> pandianResults = new ArrayList<>();
             if (pandianResultDatas != null && pandianResultDatas.size() > 0) {
@@ -252,14 +251,15 @@ public class DeviceApplication extends BaseApplication {
 
     /**
      * 从PC端获取数据
-     * @param  type 获取任务的类型；空表示获取所有任务
+     *
+     * @param type 获取任务的类型；空表示获取所有任务
      */
-    public void getDataFromPC(final Activity activity,String type) {
+    public void getDataFromPC(final Activity activity, String type) {
         final PopupWindowUtils netLoadingWindow = PopupWindowUtils.getInstance(R.layout.net_loading, activity, activity.getWindow().getDecorView(), ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         ((TextView) netLoadingWindow.getViewById(R.id.net_loading_tip)).setText("正在获取数据中......");
         netLoadingWindow.showAtLocation();
         String userName = Const.getUserName(this);
-        String param = TextUtils.isEmpty(type)?"{\"userName\":\""+userName+"\"}":"{\"userName\":\""+userName+"\",\"taskType\":\""+type+"\"}";
+        String param = TextUtils.isEmpty(type) ? "{\"userName\":\"" + userName + "\"}" : "{\"userName\":\"" + userName + "\",\"taskType\":\"" + type + "\"}";
         Request.addRequestForCode(AdbSocketUtils.GET_ALL_INFOS_COMMANDE, param, new Request.CallBack() {
             @Override
             public void onSuccess(final String result) {
@@ -285,7 +285,7 @@ public class DeviceApplication extends BaseApplication {
                         netLoadingWindow.getPopupWindow().dismiss();
                         if (result) {
                             invokeDataDownFinishedListener();
-                        }else{
+                        } else {
                             Toast.makeText(activity, "解析数据失败……", Toast.LENGTH_LONG).show();
                         }
                     }
@@ -302,7 +302,7 @@ public class DeviceApplication extends BaseApplication {
         });
     }
 
-    public static void invokeDataDownFinishedListener(){
+    public static void invokeDataDownFinishedListener() {
         if (mOnDataDownFinishedListeners.size() > 0) {
             for (OnDataDownFinishedListener item : mOnDataDownFinishedListeners)
                 item.onDownorUploadFinish();
@@ -317,23 +317,19 @@ public class DeviceApplication extends BaseApplication {
      */
     public <U, R> void resolveScannerResult(String result, AsyncTask<String, U, R> asyncTask) {
 
-        if (!TextUtils.isEmpty(result) && result.indexOf("&") >= 0) {
-            final String[] resultArray = result.split("&");
-            String md5Result = GenerateQRCode.getMD5(resultArray[1]);
-            if (resultArray[0].equals(md5Result)) {//签名正确
-                if(asyncTask!=null) {
-                    asyncTask.execute(resultArray[1]);
-                }
-            } else {
-                Toast.makeText(this, "二维码格式有误!", Toast.LENGTH_LONG).show();
+        if (!TextUtils.isEmpty(result)) {
+//            final String[] resultArray = result.split("&");
+//            String md5Result = GenerateQRCode.getMD5(resultArray[1]);
+            if (asyncTask != null) {
+                asyncTask.execute(result);
             }
         } else {
             Toast.makeText(this, "二维码格式有误!", Toast.LENGTH_LONG).show();
         }
     }
 
-    public void uploadDataToPc(final Activity activity){
-        if(Const.isConnetionToPc()) {
+    public void uploadDataToPc(final Activity activity) {
+        if (Const.isConnetionToPc()) {
             final PublicDialog dialog = new PublicDialog(activity);
             dialog.setContent("即将上传本地数据库!").showCancelButton(View.GONE, null).showSureButton(new View.OnClickListener() {
                 @Override
@@ -364,25 +360,25 @@ public class DeviceApplication extends BaseApplication {
                             @Override
                             public void onFail(String erroInfo) {
                                 netLoadingWindow.getPopupWindow().dismiss();
-                                Toast.makeText(activity, "上传数据库失败!原因【"+erroInfo+"】"+erroInfo, Toast.LENGTH_LONG).show();
+                                Toast.makeText(activity, "上传数据库失败!原因【" + erroInfo + "】" + erroInfo, Toast.LENGTH_LONG).show();
                             }
                         });
                     }
                 }
             }).show();
-        }else{
+        } else {
             Toast.makeText(activity, "上传数据之前，请用USB连接线与PC端相连接……", Toast.LENGTH_LONG).show();
         }
     }
 
-    public void loginOut(final Activity activity){
+    public void loginOut(final Activity activity) {
         final PublicDialog publicDialog = new PublicDialog(activity);
         publicDialog.setContent("是否退出App？").showCancelButton().showSureButton(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Const.setUserName(activity,"");//清空用户
+                Const.setUserName(activity, "");//清空用户
                 Intent intent = new Intent(activity, LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 activity.finish();
                 publicDialog.dismiss();

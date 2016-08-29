@@ -13,7 +13,7 @@ import com.zhanghang.idcdevice.R;
  * Created by Administrator on 2016-04-06.
  */
 public class PatrolItemProgress extends LinearLayout {
-    private static final int CHILDREN_COUNT = 8;
+    private static final int CHILDREN_COUNT = 6;
     /**总数*/
     private int mTotalCount = 0;
     /**当前展示值*/

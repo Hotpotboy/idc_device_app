@@ -26,5 +26,4 @@ dependencies {
     compile 'com.android.support:design:23.1.1'
     compile project(':app')
     compile project(':libadbsocket')
-    compile project(':libzxing')
 }

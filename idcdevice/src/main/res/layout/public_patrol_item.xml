@@ -2,70 +2,81 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:focusable="true"
-    android:focusableInTouchMode="true">
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
 
-    <LinearLayout
+
+    <TextView
+        android:id="@+id/public_patrol_patrolItemName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:ellipsize="end"
         android:paddingBottom="@dimen/fifteen_dp"
         android:paddingLeft="@dimen/fifty_dp"
         android:paddingRight="@dimen/fifty_dp"
-        android:paddingTop="@dimen/fifteen_dp">
-
-        <TextView
-            android:id="@+id/public_patrol_patrolItemName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/xun_jian_ming_cheng_s"
-            android:textColor="@color/idc_999999"
-            android:textSize="@dimen/thirty_sp" />
-
-        <TextView
-            android:id="@+id/public_patrol_patrolStudio"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/xun_jian_zhi_biao_s"
-            android:textColor="@color/idc_999999"
-            android:textSize="@dimen/thirty_sp" />
-    </LinearLayout>
+        android:paddingTop="@dimen/fifteen_dp"
+        android:singleLine="true"
+        android:text="@string/xun_jian_ming_cheng_s"
+        android:textColor="@color/idc_999999"
+        android:textSize="@dimen/thirty_sp" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/zero_point_five_dp"
         android:background="@color/idc_e2e2e2" />
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/public_patrol_patrolStudio"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:ellipsize="end"
         android:paddingBottom="@dimen/fifteen_dp"
         android:paddingLeft="@dimen/fifty_dp"
         android:paddingRight="@dimen/fifty_dp"
-        android:paddingTop="@dimen/fifteen_dp">
+        android:paddingTop="@dimen/fifteen_dp"
+        android:singleLine="true"
+        android:text="@string/xun_jian_zhi_biao_s"
+        android:textColor="@color/idc_999999"
+        android:textSize="@dimen/thirty_sp" />
 
-        <TextView
-            android:id="@+id/public_patrol_patrolStep"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/xun_jian_cuo_shi_s"
-            android:textColor="@color/idc_999999"
-            android:textSize="@dimen/thirty_sp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/zero_point_five_dp"
+        android:background="@color/idc_e2e2e2" />
 
-        <TextView
-            android:id="@+id/public_patrol_patrolDetail"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/xun_jian_xiang_qing_s"
-            android:textColor="@color/idc_999999"
-            android:textSize="@dimen/thirty_sp" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/public_patrol_patrolStep"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:paddingBottom="@dimen/fifteen_dp"
+        android:paddingLeft="@dimen/fifty_dp"
+        android:paddingRight="@dimen/fifty_dp"
+        android:paddingTop="@dimen/fifteen_dp"
+        android:singleLine="true"
+        android:text="@string/xun_jian_cuo_shi_s"
+        android:textColor="@color/idc_999999"
+        android:textSize="@dimen/thirty_sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/zero_point_five_dp"
+        android:background="@color/idc_e2e2e2" />
+
+    <TextView
+        android:id="@+id/public_patrol_patrolDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:paddingBottom="@dimen/fifteen_dp"
+        android:paddingLeft="@dimen/fifty_dp"
+        android:paddingRight="@dimen/fifty_dp"
+        android:paddingTop="@dimen/fifteen_dp"
+        android:singleLine="true"
+        android:text="@string/xun_jian_xiang_qing_s"
+        android:textColor="@color/idc_999999"
+        android:textSize="@dimen/thirty_sp" />
 
     <View
         android:layout_width="match_parent"
@@ -104,9 +115,9 @@
                 android:layout_height="@dimen/seventy_dp"
                 android:layout_weight="1"
                 android:background="@drawable/red_stroke_red_solid_ten_left_corner_check_bg"
+                android:gravity="center_horizontal"
                 android:paddingBottom="@dimen/fifteen_dp"
                 android:paddingTop="@dimen/fifteen_dp"
-                android:gravity="center_horizontal"
                 android:text="是"
                 android:textColor="@color/idc_f5f5f5"
                 android:textSize="@dimen/thirty_sp" />
@@ -117,13 +128,14 @@
                 android:layout_height="@dimen/seventy_dp"
                 android:layout_weight="1"
                 android:background="@drawable/red_stroke_red_solid_ten_right_corner_check_bg"
+                android:gravity="center_horizontal"
                 android:paddingBottom="@dimen/fifteen_dp"
                 android:paddingTop="@dimen/fifteen_dp"
-                android:gravity="center_horizontal"
                 android:text="否"
                 android:textColor="@color/idc_af0012"
                 android:textSize="@dimen/thirty_sp" />
         </LinearLayout>
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -160,9 +172,14 @@
             android:layout_height="@dimen/seventy_dp"
             android:layout_weight="1"
             android:background="@drawable/red_stroke_trans_solid_ten_corner_button_bg"
-            android:paddingLeft="@dimen/ten_dp"
             android:hint="填写记录"
+            android:paddingLeft="@dimen/ten_dp"
             android:textColorHint="@color/idc_999999"
             android:textSize="@dimen/thirty_sp" />
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/zero_point_five_dp"
+        android:background="@color/idc_e2e2e2" />
 </LinearLayout>
