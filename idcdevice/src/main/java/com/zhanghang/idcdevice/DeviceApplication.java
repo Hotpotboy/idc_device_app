@@ -14,10 +14,6 @@ import android.widget.Toast;
 
 import com.adbsocket.AdbSocketUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.introspect.AnnotatedClass;
-import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
-import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.zhanghang.idcdevice.adbsocket.AdbSocketService;
 import com.zhanghang.idcdevice.adbsocket.Request;
 import com.zhanghang.idcdevice.db.DeviceTable;
