@@ -5,6 +5,7 @@
     <string name="she_bei_sao_miao_ma_s">"设备扫描码:%1$s"</string>
     <string name="ren_wu_ming_cheng_s">"任务名称:%1$s"</string>
     <string name="ren_wu_zhuang_tai_s">"任务状态:%1$s"</string>
+    <string name="ren_wu_xiang_qing_s">"任务详情:%1$s"</string>
     <string name="ren_wu_lei_bie_s">"任务类别:%1$s"</string>
     <string name="shi_shi_yuan_gong_s">实施员工:%1$s</string>
     <string name="shi_shi_zu_bie_s">实施组别:%1$s</string>

@@ -134,17 +134,16 @@ public class DeviceApplication extends BaseApplication {
                 for (PatrolItemData item : patrolItemDatas) {
                     try {
                         String selection = PatrolItemTable.getPatrolItemTableInstance().getComlueInfos()[6].getName() + " = ?";
-                        String[] args = {item.getPatrolId() + ""};
+                        String[] args = {item.getId() + ""};
                         int count = PatrolItemTable.getPatrolItemTableInstance().selectDatas(selection, args, null, null, null, PatrolItemData.class).size();
                         if (count > 0) continue;
-                        item.setId(BaseSQLiteHelper.getId());
                         if (item.getEnable() == -1) {
                             item.setEnable(1);//默认为启用
                         }
                         PatrolItemTable.getPatrolItemTableInstance().insertData(item);
                     } catch (Exception e) {
                         e.printStackTrace();
-                        Toast.makeText(this, "巡检项信息【" + item.getPatrolId() + "," + item.getPatrolItemName() + "】插入数据库失败,原因：" + e.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, "巡检项信息【" + item.getId() + "," + item.getPatrolItemName() + "】插入数据库失败,原因：" + e.toString(), Toast.LENGTH_LONG).show();
                     }
                 }
             } else {

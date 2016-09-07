@@ -5,8 +5,11 @@ import android.os.SystemClock;
 import android.support.annotation.ColorInt;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.TextUtils;
+import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
+import android.view.View;
 
 import com.zhanghang.idcdevice.adbsocket.AdbSocketService;
 import com.zhanghang.idcdevice.db.PatrolItemTable;
@@ -84,6 +87,38 @@ public class Const {
             int start = parent.indexOf(key);
             SpannableString result = new SpannableString(parent);
             result.setSpan(new ForegroundColorSpan(color),start,start+key.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            return result;
+        }
+    }
+
+    /**
+     * 改变一个指定字符串中指定子集的颜色
+     * @param parent   指定的字符串
+     * @param key      指定的子集
+     * @param color    颜色
+     * @return
+     */
+    public static SpannableString changeClickColor(String parent,String key,@ColorInt final int color, final Runnable clickRunable){
+        if(TextUtils.isEmpty(parent)){
+            return null;
+        }else if(TextUtils.isEmpty(key)||parent.indexOf(key)<0){
+            return new SpannableString(parent);
+        }else{
+            int start = parent.indexOf(key);
+            SpannableString result = new SpannableString(parent);
+            result.setSpan(new ClickableSpan() {
+                @Override
+                public void onClick(View widget) {
+                    if(clickRunable!=null){
+                        clickRunable.run();
+                    }
+                }
+                @Override
+                public void updateDrawState(TextPaint ds) {
+                    ds.setColor(color);
+                    ds.setUnderlineText(false);
+                }
+            },start,start+key.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             return result;
         }
     }
