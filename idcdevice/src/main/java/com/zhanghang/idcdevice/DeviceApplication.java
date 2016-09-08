@@ -213,7 +213,7 @@ public class DeviceApplication extends BaseApplication {
                 String[] args = {taskId};
                 patrolItemDatas = PatrolItemTable.getPatrolItemTableInstance().selectDatas(selection, args, null, null, null, PatrolItemData.class);
             }
-            dBdata.setPatrols(patrolItemDatas == null ? new ArrayList<PatrolItemData>() : null);
+            dBdata.setPatrols(patrolItemDatas == null ? new ArrayList<PatrolItemData>() : patrolItemDatas);
             //上传盘点结果数据
             ArrayList<PandianResultData> pandianResultDatas = null;
             if (TextUtils.isEmpty(taskId)) {
