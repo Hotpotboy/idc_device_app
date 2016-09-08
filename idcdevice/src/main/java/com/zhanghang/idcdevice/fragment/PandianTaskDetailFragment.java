@@ -419,7 +419,7 @@ public class PandianTaskDetailFragment extends TaskDetailFragment implements Pan
                         public void onSuccess(String result) {
                             ((TextView) mNetLoadingWindow.getViewById(R.id.net_loading_tip)).setText("成功上传当前任务，正在删除......");
                             /**删除当前任务*/
-                            String selection = TaskTable.getTaskTableInstance().getComlueInfos()[14].getName() + "=?";
+                            String selection = TaskTable.getTaskTableInstance().getComlueInfos()[16].getName() + "=?";
                             String[] args = {taskId + ""};
                             TaskTable.getTaskTableInstance().deleteData(selection, args);
                             mNetLoadingWindow.getPopupWindow().dismiss();

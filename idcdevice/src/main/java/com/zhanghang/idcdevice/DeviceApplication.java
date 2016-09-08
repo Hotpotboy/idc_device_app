@@ -114,7 +114,7 @@ public class DeviceApplication extends BaseApplication {
             if (tasks != null && tasks.size() > 0) {
                 for (TaskData item : tasks) {
                     try {
-                        String selection = TaskTable.getTaskTableInstance().getComlueInfos()[14].getName() + " = ?";
+                        String selection = TaskTable.getTaskTableInstance().getComlueInfos()[16].getName() + " = ?";
                         String[] args = {item.getTaskId() + ""};
                         int count = TaskTable.getTaskTableInstance().selectDatas(selection, args, null, null, null, TaskData.class).size();
                         if (count > 0) continue;
@@ -133,7 +133,7 @@ public class DeviceApplication extends BaseApplication {
             if (patrolItemDatas != null && patrolItemDatas.size() > 0) {
                 for (PatrolItemData item : patrolItemDatas) {
                     try {
-                        String selection = PatrolItemTable.getPatrolItemTableInstance().getComlueInfos()[6].getName() + " = ?";
+                        String selection = PatrolItemTable.getPatrolItemTableInstance().getComlueInfos()[2].getName() + " = ?";
                         String[] args = {item.getId() + ""};
                         int count = PatrolItemTable.getPatrolItemTableInstance().selectDatas(selection, args, null, null, null, PatrolItemData.class).size();
                         if (count > 0) continue;
@@ -192,7 +192,7 @@ public class DeviceApplication extends BaseApplication {
             if (TextUtils.isEmpty(taskId)) {
                 taskDatas = TaskTable.getTaskTableInstance().selectAllDatas(TaskData.class);
             } else {
-                String selection = TaskTable.getTaskTableInstance().getComlueInfos()[14].getName() + " = ?";
+                String selection = TaskTable.getTaskTableInstance().getComlueInfos()[16].getName() + " = ?";
                 String[] args = {taskId};
                 taskDatas = TaskTable.getTaskTableInstance().selectDatas(selection, args, null, null, null, TaskData.class);
             }

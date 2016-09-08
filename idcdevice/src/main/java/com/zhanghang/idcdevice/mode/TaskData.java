@@ -13,12 +13,16 @@ import java.util.ArrayList;
 public class TaskData extends BaseData implements Serializable {
     /**此巡检项对应的设备编号*/
     private String assetNum;
+    /**资产类别*/
+    private String assetType;
     /**实施组*/
     private String dealGroup;
     /**任务处理信息*/
     private String dealInfo;
     /**实施人*/
     private String dealPeople;
+    /**实施人ID*/
+    private String dealPeopleId;
     /**处理结果*/
     private String dealResult;
     /**详细描述*/
@@ -42,10 +46,10 @@ public class TaskData extends BaseData implements Serializable {
     private long taskId;
     /**任务状态*/
     private String taskState= Const.TASK_STATE_UNDEAL;
-    /**任务类型*/
-    private String taskType;
     /**任务名称*/
     private String taskName;
+    /**任务类型*/
+    private String taskType;
 
     public ArrayList<PatrolItemData> getPatrolItems() {
         return patrolItems;
@@ -189,5 +193,21 @@ public class TaskData extends BaseData implements Serializable {
 
     public void setAssetNum(String assetNum) {
         this.assetNum = assetNum;
+    }
+
+    public String getAssetType() {
+        return assetType;
+    }
+
+    public void setAssetType(String assetType) {
+        this.assetType = assetType;
+    }
+
+    public String getDealPeopleId() {
+        return dealPeopleId;
+    }
+
+    public void setDealPeopleId(String dealPeopleId) {
+        this.dealPeopleId = dealPeopleId;
     }
 }

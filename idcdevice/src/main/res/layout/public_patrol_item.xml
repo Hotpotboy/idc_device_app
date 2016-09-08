@@ -17,7 +17,7 @@
         android:paddingRight="@dimen/fifty_dp"
         android:paddingTop="@dimen/fifteen_dp"
         android:singleLine="true"
-        android:text="@string/xun_jian_ming_cheng_s"
+        android:text="@string/xun_jian_xiang_ming_cheng_s"
         android:textColor="@color/idc_999999"
         android:textSize="@dimen/twenty_sp" />
 
@@ -74,7 +74,7 @@
         android:paddingRight="@dimen/fifty_dp"
         android:paddingTop="@dimen/fifteen_dp"
         android:singleLine="true"
-        android:text="@string/xun_jian_xiang_qing_s"
+        android:text="@string/xiang_xi_shuo_ming_s"
         android:textColor="@color/idc_999999"
         android:textSize="@dimen/twenty_sp" />
 

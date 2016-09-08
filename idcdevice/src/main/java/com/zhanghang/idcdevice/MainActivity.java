@@ -103,20 +103,20 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected ArrayList<TaskData> doInBackground(String... params) {
-            //根据计划开始时间、计划结束时间、设备类型查询符合条件的任务，如果没有，则查询只符合设备类型的任务；
+            //根据设备类型查询符合条件的任务，如果没有，则查询只符合设备类型的任务；
             //所有的查询结果以计划开始时间排序
             String selections = TaskTable.getTaskTableInstance().getComlueInfos()[0].getName() + "=?";
             String[] args = new String[1];
             args[0] = params[0];
             try {
-                ArrayList<TaskData> datas = TaskTable.getTaskTableInstance().selectDatas(selections, args, null, null, TaskTable.getTaskTableInstance().getComlueInfos()[9].getName(), TaskData.class);
+                ArrayList<TaskData> datas = TaskTable.getTaskTableInstance().selectDatas(selections, args, null, null, TaskTable.getTaskTableInstance().getComlueInfos()[11].getName(), TaskData.class);
                 if (datas != null && datas.size() > 0) {
                     return datas;
                 } else {
                     selections = TaskTable.getTaskTableInstance().getComlueInfos()[0].getName() + "=?";
                     args = new String[1];
                     args[0] = params[1];
-                    datas = TaskTable.getTaskTableInstance().selectDatas(selections, args, null, null, TaskTable.getTaskTableInstance().getComlueInfos()[9].getName(), TaskData.class);
+                    datas = TaskTable.getTaskTableInstance().selectDatas(selections, args, null, null, TaskTable.getTaskTableInstance().getComlueInfos()[11].getName(), TaskData.class);
                     if (datas != null && datas.size() > 0) {
                         return datas;
                     } else {
@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
                     taskData.setPatrolItems(items);
                     //前往任务详情页
                     //保存数据到数据库
-                    String selection = TaskTable.getTaskTableInstance().getComlueInfos()[14].getName() + "=?";
+                    String selection = TaskTable.getTaskTableInstance().getComlueInfos()[16].getName() + "=?";
                     String[] args = new String[1];
                     args[0] = taskData.getTaskId() + "";
                     try {

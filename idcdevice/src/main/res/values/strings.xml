@@ -5,18 +5,18 @@
     <string name="she_bei_sao_miao_ma_s">"设备扫描码:%1$s"</string>
     <string name="ren_wu_ming_cheng_s">"任务名称:%1$s"</string>
     <string name="ren_wu_zhuang_tai_s">"任务状态:%1$s"</string>
-    <string name="ren_wu_xiang_qing_s">"任务详情:%1$s"</string>
+    <string name="xiang_xi_miao_shu_s">"详细描述:%1$s"</string>
     <string name="ren_wu_lei_bie_s">"任务类别:%1$s"</string>
-    <string name="shi_shi_yuan_gong_s">实施员工:%1$s</string>
+    <string name="shi_shi_id_s">实施人ID:%1$s</string>
     <string name="shi_shi_zu_bie_s">实施组别:%1$s</string>
-    <string name="fu_ze_ren_yuan_s">负责人员:%1$s</string>
-    <string name="fu_ze_zu_bie_s">负责组别:%1$s</string>
-    <string name="shi_ji_kai_shi_s">实际开始:%1$s</string>
-    <string name="shi_ji_jie_su_s">实际结束:%1$s</string>
-    <string name="xun_jian_ming_cheng_s">"巡检名称:%1$s"</string>
+    <string name="fu_ze_ren_yuan_s">负责人:%1$s</string>
+    <string name="fu_ze_zu_bie_s">负责组:%1$s</string>
+    <string name="shi_ji_kai_shi_shi_jian_s">实际开始时间:%1$s</string>
+    <string name="shi_ji_jie_su_shi_jian_s">实际结束时间:%1$s</string>
+    <string name="xun_jian_xiang_ming_cheng_s">"巡检项名称:%1$s"</string>
     <string name="xun_jian_zhi_biao_s">"巡检指标:%1$s"</string>
     <string name="xun_jian_cuo_shi_s">"巡检措施:%1$s"</string>
-    <string name="xun_jian_xiang_qing_s">"巡检详情:%1$s"</string>
+    <string name="xiang_xi_shuo_ming_s">"详细说明:%1$s"</string>
     <string name="she_bei_ming_cheng_s">"设备名称:%1$s"</string>
     <string name="she_bei_lei_bie_s">"设备类别:%1$s"</string>
     <string name="chu_li_xin_xi_s">"处理信息:%1$s"</string>
@@ -32,4 +32,8 @@
     <string name="shang_ci_xin_xi">上次信息</string>
     <string name="kong_shu_ju">空数据</string>
     <string name="task_planed_string_format">"%1$s至%2$s"</string>
+    <string name="zi_chan_fen_lei_s">"资产分类:%1$s"</string>
+    <string name="ji_hua_kai_shi_shi_jian_s">"计划开始时间:%1$s"</string>
+    <string name="ji_hua_jie_su_shi_jian_s">"计划结束时间:%1$s"</string>
+    <string name="ren_wu_bian_hao_s">"任务编号:%1$s"</string>
 </resources>

@@ -33,7 +33,7 @@
                 android:paddingBottom="@dimen/ten_dp"
                 android:paddingLeft="@dimen/twenty_dp"
                 android:paddingTop="@dimen/ten_dp"
-                android:text="巡检任务描述"
+                android:text="巡检任务基本信息"
                 android:textColor="@color/idc_af0012"
                 android:textSize="@dimen/twenty_sp" />
 
@@ -62,7 +62,7 @@
                 android:background="@color/idc_e2e2e2" />
 
             <TextView
-                android:id="@+id/fragment_patrol_deviceID"
+                android:id="@+id/fragment_patrol_taskDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -71,7 +71,7 @@
                 android:paddingRight="@dimen/fifty_dp"
                 android:paddingTop="@dimen/five_dp"
                 android:singleLine="true"
-                android:text="@string/she_bei_bian_hao_s"
+                android:text="@string/xiang_xi_miao_shu_s"
                 android:textColor="@color/idc_999999"
                 android:textSize="@dimen/twenty_dp" />
 
@@ -91,7 +91,7 @@
                 android:paddingRight="@dimen/fifty_dp"
                 android:paddingTop="@dimen/five_dp"
                 android:singleLine="true"
-                android:text="@string/ji_hua_kai_shi_s"
+                android:text="@string/ji_hua_kai_shi_shi_jian_s"
                 android:textColor="@color/idc_999999"
                 android:textSize="@dimen/twenty_dp" />
 
@@ -110,7 +110,26 @@
                 android:paddingRight="@dimen/fifty_dp"
                 android:paddingTop="@dimen/five_dp"
                 android:singleLine="true"
-                android:text="@string/ji_hua_jie_su_s"
+                android:text="@string/ji_hua_jie_su_shi_jian_s"
+                android:textColor="@color/idc_999999"
+                android:textSize="@dimen/twenty_dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/zero_point_five_dp"
+                android:background="@color/idc_e2e2e2" />
+
+            <TextView
+                android:id="@+id/fragment_patrol_assetType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:paddingBottom="@dimen/five_dp"
+                android:paddingLeft="@dimen/fifty_dp"
+                android:paddingRight="@dimen/fifty_dp"
+                android:paddingTop="@dimen/five_dp"
+                android:singleLine="true"
+                android:text="@string/zi_chan_fen_lei_s"
                 android:textColor="@color/idc_999999"
                 android:textSize="@dimen/twenty_dp" />
 
@@ -129,7 +148,7 @@
                 android:paddingRight="@dimen/fifty_dp"
                 android:paddingTop="@dimen/five_dp"
                 android:singleLine="true"
-                android:text="@string/shi_shi_yuan_gong_s"
+                android:text="@string/shi_shi_id_s"
                 android:textColor="@color/idc_999999"
                 android:textSize="@dimen/twenty_dp" />
 
@@ -138,24 +157,6 @@
                 android:layout_height="@dimen/zero_point_five_dp"
                 android:background="@color/idc_e2e2e2" />
 
-            <TextView
-                android:id="@+id/fragment_patrol_taskDetail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:paddingBottom="@dimen/five_dp"
-                android:paddingLeft="@dimen/fifty_dp"
-                android:paddingRight="@dimen/fifty_dp"
-                android:paddingTop="@dimen/five_dp"
-                android:singleLine="true"
-                android:text="@string/ren_wu_xiang_qing_s"
-                android:textColor="@color/idc_999999"
-                android:textSize="@dimen/twenty_dp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/zero_point_five_dp"
-                android:background="@color/idc_e2e2e2" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -195,7 +196,7 @@
                 android:paddingBottom="@dimen/ten_dp"
                 android:paddingLeft="@dimen/twenty_dp"
                 android:paddingTop="@dimen/ten_dp"
-                android:text="巡检项详情"
+                android:text="巡检项信息"
                 android:textColor="@color/idc_af0012"
                 android:textSize="@dimen/twenty_dp" />
 

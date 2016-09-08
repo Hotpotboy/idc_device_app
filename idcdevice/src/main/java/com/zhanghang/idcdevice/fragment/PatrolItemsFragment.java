@@ -6,10 +6,8 @@ import android.os.SystemClock;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.SpannableString;
-import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.zhanghang.idcdevice.Const;
-import com.zhanghang.idcdevice.EditDeviceDialog;
 import com.zhanghang.idcdevice.MainActivity;
 import com.zhanghang.idcdevice.PublicDialog;
 import com.zhanghang.idcdevice.R;
@@ -38,9 +35,9 @@ import java.util.Date;
  */
 public class PatrolItemsFragment extends BaseFragment implements View.OnClickListener, ViewPager.OnPageChangeListener {
     /**
-     * 设备ID
+     * 资产分类
      */
-    private TextView mDeviceIdView;
+    private TextView mAssetTypeView;
     /**
      * 任务名称
      */
@@ -116,7 +113,7 @@ public class PatrolItemsFragment extends BaseFragment implements View.OnClickLis
         mTitileRight = (TextView) findViewById(R.id.fragment_title_right);
 
         //任务信息
-        mDeviceIdView = (TextView) findViewById(R.id.fragment_patrol_deviceID);
+        mAssetTypeView = (TextView) findViewById(R.id.fragment_patrol_assetType);
         mTaskNameView = (TextView) findViewById(R.id.fragment_patrol_taskName);
         mDealPeopleView = (TextView) findViewById(R.id.fragment_patrol_dealPeople);
         mPlanedStartTimeView = (TextView) findViewById(R.id.fragment_patrol_startTime);
@@ -142,9 +139,9 @@ public class PatrolItemsFragment extends BaseFragment implements View.OnClickLis
         mTitileLeft.setBackgroundColor(getResources().getColor(android.R.color.transparent));
         mTitileRight.setText("下一项");
         mTitileRight.setVisibility(View.VISIBLE);
-        initData(mDeviceIdView, R.string.she_bei_bian_hao_s, mData.getAssetNum(), R.color.idc_000000);
+        initData(mAssetTypeView, R.string.zi_chan_fen_lei_s, Const.isNullForDBData(mData.getAssetType())?getString(R.string.kong_shu_ju):mData.getAssetType(), R.color.idc_000000);
         initData(mTaskNameView, R.string.ren_wu_ming_cheng_s, mData.getTaskName(), R.color.idc_000000);
-        initData(mDealPeopleView, R.string.shi_shi_yuan_gong_s, mData.getDealPeople(), R.color.idc_000000);
+        initData(mDealPeopleView, R.string.shi_shi_id_s, Const.isNullForDBData(mData.getDealPeopleId())?getString(R.string.kong_shu_ju):mData.getDealPeopleId(), R.color.idc_000000);
         if (mData.getRealStartTime() <= 0) {
             long currentTime = SystemClock.currentThreadTimeMillis();
             mData.setRealStartTime(currentTime);
@@ -156,7 +153,7 @@ public class PatrolItemsFragment extends BaseFragment implements View.OnClickLis
         } else {
             planedStartTimeStr = SystemUtils.getTimestampStringListView(SystemUtils.TIME_FORMAT_yyyy_MM_dd_HH_mm_ss, new Date(planedStartTime));
         }
-        initData(mPlanedStartTimeView, R.string.ji_hua_kai_shi_s, planedStartTimeStr, R.color.idc_000000);
+        initData(mPlanedStartTimeView, R.string.ji_hua_kai_shi_shi_jian_s, planedStartTimeStr, R.color.idc_000000);
         long planedEndTime = mData.getPlanedEndTime();
         String planedEndTimeStr;
         if (planedEndTime <= 0) {
@@ -164,8 +161,8 @@ public class PatrolItemsFragment extends BaseFragment implements View.OnClickLis
         } else {
             planedEndTimeStr = SystemUtils.getTimestampStringListView(SystemUtils.TIME_FORMAT_yyyy_MM_dd_HH_mm_ss, new Date(planedEndTime));
         }
-        initData(mPlanedEndTimeView, R.string.ji_hua_jie_su_s, planedEndTimeStr, R.color.idc_000000);
-        initClickableData(mTaskDetailView, R.string.ren_wu_xiang_qing_s, getResources().getString(R.string.cha_kan_xiang_qing), R.color.idc_af0012);
+        initData(mPlanedEndTimeView, R.string.ji_hua_jie_su_shi_jian_s, planedEndTimeStr, R.color.idc_000000);
+        initClickableData(mTaskDetailView, R.string.xiang_xi_miao_shu_s, getResources().getString(R.string.cha_kan_xiang_qing), R.color.idc_af0012);
         mPatrolItemAdpter = new PatrolItemAdpter();
         mPatrolItemViewPager.setAdapter(mPatrolItemAdpter);
         //巡检项总数
@@ -291,7 +288,7 @@ public class PatrolItemsFragment extends BaseFragment implements View.OnClickLis
         mData.setTaskState(Const.TASK_STATE_DEALED);
         mData.setRealEndTime(System.currentTimeMillis());
         mData.setDealInfo("此任务已被" + Const.getUserName(mActivity) + "处理!");
-        String selection = TaskTable.getTaskTableInstance().getComlueInfos()[14].getName() + "=?";
+        String selection = TaskTable.getTaskTableInstance().getComlueInfos()[16].getName() + "=?";
         String[] args = new String[1];
         args[0] = mData.getTaskId() + "";
         try {
@@ -390,10 +387,10 @@ public class PatrolItemsFragment extends BaseFragment implements View.OnClickLis
             TextView patrolItemStudioView = (TextView) view.findViewById(R.id.public_patrol_patrolStudio);
             TextView patrolItemStepView = (TextView) view.findViewById(R.id.public_patrol_patrolStep);
             TextView patrolItemDetailView = (TextView) view.findViewById(R.id.public_patrol_patrolDetail);
-            initData(patrolItemNameView, R.string.xun_jian_ming_cheng_s, Const.isNullForDBData(data.getPatrolItemName()) ? "无数据" : data.getPatrolItemName(), R.color.idc_000000);
+            initData(patrolItemNameView, R.string.xun_jian_xiang_ming_cheng_s, Const.isNullForDBData(data.getPatrolItemName()) ? "无数据" : data.getPatrolItemName(), R.color.idc_000000);
             initData(patrolItemStudioView, R.string.xun_jian_zhi_biao_s, Const.isNullForDBData(data.getPatrolStuido()) ? "无数据" : data.getPatrolStuido(), R.color.idc_000000);
             initData(patrolItemStepView, R.string.xun_jian_cuo_shi_s, Const.isNullForDBData(data.getPatrolStep()) ? "无数据" : data.getPatrolStep(), R.color.idc_000000);
-            initData(patrolItemDetailView, R.string.xun_jian_xiang_qing_s, getString(R.string.cha_kan_xiang_qing), R.color.idc_af0012);
+            initData(patrolItemDetailView, R.string.xiang_xi_shuo_ming_s, getString(R.string.cha_kan_xiang_qing), R.color.idc_af0012);
         }
 
         @Override

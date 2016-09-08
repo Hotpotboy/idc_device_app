@@ -44,7 +44,7 @@ public class TaskFragment extends BaseListFragment<TaskData> implements DeviceAp
     public void loadData(){
         mDatas = new ArrayList<>();
         try {
-            String selection = TaskTable.getTaskTableInstance().getComlueInfos()[17].getName()+" = ?";
+            String selection = TaskTable.getTaskTableInstance().getComlueInfos()[19].getName()+" = ?";
             String[] args = new String[1];
             args[0] = mTaskType;
             mDatas = TaskTable.getTaskTableInstance().selectDatas(selection,args,null,null,null,TaskData.class);
