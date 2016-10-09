@@ -14,7 +14,7 @@ public abstract class BaseFragment extends Fragment {
     /**Fragment的布局文件*/
     protected int mRootLayout;
     /**Fragment的根视图*/
-    protected View mRootView;
+    protected ViewGroup mRootView;
 
     protected LayoutInflater mInflater;
     /**Fragment对应的Activity*/
@@ -28,7 +28,7 @@ public abstract class BaseFragment extends Fragment {
         mActivity = getActivity();
         mInflater = inflater;
         mRootLayout = specifyRootLayoutId();
-        mRootView = inflater.inflate(mRootLayout,null);
+        mRootView = (ViewGroup) inflater.inflate(mRootLayout,null);
         Bundle arguments = getArguments();
         if(arguments==null){
             arguments = mActivity.getIntent().getExtras();
@@ -37,6 +37,13 @@ public abstract class BaseFragment extends Fragment {
         initView();
         initData();
         return mRootView;
+    }
+
+    @Override
+    public void onDestroyView(){
+        super.onDestroyView();
+        mRootView.removeAllViews();
+        mRootView = null;
     }
 
     /**

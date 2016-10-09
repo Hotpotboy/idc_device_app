@@ -258,16 +258,7 @@ public class DeviceDetailFragment extends BaseFragment implements View.OnClickLi
                     @Override
                     public void onClick(View v) {
                         mDialog.dismiss();
-                        Set<String> completedCabinets = PreferenceUtil.getStringSetInPreferce(mActivity,Const.PREFERENCE_FILE_NAME,Const.PREFERENCE_KEY_COMPLETED_CABINET);
-                        if(completedCabinets==null){
-                            completedCabinets = new HashSet<String>();
-                        }
-                        if(completedCabinets.add(mCabinetNum)){
-                            PreferenceUtil.updateStringSetInPreferce(mActivity,Const.PREFERENCE_FILE_NAME,Const.PREFERENCE_KEY_COMPLETED_CABINET,completedCabinets);
-                            Toast.makeText(mActivity,"完成扫描!",Toast.LENGTH_LONG).show();
-                        }else{
-                            Toast.makeText(mActivity,"此机柜已经完成!",Toast.LENGTH_LONG).show();
-                        }
+                        Const.saveFinishedDevices(mActivity,mCabinetNum);
                     }
                 }).show();
                 break;
@@ -411,9 +402,11 @@ public class DeviceDetailFragment extends BaseFragment implements View.OnClickLi
             if (!TextUtils.isEmpty(result)) {
                 int index = mDevices.indexOf(result);
                 if (index >= 0 && index < mDevices.size()) {
-                    if (index == mDeviceAdapter.getSelected()) {
+                    if (mDevices.size()>1&&index == mDeviceAdapter.getSelected()) {
                         mDeviceAdapter.setSelected(0);
                         fillDeviceData(DeviceDetailFragment.this, mDevices.get(0));
+                    }else if(mDevices.size()==1){//之声最后一个了
+                        fillDeviceData(DeviceDetailFragment.this, null);
                     }
                     mDevices.remove(index);
                     mDeviceAdapter.notifyDataSetChanged();
@@ -464,6 +457,15 @@ public class DeviceDetailFragment extends BaseFragment implements View.OnClickLi
     }
 
     private class AddDeviceFragment extends BaseFragment implements View.OnClickListener {
+        private static final int SHOW_TIME = 3;
+        /**
+         * 距离消失还有多少秒
+         */
+        private int mCurrentTime;
+        /**
+         * 关闭提示视图
+         */
+        private TextView mTipView;
         /**
          * 直接返回按钮
          */
@@ -489,6 +491,21 @@ public class DeviceDetailFragment extends BaseFragment implements View.OnClickLi
         private String mAddDeviceNum;
         public String mLocation;
 
+        private Runnable mCheckDismiss = new Runnable() {
+            @Override
+            public void run() {
+                if(mCurrentTime<=0) {
+                    addDeviceCode(mAddDeviceNum);
+                    CameraUtils.scannerQRCode((BaseFragmentActivity) mActivity, DeviceDetailFragment.this);
+                    mActivity.finish();
+                }else{
+                    mCurrentTime--;
+                    mTipView.setText(String.format(getString(R.string.ye_mian_ti_shi_s),mCurrentTime+""));
+                    mHandler.postDelayed(mCheckDismiss, 1000);
+                }
+            }
+        };
+
         private boolean setAddingDeviceNum(String num) {
             if (!TextUtils.equals(num, mAddDeviceNum)) {
                 mAddDeviceNum = num;
@@ -508,6 +525,7 @@ public class DeviceDetailFragment extends BaseFragment implements View.OnClickLi
             mReScannerTextView = (TextView) findViewById(R.id.fragment_add_device_rescanner);
             mSavedAndReturnTextView = (TextView) findViewById(R.id.fragment_add_device_return_and_save);
             mSavedAndContinueTextView = (TextView) findViewById(R.id.fragment_add_device_save_and_continue);
+            mTipView = (TextView) findViewById(R.id.fragment_add_device_tip);
             mReturnTextView.setOnClickListener(this);
             mReScannerTextView.setOnClickListener(this);
             mSavedAndReturnTextView.setOnClickListener(this);
@@ -518,13 +536,18 @@ public class DeviceDetailFragment extends BaseFragment implements View.OnClickLi
         protected void initData() {
             fillDeviceData(this, mAddDeviceNum);
             ((TextView) findViewById(R.id.fragment_add_device_num)).setText(mAddDeviceNum);
+            mCurrentTime = SHOW_TIME;
+            mTipView.setText(String.format(getString(R.string.ye_mian_ti_shi_s),mCurrentTime+""));
+            mHandler.postDelayed(mCheckDismiss,1000);
         }
 
         @Override
         public void onClick(final View v) {
             switch (v.getId()) {
                 case R.id.fragment_add_device_return://直接返回
+                    addDeviceCode(mAddDeviceNum);
                     mActivity.finish();
+                    CameraUtils.scannerQRCode((BaseFragmentActivity) mActivity, DeviceDetailFragment.this);
                     break;
                 case R.id.fragment_add_device_rescanner://重新扫描
                     CameraUtils.scannerQRCode((BaseFragmentActivity) mActivity, this);
@@ -561,13 +584,18 @@ public class DeviceDetailFragment extends BaseFragment implements View.OnClickLi
 
         private void dealScannerResult(String num) {
             if (setAddingDeviceNum(num)) {
-                fillDeviceData(this, mAddDeviceNum);
-                ((TextView) findViewById(R.id.fragment_add_device_num)).setText(mAddDeviceNum);
+                initData();
             }
         }
 
         private void setLocation(String location){
             mLocation = location;
+        }
+
+        @Override
+        public void onDestroyView(){
+            super.onDestroyView();
+            mHandler.removeCallbacks(mCheckDismiss);
         }
     }
 }

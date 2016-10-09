@@ -141,7 +141,7 @@ public class PatrolItemsFragment extends BaseFragment implements View.OnClickLis
         mTitileRight.setVisibility(View.VISIBLE);
         initData(mAssetTypeView, R.string.zi_chan_fen_lei_s, Const.isNullForDBData(mData.getAssetType())?getString(R.string.kong_shu_ju):mData.getAssetType(), R.color.idc_000000);
         initData(mTaskNameView, R.string.ren_wu_ming_cheng_s, mData.getTaskName(), R.color.idc_000000);
-        initData(mDealPeopleView, R.string.shi_shi_id_s, Const.isNullForDBData(mData.getDealPeopleId())?getString(R.string.kong_shu_ju):mData.getDealPeopleId(), R.color.idc_000000);
+        initData(mDealPeopleView, R.string.shi_shi_ren_s, Const.isNullForDBData(mData.getDealPeople())?getString(R.string.kong_shu_ju):mData.getDealPeople(), R.color.idc_000000);
         if (mData.getRealStartTime() <= 0) {
             long currentTime = SystemClock.currentThreadTimeMillis();
             mData.setRealStartTime(currentTime);
@@ -162,7 +162,11 @@ public class PatrolItemsFragment extends BaseFragment implements View.OnClickLis
             planedEndTimeStr = SystemUtils.getTimestampStringListView(SystemUtils.TIME_FORMAT_yyyy_MM_dd_HH_mm_ss, new Date(planedEndTime));
         }
         initData(mPlanedEndTimeView, R.string.ji_hua_jie_su_shi_jian_s, planedEndTimeStr, R.color.idc_000000);
-        initClickableData(mTaskDetailView, R.string.xiang_xi_miao_shu_s, getResources().getString(R.string.cha_kan_xiang_qing), R.color.idc_af0012);
+        String detail = mData.getDetails();
+        if(Const.isNullForDBData(detail)){
+            detail = getString(R.string.kong_shu_ju);
+        }
+        initData(mTaskDetailView, R.string.xiang_xi_miao_shu_s, detail, R.color.idc_000000);
         mPatrolItemAdpter = new PatrolItemAdpter();
         mPatrolItemViewPager.setAdapter(mPatrolItemAdpter);
         //巡检项总数
@@ -358,7 +362,6 @@ public class PatrolItemsFragment extends BaseFragment implements View.OnClickLis
             updateNormalView(true, patrolItemNormalView, patrolItemUnNormalView);//默认为正常
             patrolItemNormalView.setOnClickListener(this);
             patrolItemUnNormalView.setOnClickListener(this);
-            patrolItemDetailView.setOnClickListener(this);
         }
 
         /**
@@ -373,10 +376,10 @@ public class PatrolItemsFragment extends BaseFragment implements View.OnClickLis
                 patrolItemNormalView.setSelected(true);
                 patrolItemNormalView.setTextColor(getResources().getColor(R.color.idc_f5f5f5));
                 patrolItemUnNormalView.setSelected(false);
-                patrolItemUnNormalView.setTextColor(getResources().getColor(R.color.idc_af0012));
+                patrolItemUnNormalView.setTextColor(getResources().getColor(R.color.idc_000000));
             } else {
                 patrolItemNormalView.setSelected(false);
-                patrolItemNormalView.setTextColor(getResources().getColor(R.color.idc_af0012));
+                patrolItemNormalView.setTextColor(getResources().getColor(R.color.idc_000000));
                 patrolItemUnNormalView.setSelected(true);
                 patrolItemUnNormalView.setTextColor(getResources().getColor(R.color.idc_f5f5f5));
             }
@@ -387,10 +390,11 @@ public class PatrolItemsFragment extends BaseFragment implements View.OnClickLis
             TextView patrolItemStudioView = (TextView) view.findViewById(R.id.public_patrol_patrolStudio);
             TextView patrolItemStepView = (TextView) view.findViewById(R.id.public_patrol_patrolStep);
             TextView patrolItemDetailView = (TextView) view.findViewById(R.id.public_patrol_patrolDetail);
-            initData(patrolItemNameView, R.string.xun_jian_xiang_ming_cheng_s, Const.isNullForDBData(data.getPatrolItemName()) ? "无数据" : data.getPatrolItemName(), R.color.idc_000000);
-            initData(patrolItemStudioView, R.string.xun_jian_zhi_biao_s, Const.isNullForDBData(data.getPatrolStuido()) ? "无数据" : data.getPatrolStuido(), R.color.idc_000000);
-            initData(patrolItemStepView, R.string.xun_jian_cuo_shi_s, Const.isNullForDBData(data.getPatrolStep()) ? "无数据" : data.getPatrolStep(), R.color.idc_000000);
-            initData(patrolItemDetailView, R.string.xiang_xi_shuo_ming_s, getString(R.string.cha_kan_xiang_qing), R.color.idc_af0012);
+            String nullData = getString(R.string.kong_shu_ju);
+            initData(patrolItemNameView, R.string.xun_jian_xiang_ming_cheng_s, Const.isNullForDBData(data.getPatrolItemName()) ? nullData : data.getPatrolItemName(), R.color.idc_000000);
+            initData(patrolItemStudioView, R.string.xun_jian_zhi_biao_s, Const.isNullForDBData(data.getPatrolStuido()) ? nullData : data.getPatrolStuido(), R.color.idc_000000);
+            initData(patrolItemStepView, R.string.xun_jian_cuo_shi_s, Const.isNullForDBData(data.getPatrolStep()) ? nullData : data.getPatrolStep(), R.color.idc_000000);
+            initData(patrolItemDetailView, R.string.xiang_xi_shuo_ming_s,  Const.isNullForDBData(data.getPatrolDetail()) ? nullData : data.getPatrolDetail(), R.color.idc_000000);
         }
 
         @Override

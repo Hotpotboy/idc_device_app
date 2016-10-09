@@ -35,11 +35,11 @@ public class TaskDetailFragment extends BaseFragment implements View.OnClickList
     /**
      * 资产分类
      */
-    private TextView mAssetTypeView;
+    protected TextView mAssetTypeView;
     /**
      * 任务ID
      */
-    private TextView mTaskIdView;
+    protected TextView mTaskIdView;
     /**
      * 任务名称
      */
@@ -72,6 +72,18 @@ public class TaskDetailFragment extends BaseFragment implements View.OnClickList
      * 负责员工
      */
     private TextView mResponsePeopleView;
+    /**
+     * 实施组别
+     */
+    protected TextView mDealGroupView;
+    /**
+     * 实施员工
+     */
+    private TextView mDealPeopleView;
+    /**
+     * 设备编号
+     */
+    protected TextView mDeviceIdView;
     private PublicDialog mDialog;
 
     @Override
@@ -106,6 +118,9 @@ public class TaskDetailFragment extends BaseFragment implements View.OnClickList
         mRealEndTimeView = (TextView) findViewById(R.id.fragment_task_detail_realEnd);
         mResponseGroupView = (TextView) findViewById(R.id.fragment_task_detail_responseGroup);
         mResponsePeopleView = (TextView) findViewById(R.id.fragment_task_detail_responsePeople);
+        mDealGroupView = (TextView) findViewById(R.id.fragment_task_detail_dealGroup);
+        mDealPeopleView = (TextView) findViewById(R.id.fragment_task_detail_dealPeople);
+        mDeviceIdView = (TextView) findViewById(R.id.fragment_task_detail_deviceId);
     }
 
     /**
@@ -123,10 +138,10 @@ public class TaskDetailFragment extends BaseFragment implements View.OnClickList
     protected void initData() {
         initTitleData();
         //具体数据
-        initData(mAssetTypeView, R.string.zi_chan_fen_lei_s, Const.isNullForDBData(mData.getAssetType()) ? getString(R.string.kong_shu_ju) : Const.getTaskTypeNameByTaskTypNum(mData.getTaskType()), R.color.idc_000000);
-        initData(mTaskIdView, R.string.ren_wu_bian_hao_s,  Const.isNullForDBData(mData.getTaskId()+"") ? getString(R.string.kong_shu_ju) : mData.getAssetNum(), R.color.idc_000000);
+        initData(mAssetTypeView, R.string.zi_chan_fen_lei_s, Const.isNullForDBData(mData.getAssetType()) ? getString(R.string.kong_shu_ju) : mData.getAssetType(), R.color.idc_000000);
+        initData(mTaskIdView, R.string.ren_wu_bian_hao_s, Const.isNullForDBData(mData.getTaskId() + "") ? getString(R.string.kong_shu_ju) : mData.getTaskId() + "", R.color.idc_000000);
         initData(mTaskNameView, R.string.ren_wu_ming_cheng_s, mData.getTaskName(), R.color.idc_000000);
-        initClickableData(mTaskDetailView, R.string.xiang_xi_miao_shu_s, getResources().getString(R.string.cha_kan_xiang_qing), R.color.idc_af0012);
+        initData(mTaskDetailView, R.string.xiang_xi_miao_shu_s, Const.isNullForDBData(mData.getDetails()) ? getString(R.string.kong_shu_ju) : mData.getDetails(), R.color.idc_000000);
         String time = Const.getDataString(mData.getPlanedEndTime());
         initData(mPlanEndTimeView, R.string.ji_hua_jie_su_shi_jian_s, Const.isNullForDBData(time) ? getString(R.string.kong_shu_ju) : time, R.color.idc_000000);
         time = Const.getDataString(mData.getPlanedStartTime());
@@ -137,6 +152,9 @@ public class TaskDetailFragment extends BaseFragment implements View.OnClickList
         initData(mRealEndTimeView, R.string.shi_ji_jie_su_shi_jian_s, Const.isNullForDBData(time) ? getString(R.string.kong_shu_ju) : time, R.color.idc_000000);
         initData(mResponseGroupView, R.string.fu_ze_zu_bie_s, Const.isNullForDBData(mData.getResponseGroup()) ? getString(R.string.kong_shu_ju) : mData.getResponseGroup(), R.color.idc_000000);
         initData(mResponsePeopleView, R.string.fu_ze_ren_yuan_s, Const.isNullForDBData(mData.getResponsePeople()) ? getString(R.string.kong_shu_ju) : mData.getResponsePeople(), R.color.idc_000000);
+        initData(mDealGroupView, R.string.shi_shi_zu_bie_s, Const.isNullForDBData(mData.getDealGroup()) ? getString(R.string.kong_shu_ju) : mData.getDealGroup(), R.color.idc_000000);
+        initData(mDealPeopleView, R.string.shi_shi_ren_s, Const.isNullForDBData(mData.getDealPeople()) ? getString(R.string.kong_shu_ju) : mData.getDealPeople(), R.color.idc_000000);
+        initData(mDeviceIdView, R.string.she_bei_bian_hao_s, Const.isNullForDBData(mData.getAssetNum()) ? getString(R.string.kong_shu_ju) : mData.getAssetNum(), R.color.idc_000000);
         initPatrolInfos();
     }
     private void initClickableData(TextView view, int formatStrId, String value, int colorId) {
@@ -157,7 +175,7 @@ public class TaskDetailFragment extends BaseFragment implements View.OnClickList
         view.setText(contentSpannable);
     }
 
-    private void initData(TextView view, int formatStrId, String value, int colorId) {
+    protected void initData(TextView view, int formatStrId, String value, int colorId) {
         String content = String.format(getResources().getString(formatStrId), value);
         SpannableString contentSpannable = Const.changeSubColor(content, value, getResources().getColor(colorId));
         view.setText(contentSpannable);
@@ -195,7 +213,12 @@ public class TaskDetailFragment extends BaseFragment implements View.OnClickList
         if (patrolItemData != null) {
             valueView.setVisibility(View.VISIBLE);
             nameView.setText((i+1)+"、"+patrolItemData.getPatrolItemName());
-            String value = patrolItemData.getNormal() == 1 ? "正常" : "异常";
+            String value;
+            if(!Const.TASK_STATE_DEALED.equals(mData.getTaskState())){
+                value = "正常";
+            }else{
+                value = patrolItemData.getNormal() == 1 ? "正常" : "异常";
+            }
             value += Const.isNullForDBData(patrolItemData.getRecordValue()) ? "" : "(" + patrolItemData.getRecordValue() + ")";
             valueView.setText(value);
         } else {

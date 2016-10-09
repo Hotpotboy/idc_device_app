@@ -126,7 +126,7 @@ public class DeviceApplication extends BaseApplication {
                     }
                 }
             } else {
-                tip += "任务信息为空!";
+                tip += "没有新的任务需要被更新!";
             }
             //巡检项信息
             ArrayList<PatrolItemData> patrolItemDatas = dBdata.getPatrols();
@@ -147,7 +147,7 @@ public class DeviceApplication extends BaseApplication {
                     }
                 }
             } else {
-                tip += "巡检项信息为空!";
+//                tip += "巡检项信息为空!";
             }
             if (!TextUtils.isEmpty(tip)) {
                 final String finalTip = tip;

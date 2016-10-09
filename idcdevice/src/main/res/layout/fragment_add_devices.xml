@@ -25,7 +25,7 @@
                 android:layout_marginLeft="@dimen/fifteen_dp"
                 android:background="@drawable/white_stroke_trans_solid_ten_corner_button_bg"
                 android:padding="@dimen/ten_dp"
-                android:text="取      消"
+                android:text="继续扫描"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/twenty_sp" />
 
@@ -40,7 +40,8 @@
                 android:padding="@dimen/ten_dp"
                 android:text="保存并返回"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/twenty_sp" />
+                android:textSize="@dimen/twenty_sp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/fragment_add_device_cabinetName"
@@ -63,7 +64,8 @@
                 android:padding="@dimen/ten_dp"
                 android:text="重新扫描"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/twenty_sp" />
+                android:textSize="@dimen/twenty_sp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/fragment_add_device_save_and_continue"
@@ -76,8 +78,24 @@
                 android:padding="@dimen/ten_dp"
                 android:text="保存并继续"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/twenty_sp" />
+                android:textSize="@dimen/twenty_sp"
+                android:visibility="gone" />
         </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/zero_point_five_dp"
+            android:background="@color/idc_e2e2e2" />
+
+        <TextView
+            android:id="@+id/fragment_add_device_tip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/thirty_two_dp"
+            android:gravity="center"
+            android:text="@string/ye_mian_ti_shi_s"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/thirty_sp" />
 
         <View
             android:layout_width="match_parent"
@@ -105,8 +123,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/thirty_two_dp"
-            android:text="5F5F4R41V7TR14G7E"
             android:gravity="center"
+            android:text="5F5F4R41V7TR14G7E"
             android:textColor="@android:color/black"
             android:textSize="@dimen/thirty_sp" />
 
@@ -130,6 +148,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/zero_point_five_dp"
             android:background="@color/idc_9c9c9c" />
-        <include layout="@layout/public_device_detail"/>
+
+        <include layout="@layout/public_device_detail" />
     </LinearLayout>
 </ScrollView>

@@ -1,5 +1,6 @@
 package com.zhanghang.idcdevice;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.SystemClock;
 import android.support.annotation.ColorInt;
@@ -10,6 +11,7 @@ import android.text.TextUtils;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.widget.Toast;
 
 import com.zhanghang.idcdevice.adbsocket.AdbSocketService;
 import com.zhanghang.idcdevice.db.PatrolItemTable;
@@ -20,6 +22,9 @@ import com.zhanghang.self.utils.SystemUtils;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.RecursiveTask;
 
 /**
@@ -199,6 +204,42 @@ public class Const {
     public static void setUserName(Context context,String userName){
         if(!TextUtils.equals(userName,getUserName(context))){
             PreferenceUtil.updateStringInPreferce(context,PREFERENCE_FILE_NAME,PREFERENCE_KEY_USER_NAME,userName);
+        }
+    }
+
+    /**
+     * 记录已完成的机柜
+     * @param activity
+     * @param num   已完成机柜的扫描码
+     */
+    public static void saveFinishedDevices(Activity activity,String num){
+        Set<String> completedCabinets = PreferenceUtil.getStringSetInPreferce(activity,Const.PREFERENCE_FILE_NAME,Const.PREFERENCE_KEY_COMPLETED_CABINET);
+        if(completedCabinets==null){
+            completedCabinets = new HashSet<String>();
+        }
+        if(completedCabinets.add(num)){
+            PreferenceUtil.updateStringSetInPreferce(activity,Const.PREFERENCE_FILE_NAME,Const.PREFERENCE_KEY_COMPLETED_CABINET,completedCabinets);
+            Toast.makeText(activity, "完成扫描!", Toast.LENGTH_LONG).show();
+        }else{
+            Toast.makeText(activity,"此机柜已经完成!",Toast.LENGTH_LONG).show();
+        }
+    }
+
+    /**
+     * 删除指定机柜扫描码集合，在已完成扫描码集合中的记录
+     * @param activity
+     * @param nums   需要从已完成集合中删除的机柜扫描码子集合
+     */
+    public static void removeSomeFinishedDevices(Activity activity,List<String> nums){
+        if(nums==null||nums.isEmpty()){
+            return;
+        }
+        Set<String> completedCabinets = PreferenceUtil.getStringSetInPreferce(activity,Const.PREFERENCE_FILE_NAME,Const.PREFERENCE_KEY_COMPLETED_CABINET);
+        if(completedCabinets==null){//没有已完成的集合
+            return;
+        }
+        for(String item:nums){
+            completedCabinets.remove(item);
         }
     }
 }

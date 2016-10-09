@@ -52,11 +52,33 @@ public class CabinetAdapter extends BaseViewHolderAdapter {
         View cabinetDealedView = getViewByTag(R.id.item_cuboard_dealed,KEY_CUPBOARD_DEALED,baseViewHolder,convertView);
 
         final String cabinetNum = (String) mDatas.get(position);//机柜扫描编号
-        cabinetNumView.setText(String.format(mContext.getResources().getString(R.string.ji_gui_bian_hao_s), cabinetNum));
         DeviceData data = DBdata.getDeviceDataFromCached(cabinetNum, 1);
         if(data==null) data = new DeviceData();
-        cabinetNameView.setText(String.format(mContext.getResources().getString(R.string.she_bei_ming_cheng_s), TextUtils.isEmpty(data.getDeviceName())?"无数据":data.getDeviceName()));
-        cabinetTypeView.setText(String.format(mContext.getResources().getString(R.string.she_bei_lei_bie_s), TextUtils.isEmpty(data.getDeviceModel()) ? "无数据" : data.getDeviceModel()));
+        String nullData = mContext.getString(R.string.kong_shu_ju);
+        cabinetNumView.setText(String.format(mContext.getResources().getString(R.string.ji_gui_ming_cheng_s), TextUtils.isEmpty(data.getDeviceName())?nullData:data.getDeviceName()));
+        cabinetNameView.setText(String.format(mContext.getResources().getString(R.string.she_bei_ming_cheng_s), TextUtils.isEmpty(data.getDeviceName())?nullData:data.getDeviceName()));
+        String content = nullData;
+        if(!TextUtils.isEmpty(data.getAssetSerialNum())){
+            content = data.getAssetSerialNum()+"/";
+        }else{
+            content += "/";
+        }
+        if(!TextUtils.isEmpty(data.getCity())){
+            content += data.getCity()+"/";
+        }else{
+            content += nullData+"/";
+        }
+        if(!TextUtils.isEmpty(data.getIdcRoom())){
+            content += data.getIdcRoom()+"/";
+        }else{
+            content += nullData+"/";
+        }
+        if(!TextUtils.isEmpty(data.getCabinet())){
+            content += data.getCabinet();
+        }else{
+            content += nullData;
+        }
+        cabinetTypeView.setText(content);
 
         //获取已完成的机柜扫描码列表
         Set<String> completedCabinets = PreferenceUtil.getStringSetInPreferce(mContext, Const.PREFERENCE_FILE_NAME,Const.PREFERENCE_KEY_COMPLETED_CABINET);

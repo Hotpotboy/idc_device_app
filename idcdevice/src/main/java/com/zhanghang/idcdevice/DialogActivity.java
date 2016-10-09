@@ -6,15 +6,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.TextView;
 
-import com.zhanghang.idcdevice.Const;
-import com.zhanghang.idcdevice.R;
-import com.zhanghang.idcdevice.fragment.PatrolItemsFragment;
-import com.zhanghang.idcdevice.fragment.TaskDetailFragment;
-import com.zhanghang.idcdevice.fragment.UserDetailFragment;
-import com.zhanghang.idcdevice.mode.TaskData;
-import com.zhanghang.self.base.BaseFragment;
-import com.zhanghang.self.base.BaseFragmentActivity;
-
 public class DialogActivity extends Activity {
     @Override
     public void onNewIntent(Intent intent){

@@ -8,7 +8,8 @@
     <string name="xiang_xi_miao_shu_s">"详细描述:%1$s"</string>
     <string name="ren_wu_lei_bie_s">"任务类别:%1$s"</string>
     <string name="shi_shi_id_s">实施人ID:%1$s</string>
-    <string name="shi_shi_zu_bie_s">实施组别:%1$s</string>
+    <string name="shi_shi_ren_s">实施人:%1$s</string>
+    <string name="shi_shi_zu_bie_s">实施组:%1$s</string>
     <string name="fu_ze_ren_yuan_s">负责人:%1$s</string>
     <string name="fu_ze_zu_bie_s">负责组:%1$s</string>
     <string name="shi_ji_kai_shi_shi_jian_s">实际开始时间:%1$s</string>
@@ -28,7 +29,7 @@
     <string name="cha_kan_xiang_qing">查看详情</string>
     <string name="dian_ji_bian_ji_shu_ju">点击编辑数据</string>
     <string name="fang_jian_wei_zhi_s">房间位置:%1$s</string>
-    <string name="ji_gui_bian_hao_s">"机柜编号:%1$s"</string>
+    <string name="ji_gui_ming_cheng_s">"机柜名称:%1$s"</string>
     <string name="shang_ci_xin_xi">上次信息</string>
     <string name="kong_shu_ju">空数据</string>
     <string name="task_planed_string_format">"%1$s至%2$s"</string>
@@ -36,4 +37,5 @@
     <string name="ji_hua_kai_shi_shi_jian_s">"计划开始时间:%1$s"</string>
     <string name="ji_hua_jie_su_shi_jian_s">"计划结束时间:%1$s"</string>
     <string name="ren_wu_bian_hao_s">"任务编号:%1$s"</string>
+    <string name="ye_mian_ti_shi_s">"本设备已经扫描成功，%1$s秒钟后继续盘点!"</string>
 </resources>

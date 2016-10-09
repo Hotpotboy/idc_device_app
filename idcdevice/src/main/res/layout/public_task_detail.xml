@@ -61,7 +61,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ellipsize="end"
-        android:maxLength="25"
+        android:maxLength="30"
         android:paddingBottom="@dimen/fifteen_dp"
         android:paddingLeft="@dimen/fifty_dp"
         android:paddingRight="@dimen/fifty_dp"
@@ -72,6 +72,7 @@
         android:textSize="@dimen/thirty_sp" />
 
     <View
+        android:id="@+id/fragment_task_detail_split2"
         android:layout_width="match_parent"
         android:layout_height="@dimen/zero_point_five_dp"
         android:background="@color/idc_e2e2e2" />
@@ -81,7 +82,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ellipsize="end"
-        android:maxLength="25"
+        android:maxLength="30"
         android:paddingBottom="@dimen/fifteen_dp"
         android:paddingLeft="@dimen/fifty_dp"
         android:paddingRight="@dimen/fifty_dp"
@@ -92,6 +93,7 @@
         android:textSize="@dimen/thirty_sp" />
 
     <View
+        android:id="@+id/fragment_task_detail_split3"
         android:layout_width="match_parent"
         android:layout_height="@dimen/zero_point_five_dp"
         android:background="@color/idc_e2e2e2" />
@@ -101,12 +103,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ellipsize="end"
-        android:maxLength="25"
+        android:singleLine="true"
         android:paddingBottom="@dimen/fifteen_dp"
         android:paddingLeft="@dimen/fifty_dp"
         android:paddingRight="@dimen/fifty_dp"
         android:paddingTop="@dimen/fifteen_dp"
-        android:singleLine="true"
         android:text="@string/ren_wu_ming_cheng_s"
         android:textColor="@color/idc_999999"
         android:textSize="@dimen/thirty_sp" />
@@ -121,12 +122,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ellipsize="end"
-        android:maxLength="25"
+        android:singleLine="true"
         android:paddingBottom="@dimen/fifteen_dp"
         android:paddingLeft="@dimen/fifty_dp"
         android:paddingRight="@dimen/fifty_dp"
         android:paddingTop="@dimen/fifteen_dp"
-        android:singleLine="true"
         android:text="@string/xiang_xi_miao_shu_s"
         android:textColor="@color/idc_999999"
         android:textSize="@dimen/thirty_sp" />
@@ -141,12 +141,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ellipsize="end"
-        android:maxLength="25"
+        android:maxLength="30"
+        android:singleLine="true"
         android:paddingBottom="@dimen/fifteen_dp"
         android:paddingLeft="@dimen/fifty_dp"
         android:paddingRight="@dimen/fifty_dp"
         android:paddingTop="@dimen/fifteen_dp"
-        android:singleLine="true"
         android:text="@string/ji_hua_kai_shi_shi_jian_s"
         android:textColor="@color/idc_999999"
         android:textSize="@dimen/thirty_sp" />
@@ -161,7 +161,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ellipsize="end"
-        android:maxLength="25"
+        android:maxLength="30"
         android:paddingBottom="@dimen/fifteen_dp"
         android:paddingLeft="@dimen/fifty_dp"
         android:paddingRight="@dimen/fifty_dp"
@@ -181,7 +181,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ellipsize="end"
-        android:maxLength="25"
+        android:maxLength="30"
         android:paddingBottom="@dimen/fifteen_dp"
         android:paddingLeft="@dimen/fifty_dp"
         android:paddingRight="@dimen/fifty_dp"
@@ -201,7 +201,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ellipsize="end"
-        android:maxLength="25"
+        android:maxLength="30"
         android:paddingBottom="@dimen/fifteen_dp"
         android:paddingLeft="@dimen/fifty_dp"
         android:paddingRight="@dimen/fifty_dp"
@@ -217,6 +217,7 @@
         android:background="@color/idc_e2e2e2" />
 
     <LinearLayout
+        android:id="@+id/fragment_task_detail_responseLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -231,7 +232,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ellipsize="end"
-            android:maxLength="25"
+            android:maxLength="30"
             android:singleLine="true"
             android:text="@string/fu_ze_zu_bie_s"
             android:textColor="@color/idc_999999"
@@ -243,16 +244,86 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ellipsize="end"
-            android:maxLength="25"
+            android:maxLength="30"
             android:singleLine="true"
             android:text="@string/fu_ze_ren_yuan_s"
             android:textColor="@color/idc_999999"
             android:textSize="@dimen/thirty_sp" />
-
-
     </LinearLayout>
 
     <View
+        android:id="@+id/fragment_task_detail_split4"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/zero_point_five_dp"
+        android:background="@color/idc_e2e2e2" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/fifteen_dp"
+        android:paddingLeft="@dimen/fifty_dp"
+        android:paddingRight="@dimen/fifty_dp"
+        android:paddingTop="@dimen/fifteen_dp">
+
+        <TextView
+            android:id="@+id/fragment_task_detail_dealGroup"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLength="30"
+            android:singleLine="true"
+            android:text="@string/shi_shi_zu_bie_s"
+            android:textColor="@color/idc_999999"
+            android:textSize="@dimen/thirty_sp" />
+
+        <TextView
+            android:id="@+id/fragment_task_detail_dealPeople"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLength="30"
+            android:singleLine="true"
+            android:text="@string/shi_shi_ren_s"
+            android:textColor="@color/idc_999999"
+            android:textSize="@dimen/thirty_sp" />
+
+        <TextView
+            android:id="@+id/fragment_task_detail_state"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLength="30"
+            android:singleLine="true"
+            android:text="@string/ren_wu_zhuang_tai_s"
+            android:textColor="@color/idc_999999"
+            android:textSize="@dimen/thirty_sp"
+            android:visibility="gone"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/zero_point_five_dp"
+        android:background="@color/idc_e2e2e2" />
+    <TextView
+        android:id="@+id/fragment_task_detail_deviceId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLength="30"
+        android:paddingBottom="@dimen/fifteen_dp"
+        android:paddingLeft="@dimen/fifty_dp"
+        android:paddingRight="@dimen/fifty_dp"
+        android:paddingTop="@dimen/fifteen_dp"
+        android:singleLine="true"
+        android:text="@string/she_bei_bian_hao_s"
+        android:textColor="@color/idc_999999"
+        android:textSize="@dimen/thirty_sp" />
+
+    <View
+        android:id="@+id/fragment_task_detail_split5"
         android:layout_width="match_parent"
         android:layout_height="@dimen/zero_point_five_dp"
         android:background="@color/idc_e2e2e2" />

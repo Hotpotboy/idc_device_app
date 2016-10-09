@@ -23,11 +23,11 @@
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:configChanges="orientation|keyboardHidden" />
+            android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
             android:name=".FragmentActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:configChanges="orientation|keyboardHidden" />
+            android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
             android:name="com.google.zxing.CaptureActivity"
             android:theme="@style/AppTheme.NoActionBar" />

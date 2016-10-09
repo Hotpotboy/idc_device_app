@@ -15,5 +15,4 @@ public class MyClass {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-}
+    }}

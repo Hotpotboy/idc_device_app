@@ -148,7 +148,7 @@
                 android:paddingRight="@dimen/fifty_dp"
                 android:paddingTop="@dimen/five_dp"
                 android:singleLine="true"
-                android:text="@string/shi_shi_id_s"
+                android:text="@string/shi_shi_ren_s"
                 android:textColor="@color/idc_999999"
                 android:textSize="@dimen/twenty_dp" />
 
