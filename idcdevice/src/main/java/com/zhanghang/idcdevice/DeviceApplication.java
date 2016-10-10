@@ -112,18 +112,11 @@ public class DeviceApplication extends BaseApplication {
             //任务信息
             ArrayList<TaskData> tasks = dBdata.getTasks();
             if (tasks != null && tasks.size() > 0) {
-                for (TaskData item : tasks) {
-                    try {
-                        String selection = TaskTable.getTaskTableInstance().getComlueInfos()[16].getName() + " = ?";
-                        String[] args = {item.getTaskId() + ""};
-                        int count = TaskTable.getTaskTableInstance().selectDatas(selection, args, null, null, null, TaskData.class).size();
-                        if (count > 0) continue;
-                        item.setId(BaseSQLiteHelper.getId());
-                        TaskTable.getTaskTableInstance().insertData(item);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        Toast.makeText(this, "任务信息【" + item.getTaskId() + "," + item.getTaskName() + "】插入数据库失败,原因：" + e.toString(), Toast.LENGTH_LONG).show();
-                    }
+                try {
+                    TaskTable.getTaskTableInstance().insertDataList(tasks, null);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(this, "任务信息批量插入数据库失败,原因：" + e.toString(), Toast.LENGTH_LONG).show();
                 }
             } else {
                 tip += "没有新的任务需要被更新!";
@@ -131,20 +124,24 @@ public class DeviceApplication extends BaseApplication {
             //巡检项信息
             ArrayList<PatrolItemData> patrolItemDatas = dBdata.getPatrols();
             if (patrolItemDatas != null && patrolItemDatas.size() > 0) {
-                for (PatrolItemData item : patrolItemDatas) {
-                    try {
-                        String selection = PatrolItemTable.getPatrolItemTableInstance().getComlueInfos()[2].getName() + " = ?";
-                        String[] args = {item.getId() + ""};
-                        int count = PatrolItemTable.getPatrolItemTableInstance().selectDatas(selection, args, null, null, null, PatrolItemData.class).size();
-                        if (count > 0) continue;
-                        if (item.getEnable() == -1) {
-                            item.setEnable(1);//默认为启用
+                try {
+                    PatrolItemTable.getPatrolItemTableInstance().insertDataList(patrolItemDatas, new BaseSQLiteHelper.CallBeforeInsertDataList<PatrolItemData>() {
+                        @Override
+                        public boolean call(PatrolItemData data) {
+                            if (data.getEnable() == -1) {
+                                data.setEnable(1);//默认为启用
+                            }
+                            return true;
                         }
-                        PatrolItemTable.getPatrolItemTableInstance().insertData(item);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        Toast.makeText(this, "巡检项信息【" + item.getId() + "," + item.getPatrolItemName() + "】插入数据库失败,原因：" + e.toString(), Toast.LENGTH_LONG).show();
-                    }
+                    });
+                } catch (final Exception e) {
+                    e.printStackTrace();
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(DeviceApplication.this, "巡检项信息批量插入数据库失败,原因：" + e.toString(), Toast.LENGTH_LONG).show();
+                        }
+                    });
                 }
             } else {
 //                tip += "巡检项信息为空!";
@@ -166,6 +163,7 @@ public class DeviceApplication extends BaseApplication {
      *
      * @return
      */
+
     public boolean isUploadData() {
         try {
             ArrayList<DeviceData> deviceDatas = DeviceTable.getDeviceTableInstance().selectAllDatas(DeviceData.class);

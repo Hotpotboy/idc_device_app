@@ -18,6 +18,7 @@ public class TaskTable extends BaseSQLiteHelper<TaskData> {
     public static TaskTable getTaskTableInstance(){
         synchronized (TaskTable.class){
             if(sTaskTableInstance ==null){
+                setPrimaryKey(TaskData.class,"taskId");
                 ArrayList<ComlueInfo> comlues = getComlueInfos(TaskData.class);
                 sTaskTableInstance = new TaskTable(comlues.toArray(new ComlueInfo[comlues.size()]));
             }
