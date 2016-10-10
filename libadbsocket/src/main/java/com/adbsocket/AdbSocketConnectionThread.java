@@ -218,6 +218,11 @@ public abstract class AdbSocketConnectionThread extends Thread {
             int count;
             do{
                 count = writableByteChannel.write(byteBuffer);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }while (count>0);
             byte[] contentBytes = new byte[byteBuffer.position()];
             byteBuffer.flip();
