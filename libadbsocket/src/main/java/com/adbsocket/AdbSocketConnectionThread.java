@@ -215,8 +215,10 @@ public abstract class AdbSocketConnectionThread extends Thread {
             byteBuffer = ByteBuffer.wrap(content.getBytes());
         }
         if (byteBuffer != null) {
-            while (writableByteChannel.write(byteBuffer)>0){
-            }
+            int count;
+            do{
+                count = writableByteChannel.write(byteBuffer);
+            }while (count>0);
             byte[] contentBytes = new byte[byteBuffer.position()];
             byteBuffer.flip();
             byteBuffer.get(contentBytes);
