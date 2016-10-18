@@ -30,7 +30,7 @@ public class BaseSQLiteHelper<T> extends SQLiteOpenHelper {
     /**
      * 当前所有表对应的主键
      */
-    private static HashMap<Class,String> sPrimaryKey = new HashMap<>();
+    private static HashMap<Class, String> sPrimaryKey = new HashMap<>();
     /**
      * 所有表名
      */
@@ -58,11 +58,11 @@ public class BaseSQLiteHelper<T> extends SQLiteOpenHelper {
     }
 
     /**
-     * @param clazz       表对应的java类的class对象
+     * @param clazz      表对应的java类的class对象
      * @param primaryKey
      */
-    public static void setPrimaryKey(Class clazz, String primaryKey){
-        sPrimaryKey.put(clazz,primaryKey);
+    public static void setPrimaryKey(Class clazz, String primaryKey) {
+        sPrimaryKey.put(clazz, primaryKey);
     }
 
     /**
@@ -116,7 +116,7 @@ public class BaseSQLiteHelper<T> extends SQLiteOpenHelper {
                     comlueInfo.setName(filterKeyWord(name));
                     //是否是主键
                     String primaryKey = "id";
-                    if(sPrimaryKey.containsKey(clazz)){
+                    if (sPrimaryKey.containsKey(clazz)) {
                         primaryKey = sPrimaryKey.get(clazz);
                     }
                     if (name.equals(primaryKey)) comlueInfo.setPrimaryKey(true);
@@ -221,13 +221,69 @@ public class BaseSQLiteHelper<T> extends SQLiteOpenHelper {
         return db.insert(mTableName, null, result);
     }
 
+    public void updateOrInsertDataList(Class<? extends T> clazz, List<T> datas, CallBeforeInsertDataList<T> callBeforeInsertDataList) throws Exception {
+        if (datas == null || datas.isEmpty()) {
+            return;
+        }
+        ArrayList allPrimary = selectAllPrimary(clazz);
+        ArrayList<T> insertDatList = new ArrayList<>();
+        ArrayList<T> updateDatList = new ArrayList<>();
+        for (T item : datas) {
+            Pair<String,String> primaryValue = getColAndValue(item,getKeyCol(),clazz);
+            if(allPrimary==null||primaryValue==null||!allPrimary.contains(primaryValue.second)){//新增
+                insertDatList.add(item);
+            }else{//更新
+                updateDatList.add(item);
+            }
+        }
+
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        sqLiteDatabase.beginTransaction();
+        if(!insertDatList.isEmpty()){
+            insertDataList(insertDatList,callBeforeInsertDataList,sqLiteDatabase);
+        }
+        if(!updateDatList.isEmpty()){
+            updateDataList(updateDatList,callBeforeInsertDataList,sqLiteDatabase);
+        }
+        sqLiteDatabase.setTransactionSuccessful();
+        sqLiteDatabase.endTransaction();
+    }
+
     /**
-     * 批量插入数据集合
+     * 批量更新数据集合
+     *
      * @param datas
      * @throws Exception
      */
-    public void insertDataList(List<T> datas,CallBeforeInsertDataList<T> callBeforeInsertDataList) throws Exception {
-        String sql = "INSERT INTO "+mTableName+" (";
+    public void updateDataList(List<T> datas, CallBeforeInsertDataList<T> callBeforeInsertDataList, SQLiteDatabase sqLiteDatabase) throws Exception {
+        boolean isShouldEndTransaction = false;
+        if (sqLiteDatabase == null) {
+            sqLiteDatabase = getWritableDatabase();
+            sqLiteDatabase.beginTransaction();
+            isShouldEndTransaction = true;
+        }
+        for (int i = 0; i < datas.size(); i++) {
+            T data = datas.get(i);
+            if (callBeforeInsertDataList == null
+                    || callBeforeInsertDataList.call(data)) {
+                ContentValues contentValues = converObjectToContentValues(data);
+                sqLiteDatabase.insertWithOnConflict(mTableName, null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
+            }
+        }
+        if (isShouldEndTransaction) {
+            sqLiteDatabase.setTransactionSuccessful();
+            sqLiteDatabase.endTransaction();
+        }
+    }
+
+    /**
+     * 批量插入数据集合
+     *
+     * @param datas
+     * @throws Exception
+     */
+    public void insertDataList(List<T> datas, CallBeforeInsertDataList<T> callBeforeInsertDataList, SQLiteDatabase sqLiteDatabase) throws Exception {
+        String sql = "INSERT INTO " + mTableName + " (";
         int len = mComlueInfos.length;
         String values = "(";
         for (int i = 0; i < len; i++) {
@@ -241,23 +297,29 @@ public class BaseSQLiteHelper<T> extends SQLiteOpenHelper {
         }
         sql += ") VALUES " + values + ")";
 
-        SQLiteDatabase db = getWritableDatabase();
-        db.beginTransaction();
+        boolean isShouldEndTansaction = false;
+        if (sqLiteDatabase == null) {
+            sqLiteDatabase = getWritableDatabase();
+            sqLiteDatabase.beginTransaction();
+            isShouldEndTansaction = true;
+        }
 
-        SQLiteStatement stmt = db.compileStatement(sql);
+        SQLiteStatement stmt = sqLiteDatabase.compileStatement(sql);
         for (int i = 0; i < datas.size(); i++) {
             T data = datas.get(i);
-            for(int j = 0;j<len;j++){
-                if(callBeforeInsertDataList==null
-                        ||callBeforeInsertDataList.call(data))
-                stmt.bindString(j+1,getColAndValue(data,mComlueInfos[j]).second);
+            if (callBeforeInsertDataList == null
+                    || callBeforeInsertDataList.call(data)) {
+                for (int j = 0; j < len; j++) {
+                    stmt.bindString(j + 1, getColAndValue(data, mComlueInfos[j]).second);
+                }
             }
             stmt.execute();
             stmt.clearBindings();
         }
-
-        db.setTransactionSuccessful();
-        db.endTransaction();
+        if(isShouldEndTansaction) {
+            sqLiteDatabase.setTransactionSuccessful();
+            sqLiteDatabase.endTransaction();
+        }
     }
 
     public void deleteData(String whereCase, String[] whereArg) {
@@ -299,6 +361,30 @@ public class BaseSQLiteHelper<T> extends SQLiteOpenHelper {
         return selectDatas("", null, "", "", "", clazz);
     }
 
+    private ArrayList selectAllPrimary(Class<? extends T> clazz) throws Exception {
+        SQLiteDatabase db = getWritableDatabase();
+        String[] colNames = new String[1];
+        colNames[0] = getKeyCol();
+        Cursor cursor = db.query(mTableName, colNames, null, null, null, null, null);
+        if (cursor != null) {
+            ArrayList result = new ArrayList();
+            int resultLen = cursor.getCount();
+            if (resultLen > 0) {
+                cursor.moveToFirst();
+                do {
+                    Object object = getValueFromCursor(0, cursor);
+                    if(object!=null) {
+                        result.add((String) object);
+                    }
+                } while (cursor.moveToNext());
+            }
+            db.close();
+            return result;
+        }
+        db.close();
+        return null;
+    }
+
     public ArrayList selectDatas(String selection, String[] selectionArgs, String groupBy, String having, String orderBy, Class<? extends T> clazz) throws Exception {
         SQLiteDatabase db = getWritableDatabase();
         String[] colNames = new String[mComlueInfos.length];
@@ -328,12 +414,7 @@ public class BaseSQLiteHelper<T> extends SQLiteOpenHelper {
         return null;
     }
 
-    /**
-     * 将数据库中的每一行具体某一列的记录填充到指定的对象之中
-     *
-     * @return
-     */
-    private void fillDataFromDB(int colIndex, Cursor cursor, T data) throws Exception {
+    private Object getValueFromCursor(int colIndex, Cursor cursor) {
         Object valueInDB;
         if (mComlueInfos[colIndex].getType() == ComlueInfo.INT_TYPE) {
             valueInDB = cursor.getInt(colIndex);
@@ -344,6 +425,16 @@ public class BaseSQLiteHelper<T> extends SQLiteOpenHelper {
         } else {
             valueInDB = cursor.getString(colIndex);
         }
+        return valueInDB;
+    }
+
+    /**
+     * 将数据库中的每一行具体某一列的记录填充到指定的对象之中
+     *
+     * @return
+     */
+    private void fillDataFromDB(int colIndex, Cursor cursor, T data) throws Exception {
+        Object valueInDB = getValueFromCursor(colIndex, cursor);
         String oldName = converKeyWord(mComlueInfos[colIndex].getName());
         Class dataClazz = mComlueInfos[colIndex].getDecClass();
         Field field = dataClazz.getDeclaredField(oldName);
@@ -396,8 +487,12 @@ public class BaseSQLiteHelper<T> extends SQLiteOpenHelper {
 
     private Pair<String, String> getColAndValue(T data, ComlueInfo comlueInfo) throws Exception {
         String tableColName = comlueInfo.getName();//表中的列名
-        String oldName = converKeyWord(tableColName);//对象中的属性名
         Class clazz = comlueInfo.getDecClass();
+        return getColAndValue(data,tableColName,clazz);
+    }
+
+    private Pair<String, String> getColAndValue(T data,String tableColName, Class clazz) throws Exception {
+        String oldName = converKeyWord(tableColName);//对象中的属性名
         Field field = clazz.getDeclaredField(oldName);
         field.setAccessible(true);
         Object value = field.get(data);
@@ -407,7 +502,7 @@ public class BaseSQLiteHelper<T> extends SQLiteOpenHelper {
     /**
      * {@link #insertDataList(List, CallBeforeInsertDataList)}方法的回调函数
      */
-    public  interface CallBeforeInsertDataList<D>{
+    public interface CallBeforeInsertDataList<D> {
         boolean call(D data);
     }
 

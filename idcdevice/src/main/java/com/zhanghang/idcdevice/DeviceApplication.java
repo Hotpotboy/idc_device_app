@@ -113,7 +113,7 @@ public class DeviceApplication extends BaseApplication {
             ArrayList<TaskData> tasks = dBdata.getTasks();
             if (tasks != null && tasks.size() > 0) {
                 try {
-                    TaskTable.getTaskTableInstance().insertDataList(tasks, null);
+                    TaskTable.getTaskTableInstance().updateOrInsertDataList(TaskData.class,tasks, null);
                 } catch (Exception e) {
                     e.printStackTrace();
                     Toast.makeText(this, "任务信息批量插入数据库失败,原因：" + e.toString(), Toast.LENGTH_LONG).show();
@@ -125,7 +125,7 @@ public class DeviceApplication extends BaseApplication {
             ArrayList<PatrolItemData> patrolItemDatas = dBdata.getPatrols();
             if (patrolItemDatas != null && patrolItemDatas.size() > 0) {
                 try {
-                    PatrolItemTable.getPatrolItemTableInstance().insertDataList(patrolItemDatas, new BaseSQLiteHelper.CallBeforeInsertDataList<PatrolItemData>() {
+                    PatrolItemTable.getPatrolItemTableInstance().updateOrInsertDataList(PatrolItemData.class,patrolItemDatas, new BaseSQLiteHelper.CallBeforeInsertDataList<PatrolItemData>() {
                         @Override
                         public boolean call(PatrolItemData data) {
                             if (data.getEnable() == -1) {
