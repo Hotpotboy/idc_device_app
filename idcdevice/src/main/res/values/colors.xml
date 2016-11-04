@@ -24,4 +24,7 @@
     <color name="idc_c4c4c4">#c4c4c4</color>
     <color name="idc_b2c2cd">#b2c2cd</color>
     <color name="idc_f5dcdd">#f5dcdd</color>
+    <color name="result_view">#b0000000</color>
+    <color name="viewfinder_mask">#60000000</color>
+    <color name="possible_result_points">#c0ffff00</color>
 </resources>

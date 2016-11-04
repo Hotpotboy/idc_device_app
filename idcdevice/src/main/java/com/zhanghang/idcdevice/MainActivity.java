@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.zxing.Intents;
+import com.mining.app.zxing.decoding.Intents;
 import com.zhanghang.idcdevice.db.TaskTable;
 import com.zhanghang.idcdevice.fragment.TaskFragment;
 import com.zhanghang.idcdevice.mode.PatrolItemData;

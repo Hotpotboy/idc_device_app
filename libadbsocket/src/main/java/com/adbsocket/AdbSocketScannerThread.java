@@ -7,7 +7,7 @@ import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 
 public class AdbSocketScannerThread extends Thread {
-    public static final String ADB_PATH = new File("").getAbsolutePath()+File.separator+"libadbsocket"+File.separator+"adb"+File.separator+"adb";
+    public static final String ADB_PATH = new File("").getAbsolutePath()+File.separator+"libadbsocket"+File.separator+"adb"+File.separator+"adb_linux";
     /**enter char*/
     private static final String ENTER_STR = System.getProperty("line.separator");
     /**\t char */

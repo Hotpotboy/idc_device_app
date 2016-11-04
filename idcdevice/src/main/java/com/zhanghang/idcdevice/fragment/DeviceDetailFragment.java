@@ -16,7 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.zxing.Intents;
+import com.mining.app.zxing.decoding.Intents;
 import com.zhanghang.idcdevice.Const;
 import com.zhanghang.idcdevice.DeviceApplication;
 import com.zhanghang.idcdevice.PublicDialog;

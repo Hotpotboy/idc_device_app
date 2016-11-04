@@ -38,4 +38,8 @@
     <string name="ji_hua_jie_su_shi_jian_s">"计划结束时间:%1$s"</string>
     <string name="ren_wu_bian_hao_s">"任务编号:%1$s"</string>
     <string name="ye_mian_ti_shi_s">"本设备已经扫描成功，%1$s秒钟后继续盘点!"</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+
+    <string name="scan_text">将二维码放入框内, 即可自动扫描</string>
 </resources>
